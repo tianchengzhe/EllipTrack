@@ -24,10 +24,15 @@ if (~isempty(signal_denominator))
     signal_denominator = matlab.lang.makeValidName(signal_denominator);
 end
 for i=1:num_tracks
-    if (all(isnan(all_signals{i}.ellipse_id(start_frame:end_frame)))) % not considering tracks without ellipses within the range of interest
+    % skip tracks not in the range of interest
+    first_id = find(~isnan(all_signals{i}.ellipse_id), 1, 'first');
+    last_id = find(~isnan(all_signals{i}.ellipse_id), 1, 'last');
+    if (first_id > end_frame || last_id < start_frame)
         if_consider(i) = 0;
         continue;
     end
+    
+    % extract signals
     all_first_valid_id(i) = find(~isnan(all_signals{i}.ellipse_id(start_frame:end_frame)), 1, 'first');
     all_last_valid_id(i) = find(~isnan(all_signals{i}.ellipse_id(start_frame:end_frame)), 1, 'last');
     if (isempty(signal_denominator))
@@ -35,10 +40,12 @@ for i=1:num_tracks
     else
         all_signal_data(i, :) = all_signals{i}.(signal_nominator)(start_frame:end_frame) ./ all_signals{i}.(signal_denominator)(start_frame:end_frame);
     end
-    temp = find(cellfun(@length, all_signals{i}.daughters) > 0);
-    if (~isempty(temp) && temp >= all_first_valid_id(i) && temp <= all_last_valid_id(i))
-        all_daughters_id(i, :) = all_signals{i}.daughters{temp};
-        all_mother_id(all_signals{i}.daughters{temp}) = i;
+    
+    % find mother/daughter relationship
+    temp = find(cellfun(@length, all_signals{i}.daughters(start_frame:end_frame)) > 0);
+    if (~isempty(temp))
+        all_daughters_id(i, :) = all_signals{i}.daughters{start_frame+temp-1};
+        all_mother_id(all_signals{i}.daughters{start_frame+temp-1}) = i;
     end
 end
 
