@@ -1,0 +1,438 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Training Data Generator &mdash; EllipTrack  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/hacks.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Execution" href="execution.html" />
+    <link rel="prev" title="Parameter Generator" href="GUI_parameter.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> EllipTrack
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parameters.html">Parameters</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="GUI.html">GUI</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="GUI_parameter.html">Parameter Generator</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Training Data Generator</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#input-files">Input Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#opening-the-gui">Opening the GUI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setting-panel">“Setting” Panel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#morphological-training">Morphological Training</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#gui-interface">GUI Interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#assign-events">Assign Events</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#correct-and-remove-events">Correct and Remove Events</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#motion-training">Motion Training</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">GUI Interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#record-cells">Record Cells</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#remove-recording">Remove Recording</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="execution.html">Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outputs.html">Outputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">EllipTrack</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="GUI.html">GUI</a> &raquo;</li>
+        
+      <li>Training Data Generator</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/GUI_training.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="training-data-generator">
+<span id="gui-training-page"></span><h1>Training Data Generator<a class="headerlink" href="#training-data-generator" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="input-files">
+<h2>Input Files<a class="headerlink" href="#input-files" title="Permalink to this headline">¶</a></h2>
+<p>Training Data Generator GUI requires the following files</p>
+<ul class="simple">
+<li><strong>Images of the nuclear channel</strong>. TIFF format only. Filenames should follow the format <em>RowID_ColumnID_SiteID_Channel_FrameID.tif</em>.</li>
+<li><strong>Camera dark noise (CMOS Offset)</strong>. Optional.</li>
+<li><strong>Illumination bias (Bias) of the nuclear channel</strong>. Optional.</li>
+<li><strong>“Seg Info”</strong>. Generated by setting <span class="reditalic">if_save_seg_info</span> in <em>segmentation_para</em> to one. Refer to <a class="reference internal" href="parameters_segmentation.html#parameters-segmentation-nonspecific"><span class="std std-ref">Non-Specific Parameters</span></a> of <a class="reference internal" href="parameters_segmentation.html#parameters-segmentation-page"><span class="std std-ref">Segmentation</span></a>.</li>
+<li><strong>Existing training dataset</strong>. Optional. An existing training dataset can be loaded for further edit.</li>
+</ul>
+</div>
+<div class="section" id="opening-the-gui">
+<h2>Opening the GUI<a class="headerlink" href="#opening-the-gui" title="Permalink to this headline">¶</a></h2>
+<p>Navigate Matlab to the <em>GUI</em> folder and execute <code class="docutils literal notranslate"><span class="pre">training_data_gui</span></code> in the command window.</p>
+</div>
+<div class="section" id="setting-panel">
+<h2>“Setting” Panel<a class="headerlink" href="#setting-panel" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center" id="id2">
+<span id="training-initial-interface"></span><img alt="_images/21.png" src="_images/21.png" />
+<p class="caption"><span class="caption-number">Fig. 15 </span><span class="caption-text">Initial interface.</span></p>
+</div>
+<div class="admonition-remark admonition">
+<p class="first admonition-title">Remark</p>
+<p class="last">Zoom in the image by opening it in a new window.</p>
+</div>
+<p>The initial interface is shown in <a class="reference internal" href="#training-initial-interface"><span class="std std-numref">Fig. 15</span></a>.
+The locations of the input files should be specified in the “Setting” panel as follows.</p>
+<ul>
+<li><p class="first"><strong>File</strong>. Path to the folder storing the images of the nuclear channel.</p>
+</li>
+<li><p class="first"><strong>Prefix</strong>. Specifying the files of interest.</p>
+<p>For images with filenames <em>RowID_ColumnID_SiteID_Channel_FrameID.tif</em>,
+“Prefix” should be filled with <em>RowID_ColumnID_SiteID_Channel_</em> (remember the <em>_</em> in the end)
+and the two text boxes in the following line should be filled with the starting and end Frame IDs.</p>
+</li>
+<li><p class="first"><strong>CMOS</strong>. Path to the MAT file storing the camera dark noise. Leave empty if not provided.</p>
+</li>
+<li><p class="first"><strong>Bias</strong>. Path to the MAT file storing the illumination bias of the nuclear channel. Leave empty if not provided.</p>
+</li>
+<li><p class="first"><strong>Seg Info</strong>. Path to the folder storing the “Seg Info” of the images.</p>
+</li>
+<li><p class="first"><strong>Existing</strong>. Path to the existing training dataset. Leave empty if not provided.</p>
+</li>
+<li><p class="first"><strong>Output</strong>. Path to the folder storing the generated training dataset.</p>
+</li>
+</ul>
+<div class="admonition-remark admonition">
+<p class="first admonition-title">Remark</p>
+<p class="last">As with Parameter Generator GUI, to specify a path (with entries like <img alt="box_arrow_training" src="_images/box_arrow1.png" />), either type the path in the text box or click “&gt;” and manually select the file/folder with a system dialog.</p>
+</div>
+<div class="hint admonition">
+<p class="first admonition-title">Example</p>
+<p>A movie is captured in Site 3 of Well A02, and the channel for the nuclear marker is <em>CFP</em>.
+The images are located in the folder <code class="docutils literal notranslate"><span class="pre">X:/tracking_code/raw_images/</span></code>;
+camera dark noise is stored in <code class="docutils literal notranslate"><span class="pre">X:/tracking_code/mat_files/cmosoffset.mat</span></code>;
+illumination bias of the <em>CFP</em> channel is stored in <code class="docutils literal notranslate"><span class="pre">X:/tracking_code/mat_files/CFP.mat</span></code>;
+and the “Seg Info” of the images are located in the folder <code class="docutils literal notranslate"><span class="pre">X:/tracking_code/seg_info/</span></code>.
+To create a new training dataset (no existing dataset is available) from Frame 101 to 200 and save it in the folder
+<code class="docutils literal notranslate"><span class="pre">X:/tracking_code/mat_files/</span></code>, enter the following information in the “Setting” panel.</p>
+<ul class="last simple">
+<li><strong>File</strong>. <code class="docutils literal notranslate"><span class="pre">X:/tracking_code/raw_images/</span></code>. This folder should contains images from <em>1_2_3_CFP_101.tif</em> to <em>1_2_3_CFP_200.tif</em>.</li>
+<li><strong>Prefix</strong>. Type <em>1_2_3_CFP_</em> in the current line. Type <em>101</em> and <em>200</em> in the next line.</li>
+<li><strong>CMOS</strong>. <code class="docutils literal notranslate"><span class="pre">X:/tracking_code/mat_files/cmosoffset.mat</span></code>.</li>
+<li><strong>Bias</strong>. <code class="docutils literal notranslate"><span class="pre">X:/tracking_code/mat_files/CFP.mat</span></code>.</li>
+<li><strong>Seg Info</strong>. <code class="docutils literal notranslate"><span class="pre">X:/tracking_code/seg_info/</span></code>. This folder should contains the “Seg Info” files from <em>1_2_3_CFP_101_segmentation.mat</em> to <em>1_2_3_CFP_200_segmentation.mat</em>.</li>
+<li><strong>Existing</strong>. Leave empty.</li>
+<li><strong>Output</strong>. <code class="docutils literal notranslate"><span class="pre">X:/tracking_code/mat_files/</span></code></li>
+</ul>
+</div>
+<p>After providing all the information, click “Import to Workspace” to proceed. GUI will load all the input files into the workspace. This process may take a few minutes. Refrain from clicking the button multiple times.</p>
+</div>
+<div class="section" id="morphological-training">
+<h2>Morphological Training<a class="headerlink" href="#morphological-training" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="gui-interface">
+<h3>GUI Interface<a class="headerlink" href="#gui-interface" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-center" id="id3">
+<span id="training-morphology"></span><img alt="_images/31.png" src="_images/31.png" />
+<p class="caption"><span class="caption-number">Fig. 16 </span><span class="caption-text">Interface for Morphological Training.</span></p>
+</div>
+<p>The interface for Morphological Training is shown in <a class="reference internal" href="#training-morphology"><span class="std std-numref">Fig. 16</span></a>.
+The “Setting” panel is now disabled and multiple new panels appear.</p>
+<dl class="docutils">
+<dt>Left Panel</dt>
+<dd><p class="first">Display the current image. Fitted ellipses are overlaid on the top.</p>
+<div class="admonition-remark last admonition">
+<p class="first admonition-title">Remark</p>
+<p class="last">The pixel intensities are auto-scaled by applying the Matlab function <em>mat2gray</em> to every image.
+It is possible that a pixel has the same intensity in two images but appears with different brightness.
+Training datasets are not affected by this auto-scaling.</p>
+</div>
+</dd>
+<dt>Navigation of Frames</dt>
+<dd><p class="first">Nagivate the image in display.</p>
+<ul class="last">
+<li><p class="first"><strong>Current Image</strong>. Frame ID of the image in display.</p>
+</li>
+<li><p class="first"><strong>By 1 Frame</strong>. Go forward (click “&gt;” or press the right arrow key) or backward (click “&lt;” or press the left arrow key) by 1 frame.</p>
+</li>
+<li><p class="first"><strong>By 10 Frame</strong>. Go forward (click “&gt;” or press the down arrow key) or backward (click “&lt;” or press the up arrow key) by 10 frames.</p>
+<div class="admonition-remark admonition">
+<p class="first admonition-title">Remark</p>
+<p class="last">Images are navigated circularly. For example, the previous image of the first image of the sequence is the last image.</p>
+</div>
+</li>
+<li><p class="first"><strong>To</strong>. Go to an arbitrary frame. Type the Frame ID in the text box and click “&gt;”.</p>
+</li>
+</ul>
+</dd>
+<dt>Morphology Classification</dt>
+<dd>Assign morphological events to ellipses. Refer to <a class="reference internal" href="#gui-training-morphology-label"><span class="std std-ref">Assign Events</span></a>.</dd>
+<dt>Buttons</dt>
+<dd><p class="first">The “Clear All” button clears all existing training samples, including samples for both Morphological Training and Motion Training.</p>
+<p class="last">The “Next” button ends Morphological Training and proceeds to Motion Training.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="assign-events">
+<span id="gui-training-morphology-label"></span><h3>Assign Events<a class="headerlink" href="#assign-events" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-center" id="id4">
+<span id="training-morphology-assign"></span><img alt="_images/3a1.png" src="_images/3a1.png" />
+<p class="caption"><span class="caption-number">Fig. 17 </span><span class="caption-text">Procedure for assigning an event.</span></p>
+</div>
+<p>To assign an event, click the ellipse of interest and this ellipse will be colored in black.
+Go to the “Morphology Classification” panel and assign an event to this ellipse by either clicking the “&gt;” button or by pressing the hot key.
+The ellipse will then be colored in the symbolic color of this event, and the number of labeled ellipses for this event will increase by one as well.
+This procedure is summarized in <a class="reference internal" href="#training-morphology-assign"><span class="std std-numref">Fig. 17</span></a>.</p>
+<p>Refer to <a class="reference internal" href="parameters_track_linking.html#parameters-track-linking-terminology"><span class="std std-ref">Terminology</span></a> of <a class="reference internal" href="parameters_track_linking.html#parameters-track-linking-page"><span class="std std-ref">Track Linking</span></a> for event descriptions.</p>
+<div class="admonition-remark admonition">
+<p class="first admonition-title">Remark</p>
+<p class="last">If a wrong ellipse is selected, click any other ellipse or navigate to other frames to undo the selection.
+No training samples of the wrong ellipse will be created.</p>
+</div>
+</div>
+<div class="section" id="correct-and-remove-events">
+<h3>Correct and Remove Events<a class="headerlink" href="#correct-and-remove-events" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-center" id="id5">
+<span id="training-morphology-correct"></span><img alt="_images/3b1.png" src="_images/3b1.png" />
+<p class="caption"><span class="caption-number">Fig. 18 </span><span class="caption-text">Procedure for correcting and removing an event.</span></p>
+</div>
+<p>To correct an event, click the ellipse of interest and the ellipse will be colored in black.
+Go to the “Morphological Classification” panel and assign a new event.
+The ellipse will then be colored in the symbolic color of the new event.
+The numbers of labeled ellipses for both the old and the new events will be adjusted.</p>
+<p>To remove an event, click the ellipse of interest and the ellipse will be colored in black.
+Go to the “Morphological Classification” panel and click the “&gt;” button for “Clear” (or press the hot key <em>C</em>).
+The ellipse will lose its color, and the number of labeled ellipses for the event will decrease by one.
+These procedures are summarized in <a class="reference internal" href="#training-morphology-correct"><span class="std std-numref">Fig. 18</span></a>.</p>
+<p>Click “Next” to switch to Motion Training. At least one training sample (can be any event) should be created before proceeding.</p>
+</div>
+</div>
+<div class="section" id="motion-training">
+<h2>Motion Training<a class="headerlink" href="#motion-training" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>GUI Interface<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-center" id="id6">
+<span id="training-motion"></span><img alt="_images/4.png" src="_images/4.png" />
+<p class="caption"><span class="caption-number">Fig. 19 </span><span class="caption-text">Interface for Motion Training.</span></p>
+</div>
+<p>The interface for Motion Training is shown in <a class="reference internal" href="#training-motion"><span class="std std-numref">Fig. 19</span></a>.
+The “Morphology Classification” panel is replaced by the “Motion Classification” panel (refer to <a class="reference internal" href="#gui-training-motion-record"><span class="std std-ref">Record Cells</span></a>).
+The “Next” button is replaced by the “Finish” button, which ends Motion Training, saves the training dataset, and resets the GUI.</p>
+</div>
+<div class="section" id="record-cells">
+<span id="gui-training-motion-record"></span><h3>Record Cells<a class="headerlink" href="#record-cells" title="Permalink to this headline">¶</a></h3>
+<p>The objective of Motion Training is to record all ellipses of a cell in the image sequence.
+Each recorded cell is assigned with a numeric ID (called Cell ID), and each recorded ellipse of a cell is called an “Instance” of the Cell ID.
+In the “Motion Classification” panel, <strong>Recorded Cells</strong> shows how many cells have been recorded,
+<strong>Current Cell ID</strong> shows the Cell ID being recorded, and <strong>Instances</strong> shows how many ellipses have been recorded for the current Cell ID.</p>
+<div class="figure align-center" id="id7">
+<span id="training-motion-record"></span><img alt="_images/4a.png" src="_images/4a.png" />
+<p class="caption"><span class="caption-number">Fig. 20 </span><span class="caption-text">Procedure for recording a cell.</span></p>
+</div>
+<p>To create a new Cell ID or to switch to an existing one, type the Cell ID next to <strong>To Cell ID</strong> and click “&gt;”.
+This Cell ID will then be created (if not yet) and displayed next to “Current Cell ID”.</p>
+<p>To record an ellipse, click an ellipse of interest and it will be colored in dark red.
+Go to the “Motion Classification” panel and click the “Record” button (or press the hot key <em>R</em>).
+This ellipse will then be colored in red and its Cell ID will be displayed next to it. The number of Instances will increase by one.
+This procedure is summarized in <a class="reference internal" href="#training-motion-record"><span class="std std-numref">Fig. 20</span></a>.</p>
+<div class="figure align-center" id="id8">
+<span id="training-motion-multiple"></span><img alt="_images/4c.png" src="_images/4c.png" />
+<p class="caption"><span class="caption-number">Fig. 21 </span><span class="caption-text">Example images with multiple Cell IDs.</span></p>
+</div>
+<p>The recorded ellipses of the current Cell ID will be colored in red, and other recorded ellipses will be colored in light red, as shown in <a class="reference internal" href="#training-motion-multiple"><span class="std std-numref">Fig. 21</span></a>.</p>
+<div class="admonition-remark admonition">
+<p class="first admonition-title">Remark</p>
+<p class="last">Ideally, cells should be recorded at every frame.
+If a cell divides, continue recording one of its daughters.
+If a cell is under- or over-segmented, record the under-segmented ellipse or one of the over-segmented ellipses.
+Do not record any ellipse if a cell is undetected.</p>
+</div>
+</div>
+<div class="section" id="remove-recording">
+<h3>Remove Recording<a class="headerlink" href="#remove-recording" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-center" id="id9">
+<span id="training-motion-remove"></span><img alt="_images/4b.png" src="_images/4b.png" />
+<p class="caption"><span class="caption-number">Fig. 22 </span><span class="caption-text">Procedure for removing an ellipse.</span></p>
+</div>
+<p>To remove a recorded ellipse, click the ellipse of interest and the ellipse is colored in dark red.
+Go to the “Motion Classification” panel and click the “Clear” button (or press the hot key <em>C</em>).
+The ellipse will then lose its color, and the number of “Instances” will decrease by one.
+This procedure is summarized in <a class="reference internal" href="#training-motion-remove"><span class="std std-numref">Fig. 22</span></a>.</p>
+<p>To remove all recorded ellipses of a Cell ID, type the ID in the text box next to <strong>Clear Cell ID</strong> and click “&gt;”.
+All ellipses of this Cell ID will be removed, though this Cell ID will continue to exist.</p>
+<p>Click “Finish” to generate the training dataset and reset the GUI. At least two cells and at least three ellipses per cell should be recorded before proceeding.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="execution.html" class="btn btn-neutral float-right" title="Execution" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="GUI_parameter.html" class="btn btn-neutral float-left" title="Parameter Generator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chengzhe Tian, Chen Yang, Sabrina Spencer
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

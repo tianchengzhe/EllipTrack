@@ -1,0 +1,363 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Getting Started &mdash; EllipTrack  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/hacks.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Parameters" href="parameters.html" />
+    <link rel="prev" title="Welcome to EllipTrack’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> EllipTrack
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#system-requirement">System Requirement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#input-files">Input Files</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#movies">Movies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#camera-dark-noise-and-illumination-bias-optional">Camera Dark Noise and Illumination Bias (Optional)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#download">Download</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#overview-of-files">Overview of Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compile-generate-tracks-cpp">Compile <em>generate_tracks.cpp</em></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="parameters.html">Parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GUI.html">GUI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="execution.html">Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outputs.html">Outputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">EllipTrack</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Getting Started</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/getting_started.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="getting-started">
+<span id="getting-started-page"></span><h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="system-requirement">
+<h2>System Requirement<a class="headerlink" href="#system-requirement" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>Hardware</dt>
+<dd>A modern PC with at least 8GB RAM or a computing cluster.</dd>
+<dt>Operating Systems</dt>
+<dd>EllipTrack has been tested in Windows (7 and later), Linux (CentOS 7), and Mac OS X (10.12 and later).</dd>
+<dt>Software</dt>
+<dd><p class="first">EllipTrack requires Matlab R2017a or later.
+Required toolboxes include Statistics and Machine Learning Toolbox, Optimization Toolbox, and Imaging Processing Toolbox.</p>
+<p class="last">In addition, a C++ compiler with C++11 support should be installed in Matlab.
+Use the command <code class="docutils literal notranslate"><span class="pre">mex</span> <span class="pre">-setup</span></code> to check the status of installed compilers.
+Matlab offers a free minGW compiler which can be installed following the instruction <a class="reference external" href="https://www.mathworks.com/matlabcentral/answers/313290-how-do-i-install-mingw-for-use-in-matlab">here</a>.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="input-files">
+<h2>Input Files<a class="headerlink" href="#input-files" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="movies">
+<h3>Movies<a class="headerlink" href="#movies" title="Permalink to this headline">¶</a></h3>
+<p>Movies should be stored in either TIFF (.tif or .TIFF) or Nikon ND2 (.nd2) format.</p>
+<dl class="docutils">
+<dt>TIFF Format</dt>
+<dd><p class="first">Movies should be saved as a sequence of image files, where each file stores the captured image from one channel at one time point.</p>
+<p>Files should be named with the following convention</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">RowID_ColID_SiteID_Channel_FrameID</span><span class="o">.</span><span class="n">tif</span>
+</pre></div>
+</div>
+<p>where <em>RowID</em> and <em>ColID</em> refer to the coordinates of the well in a multi-well plate;
+<em>SiteID</em> refers to the imaging site within the well (in case multiple fields of view are imaged);
+<em>Channel</em> refers to the imaging filter;
+and <em>FrameID</em> refers to the time point.</p>
+<p>For example, an image with filename</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="n">_2_3_CFP_4</span><span class="o">.</span><span class="n">tif</span>
+</pre></div>
+</div>
+<p class="last">indicates that the movie is captured in the third imaging site of well A02, and that the file stores the fourth captured image from the <em>CFP</em> channel.</p>
+</dd>
+<dt>Nikon ND2 Format</dt>
+<dd>It is possible to directly analyze the ND2 files generated by Nikon NIS-Elements. The <a class="reference external" href="https://biof-git.colorado.edu/core-code/bioformats-image-toolbox/wikis/home">BioformatsImage</a> toolbox should be installed.</dd>
+</dl>
+</div>
+<div class="section" id="camera-dark-noise-and-illumination-bias-optional">
+<h3>Camera Dark Noise and Illumination Bias (Optional)<a class="headerlink" href="#camera-dark-noise-and-illumination-bias-optional" title="Permalink to this headline">¶</a></h3>
+<p>EllipTrack can remove camera dark noise and correct illumination bias for each image.</p>
+<dl class="docutils">
+<dt>Camera Dark Noise (CMOS Offset)</dt>
+<dd><p class="first">A Matlab data file (.mat) with a single matrix called <em>cmosoffset</em>.
+<em>cmosoffset</em> should have the same dimension as the images. Each element stores the values of camera noises at the corresponding pixel.</p>
+<p>To generate this information, capture a few images of an empty well with the lasers being switched off.
+Since no substance is illuminated, the pixel intensities reflect the values of camera dark noises at the time of capture.</p>
+<p>Assume that the images are stored in a Matlab cell array called <em>all_images</em> such that <code class="docutils literal notranslate"><span class="pre">all_images{i}</span></code> stores the i-th captured image.
+Use the following script to generate <em>cmosoffset</em>.</p>
+<div class="last highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">cmosoffset</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">all_images</span><span class="p">{</span><span class="mi">1</span><span class="p">}));</span> <span class="c">% initialize the matrix</span>
+<span class="k">for</span> <span class="nb">i</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">all_images</span><span class="p">)</span> <span class="c">% adding the intensity values of each image</span>
+    <span class="n">cmosoffset</span> <span class="p">=</span> <span class="n">cmosoffset</span> <span class="o">+</span> <span class="n">double</span><span class="p">(</span><span class="n">all_images</span><span class="p">{</span><span class="nb">i</span><span class="p">});</span>
+<span class="k">end</span>
+<span class="n">cmosoffset</span> <span class="p">=</span> <span class="n">cmosoffset</span> <span class="o">/</span> <span class="nb">length</span><span class="p">(</span><span class="n">all_images</span><span class="p">);</span> <span class="c">% average the intensities</span>
+<span class="n">save</span><span class="p">(</span><span class="s">&#39;cmosoffset.mat&#39;</span><span class="p">,</span> <span class="s">&#39;cmosoffset&#39;</span><span class="p">);</span> <span class="c">% generate the Matlab data file</span>
+</pre></div>
+</div>
+</dd>
+<dt>Illumination Bias (Bias)</dt>
+<dd><p class="first">Illumination bias refers to the uneven illumination of lasers within the field of view.
+Pixel intensities in the region with stronger illumination are systematically higher than the ones in the region with weaker illumination.
+Correction of illumination bias is therefore essential to ensure that pixel intensities from all regions of the images are comparable.
+This procedure is also known as “shading correction”.</p>
+<p>Illumination bias is fluorescence channel-dependent.
+For each channel, a Matlab data file (.mat) with a single matrix called <em>bias</em> should be provided.
+The elements of <em>bias</em> store the pixel intensities normalized by the average pixel intensity of the image.</p>
+<p>To generate this information, capture a few images of a well containing only medium in the channel of interest.
+The exposure time should be selected such that the pixel intensities are significantly higher than the camera dark noises but significantly lower than the saturation level.
+The pixel intensities of captured images are the sum of the camera dark noise and the signal of the channel.
+To compute illumination bias, first subtract the camera dark noises from the images, then normalize the image such that the average pixel intensity becomes one.</p>
+<p>Assume that the images are stored in a Matlab cell array called <em>all_images</em> such that <code class="docutils literal notranslate"><span class="pre">all_images{i}</span></code> stores the i-th captured image.
+Use the following script to generate <em>bias</em>.</p>
+<div class="last highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">bias</span> <span class="p">=</span> <span class="nb">zeros</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">all_images</span><span class="p">{</span><span class="mi">1</span><span class="p">}));</span> <span class="c">% initialize the matrix</span>
+    <span class="k">for</span> <span class="nb">i</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">all_images</span><span class="p">)</span> <span class="c">% compute the bias from each image</span>
+        <span class="n">temp</span> <span class="p">=</span> <span class="n">double</span><span class="p">(</span><span class="n">all_images</span><span class="p">{</span><span class="nb">i</span><span class="p">})</span> <span class="o">-</span> <span class="n">cmosoffset</span><span class="p">;</span> <span class="c">% subtract camera dark noise</span>
+        <span class="n">temp</span> <span class="p">=</span> <span class="n">temp</span> <span class="o">/</span> <span class="n">mean</span><span class="p">(</span><span class="n">temp</span><span class="p">(:));</span> <span class="c">% normalize the image</span>
+        <span class="n">bias</span> <span class="p">=</span> <span class="n">bias</span> <span class="o">+</span> <span class="n">temp</span><span class="p">;</span>
+   <span class="k">end</span>
+<span class="n">bias</span> <span class="p">=</span> <span class="n">bias</span> <span class="o">/</span> <span class="nb">length</span><span class="p">(</span><span class="n">all_images</span><span class="p">);</span> <span class="c">% average the bias calculated from each image</span>
+<span class="n">save</span><span class="p">(</span><span class="s">&#39;bias.mat&#39;</span><span class="p">,</span> <span class="s">&#39;bias&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</dd>
+<dt>Perform Correction</dt>
+<dd><p class="first">Removal of camera dark noises and correction of illumination bias will be performed as follows</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">I</span> <span class="p">=</span> <span class="p">(</span><span class="n">double</span><span class="p">(</span><span class="n">I</span><span class="p">)</span> <span class="o">-</span> <span class="n">cmosoffset</span><span class="p">)</span> <span class="o">./</span> <span class="n">bias</span><span class="p">;</span>
+</pre></div>
+</div>
+<p class="last">where <em>I</em> refers to an image and the operation <code class="docutils literal notranslate"><span class="pre">./</span></code> refers to elementwise-division.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="download">
+<h3>Download<a class="headerlink" href="#download" title="Permalink to this headline">¶</a></h3>
+<p>Download the latest version of EllipTrack from the <a class="reference external" href="https://github.com/tianchengzhe/EllipTrack">Github repository</a>.</p>
+</div>
+<div class="section" id="overview-of-files">
+<h3>Overview of Files<a class="headerlink" href="#overview-of-files" title="Permalink to this headline">¶</a></h3>
+<p>EllipTrack contains the following files</p>
+<ul class="simple">
+<li><em>mainfile.m</em>. Global controller of EllipTrack. Refer to <a class="reference internal" href="execution.html#execution-page"><span class="std std-ref">Execution</span></a>.</li>
+<li><em>parameters.m</em>. Parameters of EllipTrack. Refer to <a class="reference internal" href="parameters.html#parameters-page"><span class="std std-ref">Parameters</span></a>.</li>
+<li><em>plot_full_lineages.m</em>. Generate heatmaps of cell lineage trees. Refer to <a class="reference internal" href="execution.html#execution-page"><span class="std std-ref">Execution</span></a>.</li>
+<li><em>functions</em>. Folder containing customized functions of EllipTrack. This folder also contains a copy of the <a class="reference external" href="https://biof-git.colorado.edu/core-code/bioformats-image-toolbox/wikis/home">BioformatsImage</a> toolbox.</li>
+<li><em>GUI</em>. Folder containing Parameter Generator GUI and Training Data Generator GUI. Refer to <a class="reference internal" href="GUI.html#gui-page"><span class="std std-ref">GUI</span></a>.</li>
+<li><em>modified_mia_library</em>. Folder containing scripts adapted from Zafari <em>et al.</em> 2015 for ellipse fitting.</li>
+</ul>
+</div>
+<div class="section" id="compile-generate-tracks-cpp">
+<h3>Compile <em>generate_tracks.cpp</em><a class="headerlink" href="#compile-generate-tracks-cpp" title="Permalink to this headline">¶</a></h3>
+<p><em>generate_tracks.cpp</em> is the function for constructing cell tracks, and it is implemented in C++ for speed consideration.
+This file needs to be compiled before execution. The procedure for compilation is</p>
+<ul>
+<li><p class="first">Use <code class="docutils literal notranslate"><span class="pre">mex</span> <span class="pre">-setup</span></code> to check whether Matlab has an available C++ compiler.</p>
+</li>
+<li><p class="first">Navigate Matlab to the <cite>functions</cite> folder.</p>
+</li>
+<li><p class="first">Execute the following command</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">mex</span> <span class="o">-</span><span class="n">largeArrayDims</span> <span class="n">generate_tracks</span><span class="p">.</span><span class="n">cpp</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Compilation finishes if the following message appears</p>
+</li>
+</ul>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MEX</span> <span class="n">completed</span> <span class="n">successfully</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>A file named <em>generate_tracks.mexXXX</em> appears, where <em>XXX</em> refers to the operating system of the computer (<em>w64</em> for 64-bit Windows, <em>maci64</em> for 64-bit Mac OS X, and <em>a64</em> for 64-bit Linux).</p>
+</div></blockquote>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="parameters.html" class="btn btn-neutral float-right" title="Parameters" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to EllipTrack’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chengzhe Tian, Chen Yang, Sabrina Spencer
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

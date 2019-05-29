@@ -1,0 +1,374 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Global Setting &mdash; EllipTrack  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/hacks.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Segmentation" href="parameters_segmentation.html" />
+    <link rel="prev" title="Overview" href="parameters_overview.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> EllipTrack
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="parameters.html">Parameters</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="parameters_overview.html">Overview</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Global Setting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parameters_segmentation.html">Segmentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parameters_track_linking.html">Track Linking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parameters_signal_extraction.html">Signal Extraction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="GUI.html">GUI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="execution.html">Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outputs.html">Outputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">EllipTrack</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="parameters.html">Parameters</a> &raquo;</li>
+        
+      <li>Global Setting</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/parameters_global_setting.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="global-setting">
+<span id="parameters-global-setting-page"></span><h1>Global Setting<a class="headerlink" href="#global-setting" title="Permalink to this headline">¶</a></h1>
+<ul>
+<li><p class="first"><span class="reditalic">nuc_raw_image_path</span>. Path to the folder containing images of the nuclear channel.</p>
+</li>
+<li><p class="first"><span class="reditalic">nd2_frame_range</span>. Range of frames each ND2 file stores.</p>
+<dl class="docutils">
+<dt>TIFF Format</dt>
+<dd><p class="first">EllipTrack assumes that all images of a channel should be stored in the same folder, though images of different channels can be stored in different folders.</p>
+<p><span class="reditalic">nuc_raw_image_path</span> should be a string specifying the path to the folder containing the images of the nuclear channel.
+<span class="reditalic">nd2_frame_range</span> should be empty.</p>
+<div class="hint last admonition">
+<p class="first admonition-title">Example</p>
+<p>A movie is stored in the TIFF format, and all the images of the nuclear channel are located in the folder <code class="docutils literal notranslate"><span class="pre">X:/tracking_code/raw_images/</span></code>.
+The values of the parameters are</p>
+<div class="last highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">nuc_raw_image_path</span> <span class="p">=</span> <span class="s">&#39;X:/tracking_code/raw_images/&#39;</span><span class="p">;</span>
+<span class="n">nd2_frame_range</span> <span class="p">=</span> <span class="p">[];</span>
+</pre></div>
+</div>
+</div>
+</dd>
+<dt>ND2 Format</dt>
+<dd><p class="first">EllipTrack allows a movie to be stored in multiple folders, though the filenames of ND2 files should start with <em>WellXYY</em> where <em>XYY</em> is an alphanumerical identifier for the coordinates of the well in a multi-well plate.
+For example, consider a movie where cells are imaged in Well A03 (Row 1, Column 3) for 24 hrs. The movie is then paused for drug addition and cells are subsequently imaged for another 24 hrs.
+The movie will be stored in two ND2 files in two separate folders: the first folder contains the images for the first 24 hrs, and the second folder contains the images for the latter 24 hrs.
+The filenames of both ND2 files will start with <em>WellA03</em>.</p>
+<p>If a movie is stored in <em>n</em> folders, <span class="reditalic">nuc_raw_image_path</span> should be an <em>n x 1</em> cell array where each row is a string specifying the path to a folder.
+<span class="reditalic">nd2_frame_range</span> should be an <em>n x 2</em> matrix where each row stores the start and end frame IDs of the folder.</p>
+<div class="hint admonition">
+<p class="first admonition-title">Example</p>
+<p>A movie is stored in two ND2 files.
+The first file is located in the folder <code class="docutils literal notranslate"><span class="pre">X:/tracking_code/raw_images/folder1/</span></code> and contains the images from frame 1 to frame 92.
+The second file is located in the folder <code class="docutils literal notranslate"><span class="pre">X:/tracking_code/raw_images/folder2/</span></code> and contains the images from frame 93 to frame 180.
+The values of the parameters are</p>
+<div class="last highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">nuc_raw_image_path</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;X:/tracking_code/raw_images/folder1/&#39;</span><span class="p">;</span>
+                      <span class="s">&#39;X:/tracking_code/raw_images/folder2/&#39;</span><span class="p">};</span>
+<span class="n">nd2_frame_range</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">92</span><span class="p">;</span>
+                   <span class="mi">93</span><span class="p">,</span> <span class="mi">180</span><span class="p">];</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition-remark last admonition">
+<p class="first admonition-title">Remark</p>
+<p>If the movie is stored in a single ND2 file, <span class="reditalic">nuc_raw_image_path</span> should still be a cell array.
+A common mistake is to forget adding <em>{}</em>, resulting in <span class="reditalic">nuc_raw_image_path</span> being a string.</p>
+<p><strong>Example</strong>. The ND2 file is located in <code class="docutils literal notranslate"><span class="pre">X:/tracking_code/raw_images/</span></code> and contains the images from frame 1 to frame 100.
+The values of the parameters are</p>
+<div class="last highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">nuc_raw_image_path</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;X:/tracking_code/raw_images/&#39;</span><span class="p">};</span>
+<span class="n">nd2_frame_range</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">];</span>
+</pre></div>
+</div>
+</div>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="admonition-formatting-the-path admonition">
+<p class="first admonition-title">Formatting the Path</p>
+<p>In order to maintain cross-platform compatibility, EllipTrack requires that all paths use forward slashes (/) rather than backward slashes (\).
+In addition, paths to folders should end with a forward slash.</p>
+<dl class="docutils">
+<dt>Example 1. Path to a folder.</dt>
+<dd><p class="first"><strong>Incorrect format</strong>. Use backward slashes rather than forward slashes; no forward slash at the end of the path.</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="p">=</span> <span class="s">&#39;X:\tracking_code\raw_images&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>Correct format</strong>.</p>
+<div class="last highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="p">=</span> <span class="s">&#39;X:/tracking_code/raw_images/&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</dd>
+<dt>Example 2. Path to an MAT file.</dt>
+<dd><p class="first"><strong>Incorrect format</strong>. Use backward slashes rather than forward slashes; use forward slash at the end of the path.</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="p">=</span> <span class="s">&#39;X:\tracking_code\mat_files\cmosoffset.mat/&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>Correct format</strong>.</p>
+<div class="last highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="p">=</span> <span class="s">&#39;X:/tracking_code/mat_files/cmosoffset.mat&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p class="last">A function <em>adjust_path</em> (defined at the end of <em>parameters.m</em>) is applied to every path to correct possible mistakes. Though formatting the paths manually is strongly suggested.</p>
+</div>
+<ul class="simple">
+<li><span class="reditalic">valid_wells</span>: Movies being tracked.</li>
+</ul>
+<blockquote>
+<div><p>If <em>n</em> movies are tracked, <span class="reditalic">valid_wells</span> should be an <em>n x 3</em> matrix where each row specifies the <em>RowID</em>, <em>ColumnID</em>, and <em>SiteID</em> of a movie.</p>
+<div class="hint admonition">
+<p class="first admonition-title">Example</p>
+<p>Two movies are tracked. The first movie is captured in Site 3 of Well A02, and the second movie is captured in Site 6 of Well D05.
+The value of the parameter is</p>
+<div class="last highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">valid_wells</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">;</span>
+               <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">];</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition-remark admonition">
+<p class="first admonition-title">Remark</p>
+<p>One may use the function <cite>allcomb</cite> to create combinatorial combinations. For example, if all movies from a 96-well plate (2 sites/well) are tracked, the value of the parameter can be set by</p>
+<div class="last highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">valid_wells</span> <span class="p">=</span> <span class="n">allcomb</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><span class="reditalic">cmosoffset_path</span>: Path to the MAT file storing the camera dark noises (CMOS Offset).</li>
+<li><span class="reditalic">bias_path</span>: Path to the MAT file storing the illumination bias (Bias) of the nuclear channel.</li>
+<li><span class="reditalic">all_frames</span>: Frames to track.</li>
+</ul>
+<blockquote>
+<div><p><span class="reditalic">all_frames</span> should be a numeric vector containing the frame IDs to track.</p>
+<div class="hint admonition">
+<p class="first admonition-title">Example</p>
+<p>To track from Frame 1 to Frame 100, set the parameter value to</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">all_frames</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="mi">100</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The IDs do not need to be consecutive. For example,</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">all_frames</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">:</span><span class="mi">99</span><span class="p">;</span>
+</pre></div>
+</div>
+<p class="last">indicates that every second image from Frame 1 to Frame 99 will be tracked.</p>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><span class="reditalic">nuc_signal_name</span>: Name of the nuclear channel.</li>
+<li><span class="reditalic">nuc_biomarker_name</span>: Name of the measured nuclear marker.</li>
+</ul>
+<blockquote>
+<div><div class="hint admonition">
+<p class="first admonition-title">Example</p>
+<p>Cells are tagged with an H2B-CFP marker. The values of the parameters should be</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">nuc_signal_name</span> <span class="p">=</span> <span class="s">&#39;CFP&#39;</span><span class="p">;</span>
+<span class="n">nuc_biomarker_name</span> <span class="p">=</span> <span class="s">&#39;H2B&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Furthermore, if the images are stored in the TIFF format, the filenames of the nuclear images should follow the format</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">RowID_ColID_SiteID_CFP_FrameID</span><span class="o">.</span><span class="n">tif</span>
+</pre></div>
+</div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><span class="greenitalic">if_global_correction</span>: Indicator variable of whether to perform global jitter correction.</li>
+</ul>
+<blockquote>
+<div><p>A value of 1 indicates that the global jitter correction will be performed, and a value of 0 indicates that the local jitter correction will be performed.</p>
+<p>Note that global jitter correction requires that <span class="reditalic">valid_wells</span> contains at least six distinct wells. Otherwise, local jitter correction will be performed even if <span class="greenitalic">if_global_correction</span> is set to 1.</p>
+</div></blockquote>
+<div class="admonition-indicator-variables admonition">
+<p class="first admonition-title">Indicator Variables</p>
+<p class="last">Unless specified, indicator variables always take a value of either 1 or 0, where 1 means that the indicated event occurs, and 0 means otherwise.</p>
+</div>
+<ul class="simple">
+<li><span class="reditalic">output_path</span>: Path to the folder storing the outputs.</li>
+</ul>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="parameters_segmentation.html" class="btn btn-neutral float-right" title="Segmentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="parameters_overview.html" class="btn btn-neutral float-left" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chengzhe Tian, Chen Yang, Sabrina Spencer
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,814 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Tutorial &mdash; EllipTrack  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/hacks.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Outputs" href="outputs.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> EllipTrack
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parameters.html">Parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GUI.html">GUI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="execution.html">Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outputs.html">Outputs</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#dataset">Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#parameters-in-global-setting">Parameters in <em>global_setting</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#segmentation">Segmentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#non-specific-parameters">Non-Specific Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#parameters-for-image-binarization">Parameters for Image Binarization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#parameters-for-active-contour">Parameters for Active Contour</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#parameters-for-watershed">Parameters for Watershed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#parameters-for-ellipse-fitting">Parameters for Ellipse Fitting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#parameters-for-correction-with-training-datasets">Parameters for Correction with Training Datasets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#run-segmentation">Run Segmentation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#jitter-correction">Jitter Correction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#create-training-datasets">Create Training Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#parameters-in-track-para">Parameters in <em>track_para</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#parameters-in-signal-extraction-para">Parameters in <em>signal_extraction_para</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#run-track-linking-and-signal-extraction">Run Track Linking and Signal Extraction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#plot-heatmaps">Plot Heatmaps</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">EllipTrack</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Tutorial</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/tutorial.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="tutorial">
+<span id="tutorial-page"></span><h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="dataset">
+<h2>Dataset<a class="headerlink" href="#dataset" title="Permalink to this headline">¶</a></h2>
+<p>The sample movie for this tutorial is the A375 movie in the manuscript.
+In brief, A375 melanoma cancer cells were transduced with H2B-mIFP (nuclear marker), DHB-mCherry (CDK2 sensor), and Fra1-YFP (FIRE sensor).
+Cells were then imaged in Site 1 of Well B10 every 15 minutes over five days. The movie length is 482 frames.</p>
+<p>Download the dataset <a class="reference external" href="https://drive.google.com/open?id=1I5CC__HtJccKAEZibCQIkMeX6wiOXQIq">here</a> (around 10 GB). This dataset contains the following folders.</p>
+<ul class="simple">
+<li><em>Raw</em>. Raw images of the movie. TIFF format.</li>
+<li><em>scripts</em>. EllipTrack.</li>
+<li><em>mat_files</em>. MAT files for the camera dark noise and illumination biases. Training datasets.</li>
+<li><em>mask</em>, <em>ellipse_movie</em>, <em>seg_info</em>, and <em>vistrack</em>. Optional outputs.</li>
+<li><em>results</em>. Outputs of <em>mainfile.m</em>. Heatmaps of cell lineage trees.</li>
+</ul>
+<div class="admonition-remark admonition">
+<p class="first admonition-title">Remark</p>
+<p>Files are stored in the following paths in our local computer.</p>
+<ul>
+<li><p class="first"><strong>Raw Images</strong>.</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="p">:</span><span class="o">/</span><span class="n">chya7855</span><span class="o">/</span><span class="mi">2017</span><span class="n">Fall</span><span class="o">/</span><span class="n">No1_20171001_FIRE_ERK_longmovie_drugCombination_full_longmovie</span><span class="o">/</span><span class="n">Raw</span><span class="o">/</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><strong>Camera Dark Noise</strong>. <code class="docutils literal notranslate"><span class="pre">X:/chya7855/Nikoncmos/cmosoffset.mat</span></code>.</p>
+</li>
+<li><p class="first"><strong>Illumination Biases</strong>.</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="p">:</span><span class="o">/</span><span class="n">chya7855</span><span class="o">/</span><span class="mi">2017</span><span class="n">Fall</span><span class="o">/</span><span class="n">No1_20171001_FIRE_ERK_longmovie_drugCombination_full_longmovie</span><span class="o">/</span><span class="n">Bias</span><span class="o">/</span><span class="n">Channel_1</span><span class="p">.</span><span class="n">mat</span>
+</pre></div>
+</div>
+<p><em>Channel</em> refers to <em>mIFP</em>, <em>mCherry</em>, or <em>YFP</em>.</p>
+</li>
+<li><p class="first"><strong>Training Datasets</strong>.  <code class="docutils literal notranslate"><span class="pre">Z:/projects/tracking_code/A375/myversion/mat_files/</span></code>.</p>
+</li>
+<li><p class="first"><strong>Mask</strong>. <code class="docutils literal notranslate"><span class="pre">Z:/projects/tracking_code/A375/myversion/mask/</span></code>.</p>
+</li>
+<li><p class="first"><strong>Ellipse Movie</strong>. <code class="docutils literal notranslate"><span class="pre">Z:/projects/tracking_code/A375/myversion/ellipse_movie/</span></code>.</p>
+</li>
+<li><p class="first"><strong>Seg Info</strong>. <code class="docutils literal notranslate"><span class="pre">Z:/projects/tracking_code/A375/myversion/seg_info/</span></code>.</p>
+</li>
+<li><p class="first"><strong>Vistrack</strong>. <code class="docutils literal notranslate"><span class="pre">Z:/projects/tracking_code/A375/myversion/mask/vistrack/</span></code>.</p>
+</li>
+<li><p class="first"><strong>Outputs</strong>. <code class="docutils literal notranslate"><span class="pre">Z:/projects/tracking_code/A375/myversion/results/2_10_1/</span></code>.</p>
+</li>
+</ul>
+<p class="last">Local paths will be used in this tutorial.</p>
+</div>
+</div>
+<div class="section" id="parameters-in-global-setting">
+<h2>Parameters in <em>global_setting</em><a class="headerlink" href="#parameters-in-global-setting" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">% Path to the folder storing the raw images.</span>
+<span class="n">nuc_raw_image_path</span> <span class="p">=</span> <span class="s">&#39;X:/chya7855/2017Fall/No1_20171001_FIRE_ERK_longmovie_drugCombination_full_longmovie/Raw/&#39;</span><span class="p">;</span>
+
+<span class="c">% Empty for TIFF format.</span>
+<span class="n">nd2_frame_range</span> <span class="p">=</span> <span class="p">[];</span>
+
+<span class="c">% RowID, ColumnID, and SiteID of the movie.</span>
+<span class="n">valid_wells</span> <span class="p">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">];</span>
+
+<span class="c">% Path to the MAT file storing the camera dark noise.</span>
+<span class="n">cmosoffset_path</span> <span class="p">=</span> <span class="s">&#39;X:/chya7855/Nikoncmos/cmosoffset.mat&#39;</span><span class="p">;</span>
+
+<span class="c">% Path the the MAT file storing the illumination of the nuclear channel.</span>
+<span class="n">nuc_bias_path</span> <span class="p">=</span> <span class="s">&#39;X:/chya7855/2017Fall/No1_20171001_FIRE_ERK_longmovie_drugCombination_full_longmovie/Bias/mIFP_1.mat&#39;</span><span class="p">;</span>
+
+<span class="c">% Track all 482 frames.</span>
+<span class="n">all_frames</span> <span class="p">=</span> <span class="mi">1</span><span class="p">:</span><span class="mi">482</span><span class="p">;</span>
+
+<span class="c">% The channel for the nuclear marker is mIFP.</span>
+<span class="n">nuc_signal_name</span> <span class="p">=</span> <span class="s">&#39;mIFP&#39;</span><span class="p">;</span>
+
+<span class="c">% The nuclear marker is H2B.</span>
+<span class="n">nuc_biomarker_name</span> <span class="p">=</span> <span class="s">&#39;H2B&#39;</span><span class="p">;</span>
+
+<span class="c">% Only one movie is tracked. Not possible to run global jitter correction.</span>
+<span class="n">if_global_correction</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="c">% Path th the folder storing the outputs.</span>
+<span class="n">output_path</span> <span class="p">=</span> <span class="s">&#39;Z:/projects/tracking_code/A375/myversion/results/2_10_1/&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="segmentation">
+<h2>Segmentation<a class="headerlink" href="#segmentation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="non-specific-parameters">
+<h3>Non-Specific Parameters<a class="headerlink" href="#non-specific-parameters" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">% Run Active Contour.</span>
+<span class="n">if_active_contour</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="c">% Run Watershed.</span>
+<span class="n">if_watershed</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="c">% Do not run Correction with Training Datasets.</span>
+<span class="n">if_seg_correction</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="admonition-which-steps-should-i-run admonition">
+<p class="first admonition-title">Which Steps Should I Run?</p>
+<p class="last">Active Contour and Watershed are suggested.
+Run Correction with Training Datasets when the training datasets are available and well-predict the number of cell nuclei in each ellipse.</p>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">% Generate Mask</span>
+<span class="n">if_print_mask</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="c">% Path to the folder storing the Mask.</span>
+<span class="n">mask_path</span> <span class="p">=</span> <span class="s">&#39;Z:/projects/tracking_code/A375/myversion/mask/&#39;</span><span class="p">;</span>
+
+<span class="c">% Generate &quot;Ellipse Movie&quot;</span>
+<span class="n">if_print_ellipse_movie</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="c">% Path to the folder storing the &quot;Ellipse Movie&quot;</span>
+<span class="n">ellipse_movie_path</span> <span class="p">=</span> <span class="s">&#39;Z:/projects/tracking_code/A375/myversion/ellipse_movie/&#39;</span><span class="p">;</span>
+
+<span class="c">% Generate &quot;Seg Info&quot;</span>
+<span class="n">if_save_seg_info</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="c">% Path to the folder storing &quot;Seg Info&quot;</span>
+<span class="n">seg_info_path</span> <span class="p">=</span> <span class="s">&#39;Z:/projects/tracking_code/A375/myversion/seg_info/&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="admonition-should-i-generate-the-optional-outputs admonition">
+<p class="first admonition-title">Should I Generate the Optional Outputs?</p>
+<p>Mask and “Ellipse Movie” visualize the performance of Segmentation.
+These files are useful during parameter tuning, but are no longer necessary after the parameter values are finalized.</p>
+<p>“Seg Info” is required by Training Data Generator GUI.
+Generate this output only when training datasets will be created from this movie.</p>
+<p class="last">“Vistrack” visualizes the performance of Track Linking.
+This output is suggested for examining the correctness of cell tracks.</p>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">% Average radius (in pixels) of a nucleus.</span>
+<span class="n">nuc_radius</span> <span class="p">=</span> <span class="mi">16</span><span class="p">;</span>
+
+<span class="c">% Remove all holes smaller than 200 pixels from the components.</span>
+<span class="n">max_hole_size_for_fill</span> <span class="p">=</span> <span class="mi">200</span><span class="p">;</span>
+
+<span class="c">% Remove all components smaller than 25 pixels from the mask.</span>
+<span class="n">min_component_size_for_nucleus</span> <span class="p">=</span> <span class="mi">25</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="parameters-for-image-binarization">
+<h3>Parameters for Image Binarization<a class="headerlink" href="#parameters-for-image-binarization" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">% To detect the nuclear contours accurately, the radius of disk should be less than the width of cytoplasmic ring.</span>
+<span class="n">blurradius</span> <span class="p">=</span> <span class="mi">3</span><span class="p">;</span>
+
+<span class="c">% Log-transform the images to improve detection.</span>
+<span class="n">if_log</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="admonition-should-i-log-transform-the-images admonition">
+<p class="first admonition-title">Should I Log-Transform the Images?</p>
+<p>Log-transforming the images is suggested when the nuclear marker is of heterogeneous brightness (as shown in <a class="reference internal" href="#seg-brightness"><span class="std std-numref">Fig. 26</span></a>).</p>
+<div class="last figure align-center" id="id1">
+<span id="seg-brightness"></span><a class="reference internal image-reference" href="_images/seg_brightness.png"><img alt="_images/seg_brightness.png" src="_images/seg_brightness.png" style="width: 400px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 26 </span><span class="caption-text">Images before and after log-transform.</span></p>
+</div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">% Despite being slower, Blob Detection identifies the nuclear contours more accurately.</span>
+<span class="n">if_blob_detection</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="c">% Determined by parameter tuning.</span>
+<span class="n">blob_threshold</span> <span class="p">=</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="admonition-remark admonition">
+<p class="first admonition-title">Remark</p>
+<p class="last">Cells may behave differently over time, especially after drug addition.
+Account for all possible cell behaviors during parameter tuning.</p>
+</div>
+</div>
+<div class="section" id="parameters-for-active-contour">
+<h3>Parameters for Active Contour<a class="headerlink" href="#parameters-for-active-contour" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">% The radius of disk should be smaller than the namesake in Image Binarization.</span>
+<span class="n">blurradius</span> <span class="p">=</span> <span class="mi">2</span><span class="p">;</span>
+
+<span class="c">% Improves contour detection by not log-transforming the images.</span>
+<span class="n">if_log</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="admonition-should-i-log-transform-the-images admonition">
+<p class="first admonition-title">Should I Log-Transform the Images?</p>
+<p>Differences in the pixel intensities are greater when choosing not to log-transform the images.
+This allows the Active Contour algorithm to detect the nuclear contours more accurately.
+However, dim nuclei may lose detection when overlapping with bright ones, as shown in <a class="reference internal" href="#seg-iflog"><span class="std std-numref">Fig. 27</span></a>.
+Set <span class="reditalic">if_log</span> to one if it happens very often.</p>
+<div class="last figure align-center" id="id2">
+<span id="seg-iflog"></span><img alt="_images/seg_iflog.png" src="_images/seg_iflog.png" />
+<p class="caption"><span class="caption-number">Fig. 27 </span><span class="caption-text">Example image of losing the detection of dim nuclei.</span></p>
+</div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">% Despite being slower, use the Local option to detect the nuclear contours more accurately.</span>
+<span class="n">if_global</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="parameters-for-watershed">
+<h3>Parameters for Watershed<a class="headerlink" href="#parameters-for-watershed" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">% Use the default parameter values.</span>
+<span class="n">max_thresh_component_size</span> <span class="p">=</span> <span class="mi">25</span><span class="p">;</span>
+<span class="n">min_thresh_component_size</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="parameters-for-ellipse-fitting">
+<h3>Parameters for Ellipse Fitting<a class="headerlink" href="#parameters-for-ellipse-fitting" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">% Use the default parameter values of Zafari et al. 2015.</span>
+<span class="n">k</span> <span class="p">=</span> <span class="mi">5</span><span class="p">;</span>
+<span class="n">thd1</span> <span class="p">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="n">thd2</span> <span class="p">=</span> <span class="mi">25</span><span class="p">;</span>
+<span class="n">thdn</span> <span class="p">=</span> <span class="mi">30</span><span class="p">;</span>
+<span class="n">C</span> <span class="p">=</span> <span class="mf">1.5</span><span class="p">;</span>
+<span class="n">T_angle</span> <span class="p">=</span> <span class="mi">162</span><span class="p">;</span>
+<span class="n">sig</span> <span class="p">=</span> <span class="mi">3</span><span class="p">;</span>
+<span class="n">Endpoint</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">Gap_size</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="c">% Remove all ellipses with a perimeter less than 10 pixels.</span>
+<span class="n">min_ellipse_perimeter</span> <span class="p">=</span> <span class="mi">10</span><span class="p">;</span>
+
+<span class="c">% Remove all ellipses with an area less than 10 pixels</span>
+<span class="n">min_ellipse_area</span> <span class="p">=</span> <span class="mi">10</span><span class="p">;</span>
+
+<span class="c">% Remove all ellipses with a major axis greater than 100 pixels.</span>
+<span class="n">max_major_axis</span> <span class="p">=</span> <span class="mi">100</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="parameters-for-correction-with-training-datasets">
+<h3>Parameters for Correction with Training Datasets<a class="headerlink" href="#parameters-for-correction-with-training-datasets" title="Permalink to this headline">¶</a></h3>
+<p>Skip setting the parameter values because this step will not be executed.</p>
+<div class="admonition-remark admonition">
+<p class="first admonition-title">Remark</p>
+<p class="last">It is suggested to only correct ellipses with a high probability (0.9 or higher) of being mis-segmented.</p>
+</div>
+</div>
+<div class="section" id="run-segmentation">
+<h3>Run Segmentation<a class="headerlink" href="#run-segmentation" title="Permalink to this headline">¶</a></h3>
+<p>Go to <em>mainfile.m</em> and execute Step 1 (<strong>Reading Parameters</strong>) and Step 2 (<strong>Segmentation</strong>).
+The following files will be generated.</p>
+<ul class="simple">
+<li><strong>Mask</strong>. 482 images with filenames <em>2_10_1_mIFP_FrameID.tif</em> in <code class="docutils literal notranslate"><span class="pre">Z:/projects/tracking_code/A375/myversion/mask/</span></code>.</li>
+<li><strong>Ellipse Movie</strong>. 482 images with filenames <em>2_10_1_mIFP_FrameID.tif</em> in <code class="docutils literal notranslate"><span class="pre">Z:/projects/tracking_code/A375/myversion/ellipse_movie/</span></code>.</li>
+<li><strong>Seg Info</strong>. 482 MAT files with filenames <em>2_10_1_mIFP_FrameID_segmentation.tif</em> in <code class="docutils literal notranslate"><span class="pre">Z:/projects/tracking_code/A375/myversion/seg_info/</span></code>.</li>
+<li><strong>Output</strong>. A MAT file <em>segmentation.mat</em> in <code class="docutils literal notranslate"><span class="pre">Z:/projects/tracking_code/A375/myversion/results/2_10_1/</span></code>.</li>
+</ul>
+<div class="warning admonition">
+<p class="first admonition-title">Large MAT Files</p>
+<p>Add the <code class="docutils literal notranslate"><span class="pre">-v7.3</span></code> option to the Matlab function <em>save</em> if the file sizes are greater than 2 GB.</p>
+<p>For example, change</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">save</span><span class="p">([</span><span class="n">global_setting</span><span class="p">.</span><span class="n">output_path</span><span class="p">,</span> <span class="s">&#39;segmentation.mat&#39;</span><span class="p">],</span> <span class="s">&#39;all_ellipse_info&#39;</span><span class="p">,</span> <span class="s">&#39;all_num_ellipses&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>to</p>
+<div class="last highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">save</span><span class="p">([</span><span class="n">global_setting</span><span class="p">.</span><span class="n">output_path</span><span class="p">,</span> <span class="s">&#39;segmentation.mat&#39;</span><span class="p">],</span> <span class="s">&#39;all_ellipse_info&#39;</span><span class="p">,</span> <span class="s">&#39;all_num_ellipses&#39;</span><span class="p">,</span> <span class="s">&#39;-v7.3&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="jitter-correction">
+<h2>Jitter Correction<a class="headerlink" href="#jitter-correction" title="Permalink to this headline">¶</a></h2>
+<p>Go to <em>mainfile.m</em> and execute Step 3 (<strong>Jitter Correction</strong>).
+A MAT file <em>jitter_correction.mat</em> will be generated in the folder <code class="docutils literal notranslate"><span class="pre">Z:/projects/tracking_code/A375/myversion/results/2_10_1/</span></code>.</p>
+<p>The <em>jitters</em> variable stores the image displacement between two neighboring frames.
+For example, the jitters between Frame 96 and 97 are</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="nb">squeeze</span><span class="p">(</span><span class="n">jitters</span><span class="p">{</span><span class="mi">97</span><span class="p">}(</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">,:))</span><span class="o">&#39;</span>
+
+<span class="nb">ans</span> <span class="p">=</span>
+
+    <span class="mi">12</span>    <span class="mi">21</span>
+</pre></div>
+</div>
+<p>which can be visualized by comparing the cell positions in these two frames (as shown in <a class="reference internal" href="#jitter"><span class="std std-numref">Fig. 28</span></a>).</p>
+<div class="figure align-center" id="id3">
+<span id="jitter"></span><a class="reference internal image-reference" href="_images/jitter_comparison.png"><img alt="_images/jitter_comparison.png" src="_images/jitter_comparison.png" style="width: 400px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 28 </span><span class="caption-text">Comparison of cell positions.</span></p>
+</div>
+</div>
+<div class="section" id="create-training-datasets">
+<h2>Create Training Datasets<a class="headerlink" href="#create-training-datasets" title="Permalink to this headline">¶</a></h2>
+<p>Navigate Matlab to the <em>GUI</em> folder and open Training Data Generator GUI by executing <code class="docutils literal notranslate"><span class="pre">training_data_gui</span></code> in the command window.</p>
+<p>To generate a training dataset between Frame 401 and Frame 450, enter the following information in the “Setting” panel.</p>
+<ul>
+<li><p class="first"><strong>File</strong>.</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="p">:</span><span class="o">\</span><span class="n">chya7855</span><span class="o">\</span><span class="mi">2017</span><span class="n">Fall</span><span class="o">\</span><span class="n">No1_20171001_FIRE_ERK_longmovie_drugCombination_full_longmovie</span><span class="o">\</span><span class="n">Raw</span><span class="o">/</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><strong>Prefix</strong>. <code class="docutils literal notranslate"><span class="pre">2_10_1_mIFP_</span></code>. Type <code class="docutils literal notranslate"><span class="pre">401</span></code> and <code class="docutils literal notranslate"><span class="pre">450</span></code> in the following line.</p>
+</li>
+<li><p class="first"><strong>CMOS</strong>. <code class="docutils literal notranslate"><span class="pre">X:\chya7855\Nikoncmos\cmosoffset.mat</span></code>.</p>
+</li>
+<li><p class="first"><strong>Bias</strong>.</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="p">:</span><span class="o">\</span><span class="n">chya7855</span><span class="o">\</span><span class="mi">2017</span><span class="n">Fall</span><span class="o">\</span><span class="n">No1_20171001_FIRE_ERK_longmovie_drugCombination_full_longmovie</span><span class="o">\</span><span class="n">Bias</span><span class="o">\</span><span class="n">mIFP_1</span><span class="p">.</span><span class="n">mat</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><strong>Seg Info</strong>. <code class="docutils literal notranslate"><span class="pre">Z:\chti4479\projects\tracking_code\A375\myversion\seg_info/</span></code></p>
+</li>
+<li><p class="first"><strong>Existing</strong>. Leave empty.</p>
+</li>
+<li><p class="first"><strong>Output</strong>. <code class="docutils literal notranslate"><span class="pre">Z:\chti4479\projects\tracking_code\A375\myversion\mat_files/</span></code>.</p>
+</li>
+</ul>
+<div class="admonition-remark admonition">
+<p class="first admonition-title">Remark</p>
+<p class="last">Backward slashes (<em>\</em>) are acceptable on Windows computers, but not on Linux or Mac.</p>
+</div>
+<p>489 training samples are created for Morphological Events (as shown in <a class="reference internal" href="#gui-morphology"><span class="std std-numref">Fig. 29</span></a>):
+8 for <strong>No Cell</strong>, 350 for <strong>One Cell</strong>, 95 for <strong>Two Cells</strong>, 12 for <strong>Mitotic Cell</strong>, and 24 for <strong>Newly Born Cell</strong>.
+Samples for <strong>Apoptosis</strong> are not created since apoptosis is rare.</p>
+<div class="figure align-center" id="id4">
+<span id="gui-morphology"></span><img alt="_images/GUI_morphology.png" src="_images/GUI_morphology.png" />
+<p class="caption"><span class="caption-number">Fig. 29 </span><span class="caption-text">Screenshot of Morphological Training.</span></p>
+</div>
+<div class="admonition-how-many-samples-should-i-create admonition">
+<p class="first admonition-title">How Many Samples Should I Create?</p>
+<p>In principle, the number of samples should match the frequency of events.</p>
+<p class="last">A suggested strategy is to create around 200 samples for <strong>One Cell</strong> and up to 100 samples for <strong>No Cells</strong> and <strong>Two Cells</strong> (less if mis-segmentation is rare).
+Label all observed mitosis events (<strong>Mitotic Cell</strong> and <strong>Newly Born Cell</strong>) to improve mitosis detection.
+Create samples for <strong>Apoptosis</strong> only if cells frequently undergo apoptosis in the movie.</p>
+</div>
+<p>15 cells are recorded for Motion Events (as shown in <a class="reference internal" href="#gui-motion"><span class="std std-numref">Fig. 30</span></a>).
+All cells are recorded continuously from the beginning (Frame 401) to the end (Frame 450), unless the cells move out of the field of view.</p>
+<div class="figure align-center" id="id5">
+<span id="gui-motion"></span><img alt="_images/GUI_motion.png" src="_images/GUI_motion.png" />
+<p class="caption"><span class="caption-number">Fig. 30 </span><span class="caption-text">Screenshot of Motion Training.</span></p>
+</div>
+<div class="admonition-how-many-cells-should-i-record admonition">
+<p class="first admonition-title">How Many Cells Should I Record?</p>
+<p class="last">Recording 10-15 cells for each dataset is suggested.
+These cells should cover different cell morphologies and/or behaviors, and each cell should be continuously recorded unless the cell migrates to the outside of the field of view.
+Especially, to improve mitosis detection, the majority of recorded cells should undergo at least one mitosis during the recording.</p>
+</div>
+<p>Click the “Finish” button, and the training dataset named <em>2_10_1_mIFP_training_data_401_450.mat</em> will be created in the folder <code class="docutils literal notranslate"><span class="pre">Z:\chti4479\projects\tracking_code\A375\myversion\mat_files/</span></code>.</p>
+<div class="warning admonition">
+<p class="first admonition-title">Load Existing Datasets</p>
+<p>GUI will only import an existing dataset if the entries <strong>File</strong> and <strong>Prefix</strong> of the “Setting” panel matches the information stored in the dataset.</p>
+<p>Execute the following script if the training datasets provided by this tutorial can not be loaded.</p>
+<div class="last highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">h</span> <span class="p">=</span> <span class="n">load</span><span class="p">(</span><span class="s">&#39;2_10_1_mIFP_training_data_401_450.mat&#39;</span><span class="p">);</span>
+<span class="c">% Specify the path to the folder storing the images.</span>
+<span class="c">% Paths should match exactly, including &quot;/&quot; and &quot;\&quot;.</span>
+<span class="n">h</span><span class="p">.</span><span class="n">file_path</span> <span class="p">=</span> <span class="s">&#39;PATH_TO_FOLDER_OF_IMAGES&#39;</span><span class="p">;</span>
+<span class="n">save</span><span class="p">(</span><span class="s">&#39;2_10_1_mIFP_training_data_401_450.mat&#39;</span><span class="p">,</span> <span class="s">&#39;-struct&#39;</span><span class="p">,</span> <span class="s">&#39;h&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<p>Repeat this process and create three more training datasets: one between Frame 51 and 130, one between Frame 201 and 280, and one between Frame 301 and 350.
+Overall, more than 2000 samples are created for Morphological Events and more than 6000 samples are created for Motion Events.</p>
+<div class="admonition-how-many-datasets-should-i-create admonition">
+<p class="first admonition-title">How Many Datasets Should I Create?</p>
+<p>To track one movie, create two datasets where each dataset covers 50-100 frames in a representative segment of the movie.
+Representative segments can be segments where cells are densely populated, and segments where cells are treated with drugs.</p>
+<p>For example, consider a movie of 400 frames where cells are treated with drugs during the second half of the movie but not during the first half.
+It is suggested to create one dataset from Frame 51-150 to describe the cell behaviors in the untreated condition, and create another one from Frame 251-350 to describe the cell behaviors during drug treatment.</p>
+<p>For experiments performed in multi-well plates where cells are cultured in different conditions,
+create two datasets from each condition and use these datasets to track all the movies generated by this experiment.</p>
+<p class="last">For example, consider an experiment where cells are cultured in a 96-well plate and imaged for 400 frames (96 movies in total).
+Cells in Row 1-4 are cultured with 1 uM Dabrafenib, and cells in Row 5-8 are not treated with any drug.
+It is suggested to create two datasets from Row 1-4 (e.g. from Frame 51-150 of Well B3 and from Frame 251-350 of Well C11) and two from Row 5-8 (e.g. from Frame 51-150 of Well G1 and from Frame 251-350 of Well E7).
+Use these four datasets to track all 96 movies.</p>
+</div>
+<div class="admonition-can-i-use-training-datasets-for-other-movies admonition">
+<p class="first admonition-title">Can I Use Training Datasets for Other Movies?</p>
+<p>Possible. Make sure that all the experiments have the identical conditions (cells, medium, exposure time, etc) and that the same parameter values are used to run EllipTrack.</p>
+<p class="last">However, it is suggested to create new datasets for each movie or experiment.</p>
+</div>
+</div>
+<div class="section" id="parameters-in-track-para">
+<h2>Parameters in <em>track_para</em><a class="headerlink" href="#parameters-in-track-para" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">% Part 1. Predict Probabilities</span>
+<span class="c">% Paths to the training datasets</span>
+<span class="n">training_data_path</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;Z:/projects/tracking_code/A375/myversion/mat_files/2_10_1_mIFP_training_data_51_130.mat&#39;</span><span class="p">;</span>
+    <span class="s">&#39;Z:/projects/tracking_code/A375/myversion/mat_files/2_10_1_mIFP_training_data_201_280.mat&#39;</span><span class="p">;</span>
+    <span class="s">&#39;Z:/projects/tracking_code/A375/myversion/mat_files/2_10_1_mIFP_training_data_301_350.mat&#39;</span><span class="p">;</span>
+    <span class="s">&#39;Z:/projects/tracking_code/A375/myversion/mat_files/2_10_1_mIFP_training_data_401_450.mat&#39;</span><span class="p">};</span>
+
+<span class="c">% Assume that apoptosis occurs with a probability of 1e-4</span>
+<span class="n">empty_prob</span> <span class="p">=</span> <span class="mf">1e-4</span><span class="p">;</span>
+
+<span class="c">% Do not consider the probability of being a mitotic cell (Before M) during mitosis detection.</span>
+<span class="n">if_switch_off_before_mitosis</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">if_switch_off_after_mitosis</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="admonition-should-i-switch-them-off admonition">
+<p class="first admonition-title">Should I Switch Them Off?</p>
+<p class="last">The decision is based on whether the probabilities can be accurately computed.
+Computing the probability of being a mitotic cell is often challenging due to their heterogeneous features.
+If the probabilities do not match the cell behaviors, set <span class="blueitalic">if_switch_off_before_mitosis</span> to one. Otherwise, set the parameter to zero.
+Meanwhile, newly born cells are usually well-predicted. Therefore, setting <span class="greenitalic">if_switch_off_after_mitosis</span> to zero is suggested.</p>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">% Consider ellipse similarity when calculating migration probabilities.</span>
+<span class="n">if_similarity_for_migration</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="c">% Infer the standard deviation from the training datasets.</span>
+<span class="n">migration_sigma</span> <span class="p">=</span> <span class="n">NaN</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="admonition-how-to-set-migration-sigma admonition">
+<p class="first admonition-title">How to Set <em>migration_sigma</em></p>
+<p>In principle, this parameter should be inferred from the training datasets.</p>
+<p class="last">However, when cells migrate rapidly (&gt;= 10 pixels/frame), cell tracks may be errorneous as cells can migrate to more positions in one frame.
+In this case, it is suggested to focus on tracking the slower moving subpopulation by setting <span class="blueitalic">migration_sigma</span> below the inferred value.</p>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">% Cells can migrate 20 x migration_sigma pixels in one frame and one direction.</span>
+<span class="n">max_migration_distance_fold</span> <span class="p">=</span> <span class="mi">20</span><span class="p">;</span>
+
+<span class="c">% Null probability of migration is 1e-3.</span>
+<span class="n">likelihood_nonmigration</span> <span class="p">=</span> <span class="mf">1e-3</span><span class="p">;</span>
+
+<span class="c">% Cells can enter/leave the field of view with a minimal probability of 1e-4.</span>
+<span class="n">min_inout_prob</span> <span class="p">=</span> <span class="n">empty_prob</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="admonition-remark admonition">
+<p class="first admonition-title">Remark</p>
+<p>Cells are often introduced or removed during medium change, as shown in <a class="reference internal" href="#removal"><span class="std std-numref">Fig. 31</span></a>.
+Setting <span class="greenitalic">min_inout_prob</span> to a positive value allows EllipTrack to initiate/terminate these cell tracks without affecting other cells.</p>
+<div class="last figure align-center" id="id6">
+<span id="removal"></span><a class="reference internal image-reference" href="_images/removal.png"><img alt="_images/removal.png" src="_images/removal.png" style="width: 400px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 31 </span><span class="caption-text">Cell removal due to medium change.</span></p>
+</div>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">% Do not allow cells to skip any frame</span>
+<span class="n">max_gap</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="c">% Part 2. Construct Cell Tracks</span>
+<span class="c">% Use default parameter values for the following parameters</span>
+<span class="n">skip_penalty</span> <span class="p">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="n">multiple_cells_penalty</span> <span class="p">=</span> <span class="mi">5</span><span class="p">;</span>
+<span class="n">min_mitosis_prob</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="c">% Construct all cell tracks.</span>
+<span class="n">max_num_tracks</span> <span class="p">=</span> <span class="n">Inf</span><span class="p">;</span>
+
+<span class="c">% Terminate when the score of a new cell track is below 2.</span>
+<span class="n">min_track_score</span> <span class="p">=</span> <span class="mi">2</span><span class="p">;</span>
+
+<span class="c">% Every cell track should have a score greater than -15 between every two neighboring frames.</span>
+<span class="n">min_track_score_per_step</span> <span class="p">=</span> <span class="o">-</span><span class="mi">15</span><span class="p">;</span>
+
+<span class="c">% For each ellipse, only consider the 5 most likely migration events.</span>
+<span class="n">max_recorded_link</span> <span class="p">=</span> <span class="mi">5</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="admonition-remark admonition">
+<p class="first admonition-title">Remark</p>
+<p class="last">The execution time scales quadratically with <span class="greenitalic">max_recorded_link</span> (Magnusson <em>et al.</em> 2015).
+Reduce this parameter to a lower number if the execution time becomes too long, though the accuracy of cell tracks may be sacrificed.</p>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">% Part 3. Post-Processing</span>
+<span class="c">% Tracks are swapped if this swap increases the score of lineage trees by at least 2.</span>
+<span class="n">min_swap_score</span> <span class="p">=</span> <span class="mi">2</span><span class="p">;</span>
+
+<span class="c">% For mitosis detection, both probabilities should be greater than 0.5.</span>
+<span class="n">fixation_min_prob_before_mitosis</span> <span class="p">=</span> <span class="mf">0.5</span><span class="p">;</span>
+<span class="n">fixation_min_prob_after_mitosis</span> <span class="p">=</span> <span class="mf">0.5</span><span class="p">;</span>
+
+<span class="c">% All cell tracks shorter than 10 frames will be removed.</span>
+<span class="n">min_track_length</span> <span class="p">=</span> <span class="mi">10</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="admonition-how-to-choose-the-minimal-length admonition">
+<p class="first admonition-title">How to Choose the Minimal Length?</p>
+<p>Many short cell tracks are often associated with tracking mistakes, such as incorrect mitosis and premature termination.
+Removing these tracks will increase the overall accuracy of cell lineage trees.
+However, some short cell tracks may contain information about authentic biological events.
+For example, if a short track is initiated incorrectly but undergoes an authentic mitosis, removing this track will lead to the loss of the mitosis event as well.</p>
+<p class="last">Therefore, the minimal length should be selected based on the purpose of the study.
+If the purpose is to observe long-term cell behaviors, the study should primarily focus on cell lineage trees spanning over a long period of time.
+Removing short tracks will not affect the outcomes greatly. In this case, it is suggested to set the minimal length to 10 frames.
+Meanwhile, if the purpose is to study short-term behaviors, removing short cell tracks may be inappropriate because valuable biological information is discarded.
+In this case, it is suggested to keep all cell tracks by setting the minimal length to zero.</p>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">% This parameter is not relevant since max_gap = 1.</span>
+<span class="n">max_num_frames_to_skip</span> <span class="p">=</span> <span class="mi">2</span><span class="p">;</span>
+
+<span class="c">% Part 4. Visualization</span>
+<span class="c">% Generate Vistrack</span>
+<span class="n">if_print_vistrack</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="c">% Path to the folder storing the Vistrack.</span>
+<span class="n">vistrack_path</span> <span class="p">=</span> <span class="s">&#39;Z:/projects/tracking_code/A375/myversion/vistrack/&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="parameters-in-signal-extraction-para">
+<h2>Parameters in <em>signal_extraction_para</em><a class="headerlink" href="#parameters-in-signal-extraction-para" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">% Part 1. Signal Channels</span>
+<span class="c">% Signal channels are YFP and mCherry.</span>
+<span class="n">additional_signal_names</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;YFP&#39;</span><span class="p">;</span>
+                           <span class="s">&#39;mCherry&#39;</span><span class="p">};</span>
+
+<span class="c">% The FIRE sensor is measured in the YFP channel, and the CDK2 sensor is measured in the mCherry channel.</span>
+<span class="n">additional_biomarker_names</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;FIRE&#39;</span><span class="p">;</span>
+                   <span class="s">&#39;CDK2&#39;</span><span class="p">};</span>
+
+<span class="c">% All images are stored in the same folder.</span>
+<span class="n">additional_raw_image_paths</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;X:/chya7855/2017Fall/No1_20171001_FIRE_ERK_longmovie_drugCombination_full_longmovie/Raw/&#39;</span><span class="p">;</span>
+    <span class="s">&#39;X:/chya7855/2017Fall/No1_20171001_FIRE_ERK_longmovie_drugCombination_full_longmovie/Raw/&#39;</span><span class="p">};</span>
+
+<span class="c">% Paths to the MAT files storing the illumination bias.</span>
+<span class="n">additional_bias_paths</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;X:/chya7855/2017Fall/No1_20171001_FIRE_ERK_longmovie_drugCombination_full_longmovie/Bias/YFP_1.mat&#39;</span><span class="p">;</span>
+    <span class="s">&#39;X:/chya7855/2017Fall/No1_20171001_FIRE_ERK_longmovie_drugCombination_full_longmovie/Bias/mCherry_1.mat&#39;</span><span class="p">};</span>
+
+<span class="c">% Extract the cytoplasmic signal for the CDK2 sensor, but not for the FIRE sensor.</span>
+<span class="n">if_compute_cyto_ring</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">;</span>
+                        <span class="mi">1</span><span class="p">];</span>
+
+<span class="c">% Part 2. ROI</span>
+<span class="c">% The cytoplasmic ring is defined as all pixels between 1 and 4 pixel away from the ellipse contour.</span>
+<span class="n">cyto_ring_inner_size</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">cyto_ring_outer_size</span> <span class="p">=</span> <span class="mi">4</span><span class="p">;</span>
+
+<span class="c">% The nucleus region is defined as all pixels at least 1 pixel away from the ellipse contour.</span>
+<span class="n">nuc_outer_size</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="c">% Minimal distance between background pixels and the nuclear contour.</span>
+<span class="n">foreground_dilation_size</span> <span class="p">=</span> <span class="mi">20</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="admonition-remark admonition">
+<p class="first admonition-title">Remark</p>
+<p class="last">These parameters should be selected based on the size of cytoplasm.</p>
+</div>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="c">% Extract the 75% percentile of pixel intensities.</span>
+<span class="n">intensity_percentile</span> <span class="p">=</span> <span class="mi">75</span><span class="p">;</span>
+
+<span class="c">% The upper and lower 5% of pixel intensities are treated as outliers.</span>
+<span class="n">lower_percentile</span> <span class="p">=</span> <span class="mi">5</span><span class="p">;</span>
+<span class="n">higher_percentile</span> <span class="p">=</span> <span class="mi">95</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="run-track-linking-and-signal-extraction">
+<h2>Run Track Linking and Signal Extraction<a class="headerlink" href="#run-track-linking-and-signal-extraction" title="Permalink to this headline">¶</a></h2>
+<p>Go to <em>mainfile.m</em> and execute Step 1 (<strong>Reading Parameters</strong>) to load the updated parameter values into workspace.
+Then sequentially execute Step 4 to 7. The following files will be generated.</p>
+<ul class="simple">
+<li><strong>Vistrack</strong>. 482 images with filenames <em>2_10_1_mIFP_FrameID.tif</em> in <code class="docutils literal notranslate"><span class="pre">Z:/projects/tracking_code/A375/myversion/vistrack/</span></code>.</li>
+<li><strong>Output</strong>. MAT files <em>probabilities.mat</em>, <em>tracks.mat</em>, and <em>signals.mat</em> in <code class="docutils literal notranslate"><span class="pre">Z:/projects/tracking_code/A375/myversion/results/2_10_1/</span></code>.</li>
+</ul>
+<p>The following signals are computed.</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">all_signals</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">}{</span><span class="mi">1</span><span class="p">}</span>
+
+<span class="nb">ans</span> <span class="p">=</span>
+
+  <span class="n">struct</span> <span class="n">with</span> <span class="n">fields</span><span class="p">:</span>
+
+                 <span class="n">if_multiple</span><span class="p">:</span> <span class="mi">0</span>
+                  <span class="n">ellipse_id</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+       <span class="n">num_tracks_at_ellipse</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+                   <span class="n">daughters</span><span class="p">:</span> <span class="p">{</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">cell</span><span class="p">}</span>
+                <span class="n">nuc_center_x</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+                <span class="n">nuc_center_y</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+              <span class="n">nuc_first_axis</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+             <span class="n">nuc_second_axis</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+                    <span class="n">nuc_area</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+                   <span class="n">nuc_angle</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+                <span class="n">H2B_nuc_mean</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+          <span class="n">H2B_nuc_percentile</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+               <span class="n">FIRE_nuc_mean</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+         <span class="n">FIRE_nuc_percentile</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+               <span class="n">CDK2_nuc_mean</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+         <span class="n">CDK2_nuc_percentile</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+          <span class="n">CDK2_cytoring_mean</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+    <span class="n">CDK2_cytoring_percentile</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Consistent with <span class="reditalic">if_compute_cyto_ring</span> in <em>signal_extraction_para</em>,
+the signals of the CDK2 sensor are extracted from both the nucleus region (<em>nuc</em>) and the cytoplasmic ring (<em>cytoring</em>).
+The other two signals (H2B and the FIRE sensor) are extracted from the nucleus region only.</p>
+</div>
+<div class="section" id="plot-heatmaps">
+<h2>Plot Heatmaps<a class="headerlink" href="#plot-heatmaps" title="Permalink to this headline">¶</a></h2>
+<p>Execute the following command to visualize all cell lineage trees spanning over the entire movie and to color cells with their CDK2 activities.</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">plot_full_lineages</span><span class="p">(</span> <span class="n">all_signals</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">},</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">482</span><span class="p">,</span> <span class="s">&#39;CDK2_cytoring_mean&#39;</span><span class="p">,</span> <span class="s">&#39;CDK2_nuc_mean&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Here, <code class="docutils literal notranslate"><span class="pre">all_signals{2,10,1}</span></code> provides the signals of the cell tracks;
+<em>1</em> and <em>482</em> specify the ranges of frames that a cell lineage tree must span over;
+<em>CDK2_cytoring_mean</em> and <em>CDK2_nuc_mean</em> are two fields of <em>all_signals</em> used to compute the CDK2 activities (defined as <code class="docutils literal notranslate"><span class="pre">CDK2_cytoring_mean/CDK2_nuc_mean</span></code>);
+and the range of colorbars is [0, 2].</p>
+<p>Four images with the filenames <em>lineages_fig_X.png</em> will be generated. Each image contains up to eight cell lineage trees, as shown in <a class="reference internal" href="#lineage"><span class="std std-numref">Fig. 32</span></a>.</p>
+<div class="figure align-center" id="id7">
+<span id="lineage"></span><img alt="_images/lineage.png" src="_images/lineage.png" />
+<p class="caption"><span class="caption-number">Fig. 32 </span><span class="caption-text">Example image of cell lineage trees.</span></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="outputs.html" class="btn btn-neutral float-left" title="Outputs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chengzhe Tian, Chen Yang, Sabrina Spencer
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

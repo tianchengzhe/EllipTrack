@@ -1,0 +1,269 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Execution &mdash; EllipTrack  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/hacks.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Outputs" href="outputs.html" />
+    <link rel="prev" title="Training Data Generator" href="GUI_training.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> EllipTrack
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parameters.html">Parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GUI.html">GUI</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Execution</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#running-elliptrack">Running EllipTrack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#generating-heatmaps">Generating Heatmaps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="outputs.html">Outputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">EllipTrack</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Execution</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/execution.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="execution">
+<span id="execution-page"></span><h1>Execution<a class="headerlink" href="#execution" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="running-elliptrack">
+<h2>Running EllipTrack<a class="headerlink" href="#running-elliptrack" title="Permalink to this headline">¶</a></h2>
+<p>EllipTrack is controlled by <em>mainfile.m</em>.
+This file is implemented in a linear modular structure with seven steps.</p>
+<ol class="arabic simple">
+<li><strong>Reading Parameters</strong>. Read parameter values from <em>parameters.m</em>.</li>
+<li><strong>Segmentation</strong>. Segment cells from the images.</li>
+<li><strong>Jitter Correction</strong>. Compute jitters between frames. Correct ellipse positions.</li>
+<li><strong>Predicting Events</strong>. Compute event probabilities.</li>
+<li><strong>Generate Tracks</strong>. Construct cell tracks. Post-processing.</li>
+<li><strong>Visualize Tracking Performance</strong>. Generating “vistrack” movie.</li>
+<li><strong>Signal Extraction</strong>. Extract signals from the regions of interest.</li>
+</ol>
+<p>Step 4-6 form Track Linking.
+Each step except for Step 1 and 6 generates an output MAT file in the folder specified by <span class="reditalic">output_path</span> in <em>segmentation_para</em> (refer to <a class="reference internal" href="outputs.html#outputs-mainfile-page"><span class="std std-ref">Outputs of Mainfile</span></a> of <a class="reference internal" href="outputs.html#outputs-page"><span class="std std-ref">Outputs</span></a>).
+To execute EllipTrack, sequentially run all the steps in <em>mainfile.m</em>.</p>
+<div class="admonition-remark admonition">
+<p class="first admonition-title">Remark</p>
+<p>Each step in <em>mainfile.m</em> only depends on the output MAT files of the previous steps.
+It is possible to re-run a step without repeating the calculations.</p>
+<p class="last">For example, the necessary information for re-running Step 4 can be gathered by executing Step 1 and loading the outputs of Step 2 and 3.</p>
+</div>
+</div>
+<div class="section" id="generating-heatmaps">
+<h2>Generating Heatmaps<a class="headerlink" href="#generating-heatmaps" title="Permalink to this headline">¶</a></h2>
+<p>Heatmaps (similar to Figure 1I) are generated by the standalone Matlab function <em>plot_full_lineages.m</em>.
+This function creates a series of images where each image contains the heatmaps of eight lineage trees colored by their signal values.
+Cell Track IDs are displayed next to the births of cell tracks.</p>
+<p>The inputs to the function are</p>
+<ul>
+<li><p class="first"><em>all_signals</em>. Single cell traces. Output of Signal Extraction.</p>
+</li>
+<li><p class="first"><em>start_frame</em> and <em>end_frame</em>. Frames to consider. Only lineage trees spanning over the entire range will be plotted.</p>
+</li>
+<li><p class="first"><em>signal_nominator</em> and <em>signal_denominator</em>. Signals to plot. Must match one of the fields in <em>all_signals</em> (refer to <a class="reference internal" href="outputs.html#outputs-mainfile-signal-page"><span class="std std-ref">Signal Extraction</span></a> of <a class="reference internal" href="outputs.html#outputs-page"><span class="std std-ref">Outputs</span></a>).</p>
+<p>If <em>signal_denominator</em> is empty, the signal specified by <em>signal_nominator</em> will be plotted.
+Otherwise, the ratio <code class="docutils literal notranslate"><span class="pre">signal_nominator/signal_denominator</span></code> will be plotted.</p>
+</li>
+<li><p class="first"><em>signal_range</em>. Lower and upper bounds of the colorbar.</p>
+</li>
+</ul>
+<div class="hint admonition">
+<p class="first admonition-title">Example</p>
+<p>A movie is captured in Site 1 of Well B10 and contains 482 frames.
+The signal of interest is computed by <code class="docutils literal notranslate"><span class="pre">CDK2_cytoring_mean/CDK2_nuc_mean</span></code>.
+The range of colorbar is between 0 and 2.
+To visualize all lineage trees spanning over the entire movie, execute the following command</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">plot_full_lineages</span><span class="p">(</span><span class="n">all_signals</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">},</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">482</span><span class="p">,</span> <span class="s">&#39;CDK2_cytoring_mean&#39;</span><span class="p">,</span> <span class="s">&#39;CDK2_nuc_mean&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]);</span>
+</pre></div>
+</div>
+<p>Meanwhile, if the signal of interest is <em>nuc_area</em> and the range of colorbar is between 0 and 100, execute the following command</p>
+<div class="last highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">plot_full_lineages</span><span class="p">(</span><span class="n">all_signals</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">},</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">482</span><span class="p">,</span> <span class="s">&#39;nuc_area&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="outputs.html" class="btn btn-neutral float-right" title="Outputs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="GUI_training.html" class="btn btn-neutral float-left" title="Training Data Generator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chengzhe Tian, Chen Yang, Sabrina Spencer
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,563 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Track Linking &mdash; EllipTrack  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/hacks.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Signal Extraction" href="parameters_signal_extraction.html" />
+    <link rel="prev" title="Segmentation" href="parameters_segmentation.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> EllipTrack
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="parameters.html">Parameters</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="parameters_overview.html">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parameters_global_setting.html">Global Setting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parameters_segmentation.html">Segmentation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Track Linking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#algorithm">Algorithm</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#terminology">Terminology</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#computation-of-probabilities">Computation of Probabilities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#construction-of-cell-tracks">Construction of Cell Tracks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#post-processing">Post-Processing</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#parameters">Parameters</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#predict-probabilities">Predict Probabilities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#construct-cell-tracks">Construct Cell Tracks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id1">Post-Processing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#visualization">Visualization</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="parameters_signal_extraction.html">Signal Extraction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="GUI.html">GUI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="execution.html">Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outputs.html">Outputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">EllipTrack</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="parameters.html">Parameters</a> &raquo;</li>
+        
+      <li>Track Linking</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/parameters_track_linking.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="track-linking">
+<span id="parameters-track-linking-page"></span><h1>Track Linking<a class="headerlink" href="#track-linking" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="algorithm">
+<h2>Algorithm<a class="headerlink" href="#algorithm" title="Permalink to this headline">¶</a></h2>
+<p>EllipTrack implements a previously published probabilistic track linking algorithm (Magnusson <em>et al.</em> 2015).
+In brief, the algorithm uses a machine learning algorithm to predict cell behaviors, and then constructs cell tracks by maximizing the probability of cell lineage trees.</p>
+<div class="section" id="terminology">
+<span id="parameters-track-linking-terminology"></span><h3>Terminology<a class="headerlink" href="#terminology" title="Permalink to this headline">¶</a></h3>
+<p>Based on the original publication (Magnusson <em>et al.</em> 2015), EllipTrack uses the following terminologies.</p>
+<dl class="docutils">
+<dt>Event</dt>
+<dd><p class="first">A behavior that an ellipse displays.</p>
+<p>Two types of events are considered in EllipTrack: Morphological Events and Motion Events.</p>
+<p><strong>Morphological Events</strong> are events related to the status of cells and ellipses. There are six morphologicial events:</p>
+<ul>
+<li><p class="first"><strong>Number of Cells</strong>. Number of cell nuclei in the ellipse. EllipTrack assumes that an ellipse may contain zero, one, and two cell nuclei and defines an event for each cell number (3 events: <strong>No Cell</strong>, <strong>One Cell</strong>, and <strong>Two Cells</strong>).</p>
+</li>
+<li><p class="first"><strong>Mitotic Cell (Before M)</strong>. Cell is mitotic and will divide into two daughter cells in the next frame.</p>
+</li>
+<li><p class="first"><strong>Newly Born Cell (After M)</strong>. Cell is newly born and its mother underwent mitosis in the previous frame.</p>
+</li>
+<li><p class="first"><strong>Apoptosis</strong>. Cell is apoptotic and will disappear in the next frame.</p>
+<p>The latter three events only occur in ellipses containing one cell nucleus.</p>
+</li>
+</ul>
+<p><strong>Motion Events</strong> are events related to cell migration. There are two motion events:</p>
+<ul class="last simple">
+<li><strong>Migration</strong>. Cell migrates from a position in the current frame to a new position in a later frame.</li>
+<li><strong>Move In/Out</strong>. Cell migrates from/to outside in the previous/next frame to/from the field of view in the current frame.</li>
+</ul>
+</dd>
+<dt>Cell Track</dt>
+<dd>A sequence of ellipses describing the behaviors of a cell.</dd>
+<dt>Lineage Tree</dt>
+<dd>A tree of cell tracks describing the behaviors of a cell lineage.</dd>
+</dl>
+<p>For example, consider the lineage tree in <a class="reference internal" href="#sample-lineage-tree"><span class="std std-numref">Fig. 2</span></a>.
+The cell in Frame 1 (represented by the ellipse <span class="math notranslate nohighlight">\(E_{1,1}\)</span>) undergoes mitosis and divides into two daughter cells in Frame 2 (<span class="math notranslate nohighlight">\(E_{2,1}\)</span> and <span class="math notranslate nohighlight">\(E_{2,2}\)</span>).
+These two cells are under-segmented in Frame 3 (<span class="math notranslate nohighlight">\(E_{3,1}\)</span>) and are again correctly segmented in Frame 4 (<span class="math notranslate nohighlight">\(E_{4,1}\)</span> and <span class="math notranslate nohighlight">\(E_{4,2}\)</span>).
+The bottom cell (<span class="math notranslate nohighlight">\(E_{4,2}\)</span>) undergoes apoptosis and disappears in Frame 5, while the top cell (<span class="math notranslate nohighlight">\(E_{4,1}\)</span>) continues to exist (<span class="math notranslate nohighlight">\(E_{5,1}\)</span>).</p>
+<div class="figure align-center" id="id2">
+<span id="sample-lineage-tree"></span><a class="reference internal image-reference" href="_images/track_lineage_example.png"><img alt="_images/track_lineage_example.png" src="_images/track_lineage_example.png" style="width: 500px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 2 </span><span class="caption-text">Example lineage tree.</span></p>
+</div>
+<p>Events of the ellipses in this example are</p>
+<ul class="simple">
+<li><span class="math notranslate nohighlight">\(E_{1,1}\)</span>. One Cell, Mitotic Cell.</li>
+<li><span class="math notranslate nohighlight">\(E_{2,1}\)</span> and <span class="math notranslate nohighlight">\(E_{2,2}\)</span>. One Cell, Newly Born Cell.</li>
+<li><span class="math notranslate nohighlight">\(E_{3,1}\)</span>. Two Cells.</li>
+<li><span class="math notranslate nohighlight">\(E_{4,1}\)</span> and <span class="math notranslate nohighlight">\(E_{5,1}\)</span>. One Cell.</li>
+<li><span class="math notranslate nohighlight">\(E_{4,2}\)</span>. One Cell, Apoptotic Cell.</li>
+</ul>
+<p>There are three cell tracks</p>
+<ul class="simple">
+<li>Track 1. <span class="math notranslate nohighlight">\(E_{1,1}\)</span></li>
+<li>Track 2. <span class="math notranslate nohighlight">\(E_{2,1} \rightarrow E_{3,1} \rightarrow E_{4,1} \rightarrow E_{5,1}\)</span></li>
+<li>Track 3. <span class="math notranslate nohighlight">\(E_{2,2} \rightarrow E_{3,1} \rightarrow E_{4,2}\)</span></li>
+</ul>
+<p>and one lineage tree consists of all ellipses (and therefore all cell tracks) in <a class="reference internal" href="#sample-lineage-tree"><span class="std std-numref">Fig. 2</span></a>.</p>
+</div>
+<div class="section" id="computation-of-probabilities">
+<h3>Computation of Probabilities<a class="headerlink" href="#computation-of-probabilities" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="event">
+<h4>Event<a class="headerlink" href="#event" title="Permalink to this headline">¶</a></h4>
+<p>Event probabilities are computed by machine learning algorithms.</p>
+<dl class="docutils">
+<dt>Morphological Events</dt>
+<dd><p class="first">EllipTrack constructs Linear Discriminant Analysis (LDA) classifiers with user-provided training datasets,
+and then applies the classifiers to every ellipse in the movie to predict its probability of exhibiting these events.
+Event-specific details are</p>
+<p><strong>Number of Cells</strong>. A multi-class LDA classifier is constructed for all three events.
+Ellipses labeled as “No Cells” and “Two Cells” are used as the training samples for <strong>No Cell</strong> and <strong>Two Cells</strong>,
+while all other ellipses are used as the samples for <strong>One Cell</strong>.</p>
+<p><strong>Mitotic Cell (Before M)</strong>, <strong>Newly Born Cell (After M)</strong>, and <strong>Apoptosis</strong>.
+For each event, a binary LDA classifier is constructed.
+Ellipses labeled as “Before M”/”After M”/”Apoptotic” are used as the training samples for exhibiting the event,
+while all other ellipses are used as the samples for not exhibiting the event.</p>
+<p>In case training samples of an event are absent, EllipTrack assumes that this event occurs with a small probability defined by <span class="greenitalic">empty_prob</span>.</p>
+<div class="admonition-remark last admonition">
+<p class="first admonition-title">Remark</p>
+<p class="last">The event <strong>One Cell</strong> should be interpreted as ellipses containing one cell nucleus but the cell is neither mitotic, newly born, nor apoptotic.</p>
+</div>
+</dd>
+<dt>Motion Events</dt>
+<dd><p class="first">EllipTrack models cell migration by Random Walk.</p>
+<dl class="last docutils">
+<dt>Migration</dt>
+<dd><p class="first">EllipTrack models this process with a two-dimensional Random Walk.
+Depending on whether ellipse similarity is considered or not (controlled by <span class="greenitalic">if_similarity_for_migration</span>), EllipTrack provides two methods to compute this probability.</p>
+<p>If ellipse similarity is not considered, EllipTrack computes the probability of migrating from Ellipse <span class="math notranslate nohighlight">\(E_{i,m}\)</span> (i-th ellipse in Frame m) to Ellipse <span class="math notranslate nohighlight">\(E_{j,n}\)</span> (j-th ellipse in Frame n) by</p>
+<div class="math notranslate nohighlight" id="equation-migration-no-similarity">
+<span class="eqno">(1)<a class="headerlink" href="#equation-migration-no-similarity" title="Permalink to this equation">¶</a></span>\[P(E_{i,m} \rightarrow E_{j,n}) = \frac{1}{2\pi\sigma^2(n-m)}\exp\left\{-\frac{\Delta x^2+\Delta y^2}{2\sigma^2(n-m)}\right\}\]</div>
+<p>Here, <span class="math notranslate nohighlight">\(\Delta x\)</span> and <span class="math notranslate nohighlight">\(\Delta y\)</span> are the distances between the ellipse centroids in the x and y directions.
+<span class="math notranslate nohighlight">\(\sigma\)</span> is the standard deviation of Random Walk and this value can be intepreted as the average distance a cell travels in one frame and one direction;
+<span class="math notranslate nohighlight">\(n-m\)</span> is the number of frames (“gap”) between these two ellipses.
+If gap is greater than one, the cell skips intermediate frames by directly migrating from Frame m to Frame n.</p>
+<p>If ellipse similarity is considered, EllipTrack computes the probability by</p>
+<div class="math notranslate nohighlight">
+\[P(E_{i,m} \rightarrow E_{j,n}) = \frac{S(E_{i,m}, E_{j,n}) P_{mig}}{S(E_{i,m}, E_{j,n}) P_{mig} + (1-S(E_{i,m}, E_{j,n}))P_{nonmig}}\]</div>
+<p>Here, <span class="math notranslate nohighlight">\(P_{mig}\)</span> is computed by Equation <a class="reference internal" href="#equation-migration-no-similarity">(1)</a>;
+<span class="math notranslate nohighlight">\(S(E_{i,m}, E_{j,n})\)</span> is the probability that these two ellipses represent the same cell;
+and <span class="math notranslate nohighlight">\(P_{nonmig}\)</span> is the null probability of migration (defined by <span class="greenitalic">likelihood_nonmigration</span>).</p>
+<p class="last">To compute <span class="math notranslate nohighlight">\(S(E_{i,m}, E_{j,n})\)</span>, EllipTrack constructs a binary LDA classifier
+where the feature differences between ellipses belonging to the same cell track are used as the training samples for representing the same cell,
+and the feature differences between randomly selected ellipses are used as the training samples for not representing the same cell.
+EllipTrack then applies the classifier to the feature difference between <span class="math notranslate nohighlight">\(E_{i,m}\)</span> and <span class="math notranslate nohighlight">\(E_{j,n}\)</span> to compute the probability.</p>
+</dd>
+<dt>Move In/Out</dt>
+<dd><p class="first">EllipTrack assumes that ellipses enter/leave the field of view by migrating from/to the nearest border.
+By modeling this process with a one-dimensional Random Walk, EllipTrack computes this probability by</p>
+<div class="math notranslate nohighlight">
+\[P(E_{i,m}) = \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left\{-\frac{\Delta s^2}{2\sigma^2}\right\}.\]</div>
+<p class="last">Here, <span class="math notranslate nohighlight">\(\Delta s\)</span> is the distance between the ellipse centroid and its nearest border; and <span class="math notranslate nohighlight">\(\sigma\)</span> is the standard deviation of random walk as defined in <strong>Migration</strong>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</div>
+<div class="section" id="cell-track">
+<h4>Cell Track<a class="headerlink" href="#cell-track" title="Permalink to this headline">¶</a></h4>
+<p>The probability of a cell track is defined as the product of the probabilities of morphological events in each ellipse and the probabilities of migration events between ellipses.</p>
+<p>For the lineage tree in <a class="reference internal" href="#sample-lineage-tree"><span class="std std-numref">Fig. 2</span></a>, the probabilities of the cell tracks are</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+  P(\mathrm{Cell\ Track\ 1}) =&amp; P(E_{1,1}\ \mathrm{one\ cell})P(E_{1,1}\ \mathrm{mitotic}) \\
+                              &amp; P(E_{1,1}\ \mathrm{not\ newly\ born})P(E_{1,1}\ \mathrm{not\ apoptotic}) \\
+  P(\mathrm{Cell\ Track\ 2}) =&amp; P(E_{2,1}\ \mathrm{one\ cell})P(E_{2,1}\ \mathrm{not\ mitotic}) \\
+                              &amp; P(E_{2,1}\ \mathrm{newly\ born})P(E_{2,1}\ \mathrm{not\ apoptotic}) \cdots \\
+                              &amp; P(E_{5,1}\ \mathrm{one\ cell})P(E_{5,1}\ \mathrm{not\ mitotic}) \\
+                              &amp; P(E_{5,1}\ \mathrm{not\ newly\ born})P(E_{5,1}\ \mathrm{not\ apoptotic}) \\
+                              &amp; P(E_{2,1}\rightarrow E_{3,1})P(E_{3,1}\rightarrow E_{4,1})P(E_{4,1}\rightarrow E_{5,1}) \\
+  P(\mathrm{Cell\ Track\ 3}) =&amp; P(E_{2,2}\ \mathrm{one\ cell})P(E_{2,2}\ \mathrm{not\ mitotic}) \\
+                              &amp; P(E_{2,2}\ \mathrm{newly\ born})P(E_{2,2}\ \mathrm{not\ apoptotic}) \cdots \\
+                              &amp; P(E_{4,2}\ \mathrm{one\ cell})P(E_{4,2}\ \mathrm{not\ mitotic}) \\
+                              &amp; P(E_{4,2}\ \mathrm{not\ newly\ born})P(E_{4,2}\ \mathrm{apoptotic}) \\
+                              &amp; P(E_{2,2}\rightarrow E_{3,1})P(E_{3,1}\rightarrow E_{4,2})
+\end{align}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(P(E_{1,1}\ \mathrm{not\ newly\ born}) = 1 - P(E_{1,1}\ \mathrm{newly\ born})\)</span> and similar for other terms.</p>
+</div>
+<div class="section" id="lineage-tree">
+<h4>Lineage Tree<a class="headerlink" href="#lineage-tree" title="Permalink to this headline">¶</a></h4>
+<p>The probability of a cell lineage tree is defined by the product of the probabilities of the cell tracks and the migration probabilities between mitotic cells and newly born cells.</p>
+<p>For the lineage tree in <a class="reference internal" href="#sample-lineage-tree"><span class="std std-numref">Fig. 2</span></a>, the probability of the lineage tree is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+  P(\mathrm{Lineage\ Tree}) =&amp; P(\mathrm{Cell\ Track\ 1})P(\mathrm{Cell\ Track\ 2})P(\mathrm{Cell\ Track\ 3}) \\
+                            &amp; P(E_{1,1}\rightarrow E_{2,1})P(E_{1,1}\rightarrow E_{2,2})
+\end{align}\end{split}\]</div>
+</div>
+</div>
+<div class="section" id="construction-of-cell-tracks">
+<h3>Construction of Cell Tracks<a class="headerlink" href="#construction-of-cell-tracks" title="Permalink to this headline">¶</a></h3>
+<p>EllipTrack implements a Dynamic Programming algorithm (Magnusson <em>et al.</em> 2015) to construct cell tracks.
+In brief, EllipTrack repeatedly constructs a new cell track by searching for the one increasing the probability of the existing lineage trees by the greatest folds.
+This procedure terminates when a pre-defined number of cell tracks (defined by <span class="greenitalic">max_num_tracks</span>) has been constructed,
+or when the fold-change of the probability by adding the new cell track is below a pre-defined threshold (defined by <span class="greenitalic">min_track_score</span>).</p>
+<div class="section" id="calculation-of-fold-change">
+<h4>Calculation of Fold Change<a class="headerlink" href="#calculation-of-fold-change" title="Permalink to this headline">¶</a></h4>
+<p>To illustrate how a new cell track alters the probability of cell lineage trees, consider the lineage tree in <a class="reference internal" href="#sample-lineage-tree2"><span class="std std-numref">Fig. 3</span></a>.</p>
+<div class="figure align-center" id="id3">
+<span id="sample-lineage-tree2"></span><a class="reference internal image-reference" href="_images/track_lineage_example2.png"><img alt="_images/track_lineage_example2.png" src="_images/track_lineage_example2.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 3 </span><span class="caption-text">Example lineage tree for fold-change calculation.</span></p>
+</div>
+<p>The lineage trees originally contains a single cell track <span class="math notranslate nohighlight">\(E_{1,1}\rightarrow E_{2,1}\rightarrow E_{3,1}\rightarrow E_{4,1}\)</span>.
+The probability is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+  P(\mathrm{before}) \propto&amp; P(E_{2,1}\ \mathrm{one\ cell})P(E_{1,2}\ \mathrm{no\ cell})P(E_{3,2}\ \mathrm{no\ cell}) \\
+                            &amp; P(E_{1,2}\not\to E_{2,1}) P(E_{2,1}\not\to E_{3,2}) P(E_{3,2}\ \mathrm{not\ apoptotic})
+\end{align}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(P(E_{1,2}\not\to E_{2,1}) = 1 - P(E_{1,2}\to E_{2,1})\)</span> and <span class="math notranslate nohighlight">\(P(E_{2,1}\not\to E_{3,2}) = 1 - P(E_{2,1}\to E_{3,2})\)</span>.</p>
+<p>After adding a new cell track <span class="math notranslate nohighlight">\(E_{1,2}\rightarrow E_{2,1}\rightarrow E_{3,2}\not\to\)</span>, the probability of the cell lineage trees becomes</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+   P(\mathrm{after}) \propto&amp; P(E_{2,1}\ \mathrm{two\ cells})P(E_{1,2}\ \mathrm{one\ cell})P(E_{3,2}\ \mathrm{one\ cell}) \\
+                            &amp; P(E_{1,2}\rightarrow E_{2,1}) P(E_{2,1}\rightarrow E_{3,2}) P(E_{3,2}\ \mathrm{apoptotic})
+\end{align}\end{split}\]</div>
+<p>The fold-change of probabilities can be then calculated by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+  \frac{P(\mathrm{after})}{P(\mathrm{before})} =&amp; \frac{P(E_{2,1}\ \mathrm{two\ cells})}{P(E_{2,1}\ \mathrm{one\ cell})} \frac{P(E_{1,2}\ \mathrm{one\ cell})}{P(E_{1,2}\ \mathrm{no\ cell})} \frac{P(E_{3,2}\ \mathrm{one\ cell})}{P(E_{3,2}\ \mathrm{no\ cell})} \\
+                                                &amp; \frac{P(E_{1,2}\rightarrow E_{2,1})}{P(E_{1,2}\not\to E_{2,1})} \frac{P(E_{2,1}\rightarrow E_{3,2})}{P(E_{2,1}\not\to E_{3,2})} \frac{P(E_{3,2}\ \mathrm{apoptotic})}{P(E_{3,2}\ \mathrm{not\ apoptotic})}
+\end{align}\end{split}\]</div>
+<div class="admonition-conversion-to-scores admonition">
+<p class="first admonition-title">Conversion to Scores</p>
+<p>To avoid working with numbers below machine precision, EllipTrack converts probabilities of events to scores as follows</p>
+<div class="math notranslate nohighlight">
+\[C(\mathrm{New\ Event}) = \ln P(\mathrm{New\ Event}) - \ln P(\mathrm{Old\ Event})\]</div>
+<p>For example, the score for changing from “<span class="math notranslate nohighlight">\(E_{3,2}\ \mathrm{not\ apoptotic}\)</span>” to “<span class="math notranslate nohighlight">\(E_{3,2}\ \mathrm{apoptotic}\)</span>” is defined by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+    &amp; C(E_{3,2}\ \mathrm{apoptotic}) \\
+  = &amp; \ln P(E_{3,2}\ \mathrm{apoptotic}) - \ln P(E_{3,2}\ \mathrm{not\ apoptotic})
+\end{align}\end{split}\]</div>
+<p>Similarily, EllipTrack defines the score of a cell track by the logarithm of its fold-change to the probability of cell lineage trees (<span class="math notranslate nohighlight">\(C=\ln P(\mathrm{after}) - \ln P(\mathrm{before})\)</span>).
+For example, the score of the new cell track in <a class="reference internal" href="#sample-lineage-tree2"><span class="std std-numref">Fig. 3</span></a> can be expressed as</p>
+<div class="last math notranslate nohighlight">
+\[\begin{split}\begin{align}
+  C =&amp; C(E_{2,1}\ \mathrm{two\ cells}) + C(E_{1,2}\ \mathrm{one\ cell}) + C(E_{3,2}\ \mathrm{one\ cell}) \\
+     &amp; + C(E_{1,2}\rightarrow E_{2,1}) + C(E_{2,1}\rightarrow E_{3,2}) + C(E_{3,2}\ \mathrm{apoptotic})
+\end{align}\end{split}\]</div>
+</div>
+</div>
+<div class="section" id="mitosis">
+<h4>Mitosis<a class="headerlink" href="#mitosis" title="Permalink to this headline">¶</a></h4>
+<p>EllipTrack detects mitosis events by examining whether the first ellipse of a new cell track is likely to represent a newly born cell or not.
+If so and there exists a cell track with a high probability of being a newly born cell in this frame and a high probability of being a mitotic cell in the previous frame, EllipTrack will create a mitosis event.
+To be precise, EllipTrack will split the existing cell track into two: one for mother (up to the previous frame) and the other for daughter (from this frame).
+Both the new cell track and the daughter track will be recorded as the daughters of the mother track.
+Meanwhile, if the first ellipse of the new cell track is likely to enter the field of view via a <strong>Move In</strong> event, no mitosis events will be created.</p>
+<p>To illustrate this procedure, consider the lineage tree in <a class="reference internal" href="#sample-lineage-tree3"><span class="std std-numref">Fig. 4</span></a> which contains one cell track <span class="math notranslate nohighlight">\(E_{1,1}\rightarrow E_{2,1}\rightarrow E_{3,1}\rightarrow E_{4,1}\)</span> originally.</p>
+<div class="figure align-center" id="id4">
+<span id="sample-lineage-tree3"></span><a class="reference internal image-reference" href="_images/track_lineage_example3.png"><img alt="_images/track_lineage_example3.png" src="_images/track_lineage_example3.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 4 </span><span class="caption-text">Example lineage tree for mitosis detection.</span></p>
+</div>
+<p>A new cell track <span class="math notranslate nohighlight">\(E_{3,2}\rightarrow E_{4,2}\)</span> is created.
+If the first ellipse (<span class="math notranslate nohighlight">\(E_{3,2}\)</span>) enters the field of view via a <strong>Move In</strong> event, the score of the new cell track is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+  C_1 =&amp; C(E_{3,2}\ \mathrm{one\ cell}) + C(E_{4,2}\ \mathrm{one\ cell}) \\
+       &amp; C(E_{3,2}\ \mathrm{move\ in}) + C(E_{3,2}\rightarrow E_{4,2})
+\end{align}\end{split}\]</div>
+<p>Meanwhile, if <span class="math notranslate nohighlight">\(E_{3,2}\)</span> is a newly born cell whose mother and sister are <span class="math notranslate nohighlight">\(E_{2,1}\)</span> and <span class="math notranslate nohighlight">\(E_{3,1}\)</span>, the score of the new cell track is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+  C_2' =&amp; C(E_{3,2}\ \mathrm{one\ cell}) + C(E_{4,2}\ \mathrm{one\ cell}) \\
+       &amp; C(E_{3,2}\ \mathrm{newly\ born}) + C(E_{3,2}\rightarrow E_{4,2})
+\end{align}\end{split}\]</div>
+<p>In addition, a mitosis event leads to <span class="math notranslate nohighlight">\(E_{2,1}\)</span> being a mitotic cell, <span class="math notranslate nohighlight">\(E_{3,1}\)</span> being a newly born cell, and <span class="math notranslate nohighlight">\(E_{2,1}\)</span> migrating to <span class="math notranslate nohighlight">\(E_{3,2}\)</span>.
+Therefore, the total score is</p>
+<div class="math notranslate nohighlight">
+\[C_2 = C_2' + C(E_{2,1}\ \mathrm{mitotic}) + C(E_{3,1}\ \mathrm{newly\ born}) + C(E_{2,1}\rightarrow E_{3,2})\]</div>
+<p>If <span class="math notranslate nohighlight">\(C_2 &gt; C_1\)</span>, EllipTrack will split the existing cell track into two (Track 1: <span class="math notranslate nohighlight">\(E_{1,1}\rightarrow E_{2,1}\)</span>, Track 2: <span class="math notranslate nohighlight">\(E_{3,1}\rightarrow E_{4,1}\)</span>),
+name the new cell track as Track 3, and assign both Track 2 and Track 3 as the daughters of Track 1.
+Meanwhile, if <span class="math notranslate nohighlight">\(C_1 \geq C_2\)</span>, no mitosis events will be created.</p>
+</div>
+</div>
+<div class="section" id="post-processing">
+<h3>Post-Processing<a class="headerlink" href="#post-processing" title="Permalink to this headline">¶</a></h3>
+<p>EllipTrack implements a four-step procedure to correct tracking mistakes: correction of track swaps due to under-segmentation,
+comprehensive examination and correction of track swaps, identification of undetected mitosis events, and removal of invalid cell tracks.</p>
+<p>First, EllipTrack examines whether cell tracks are incorrectly mapped due to under-segmentation.
+Since the Dynamic Programming algorithm is memoryless, EllipTrack loses cell identities when multiple cell tracks are mapped to the same ellipse.
+Consequently, EllipTrack randomly maps the cell tracks to the cells when they are no longer under-segmented.
+For example, consider the lineage trees in <a class="reference internal" href="#sample-lineage-tree4"><span class="std std-numref">Fig. 5</span></a>.
+EllipTrack loses the identities of the blue and green cells at Frame 2, and therefore randomly maps the cell tracks to the ellipses in Frame 4, which leads to 50% of mappings being incorrect.</p>
+<div class="figure align-center" id="id5">
+<span id="sample-lineage-tree4"></span><a class="reference internal image-reference" href="_images/track_lineage_example4.png"><img alt="_images/track_lineage_example4.png" src="_images/track_lineage_example4.png" style="width: 400px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 5 </span><span class="caption-text">Example lineage tree for post-processing</span></p>
+</div>
+<p>To correct these mistakes, EllipTrack examines the migration probabilities between ellipses before and after under-segmentation
+and maps the cell tracks in the order with greater probabilities.
+For example, in <a class="reference internal" href="#sample-lineage-tree4"><span class="std std-numref">Fig. 5</span></a>, EllipTrack compares the scores <span class="math notranslate nohighlight">\(C(E_{1,1}\rightarrow E_{4,1}) + C(E_{1,2}\rightarrow E_{4,2})\)</span> and <span class="math notranslate nohighlight">\(C(E_{1,1}\rightarrow E_{4,2}) + C(E_{1,2}\rightarrow E_{4,1})\)</span>.
+If the former score is greater, EllipTrack maps the blue cell track to <span class="math notranslate nohighlight">\(E_{4,1}\)</span> and maps the green cell track to <span class="math notranslate nohighlight">\(E_{4,2}\)</span>.
+Meanwhile, if the latter score is greater, EllipTrack maps these two cell tracks in the opposite order.</p>
+<p>Second, EllipTrack systematically examines every two cell tracks between every two neighboring frames.
+Two cell tracks will be swapped if this swap increases the score of cell lineage trees by at least <span class="greenitalic">min_swap_score</span>.</p>
+<p>Third, EllipTrack identifies previously undetected mitosis events by searching for non-daughter cell tracks whose first ellipse has a high probability of being a newly born cell (greater than or equal to <span class="greenitalic">fixation_min_prob_after_mitosis</span>).
+For each such non-daughter cell track, EllipTrack examines whether there exists a nearby cell track (no more than <code class="docutils literal notranslate"><span class="pre">migration_sigma</span> <span class="pre">*</span> <span class="pre">max_migration_distance_fold</span></code> pixels away)
+which has a high probability of being a mitotic cell in the previous frame (greater than or equal to <span class="greenitalic">fixation_min_prob_before_mitosis</span>)
+and a high probability of being a newly born cell in the current frame (greater than or equal to <span class="greenitalic">fixation_min_prob_after_mitosis</span>).
+If found, EllipTrack creates a mitosis event between this nearby cell track and the non-daughter cell track.</p>
+<p>Finally, EllipTrack removes all cell tracks shorter than <span class="greenitalic">min_track_length</span> frames and all cell tracks skipping more than <span class="greenitalic">max_num_frames_to_skip</span> frames.
+Mitosis associated with these invalid cell tracks will be removed as well.</p>
+</div>
+</div>
+<div class="section" id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<p><em>track_para</em> consists of four types of parameters:</p>
+<ul class="simple">
+<li><strong>Predict Probabilities</strong>. Parameters for computing event probabilities.</li>
+<li><strong>Construct Cell Tracks</strong>. Parameters for constructing cell tracks.</li>
+<li><strong>Post-Processing</strong>. Parameters for post-processing.</li>
+<li><strong>Visualization</strong>. Parameters for visualization.</li>
+</ul>
+<div class="section" id="predict-probabilities">
+<span id="parameters-track-linking-predict"></span><h3>Predict Probabilities<a class="headerlink" href="#predict-probabilities" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><span class="reditalic">training_data_path</span>. Paths to the training datasets.</p>
+<p>This parameter should be formatted in the same fashion as the namesake in <a class="reference internal" href="parameters_segmentation.html#parameters-segmentation-correction"><span class="std std-ref">Correction with Training Datasets</span></a> of <a class="reference internal" href="parameters_segmentation.html#parameters-segmentation-page"><span class="std std-ref">Segmentation</span></a>.</p>
+</li>
+<li><p class="first"><span class="greenitalic">empty_prob</span>. Probability of an event (between 0 and 1) if no training samples are provided.</p>
+</li>
+<li><p class="first"><span class="blueitalic">if_switch_off_before_mitosis</span>. Indicator variable of whether to ignore the probability of being an mitotic cell (Before M) during mitosis detection.</p>
+</li>
+<li><p class="first"><span class="greenitalic">if_switch_off_after_mitosis</span>. Indicator variable of whether to ignore the probability of being a newly born cell (After M) during mitosis detection.</p>
+</li>
+<li><p class="first"><span class="greenitalic">if_similarity_for_migration</span>. Indicator variable of whether to consider ellipse similarity when computing migration probabilities.</p>
+</li>
+<li><p class="first"><span class="blueitalic">migration_sigma</span>. Standard deviation (in pixels) of random walk in one frame and one direction. If NaN is chosen, the value will be inferred from the training datasets.</p>
+</li>
+<li><p class="first"><span class="greenitalic">max_migration_distance_fold</span>. Maximal distances (expressed as folds of <span class="blueitalic">migration_sigma</span>) an ellipse can travel in one frame and one direction.</p>
+</li>
+<li><p class="first"><span class="greenitalic">likelihood_nonmigration</span>. Null probability (between 0 and 1) for migration.</p>
+</li>
+<li><p class="first"><span class="greenitalic">min_inout_prob</span>. Minimal probability (between 0 and 1) of migrating in/out of the field of view.</p>
+</li>
+<li><p class="first"><span class="greenitalic">max_gap</span>. Maximal gap (in frames) of migration. Gap = number of frames to skip + 1.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="construct-cell-tracks">
+<h3>Construct Cell Tracks<a class="headerlink" href="#construct-cell-tracks" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><span class="greenitalic">skip_penalty</span>. Penalty score for skipping one frame.</li>
+<li><span class="greenitalic">multiple_cells_penalty</span>. Penalty score for two cells co-existing in one ellipse.</li>
+<li><span class="greenitalic">min_mitosis_prob</span>. Minimal probability (between 0 and 1) of mitotic and newly born cells for mitosis detection.</li>
+<li><span class="greenitalic">max_num_tracks</span>. Maximal number of tracks to construct.</li>
+<li><span class="greenitalic">min_track_score</span>. Minimal score of a track.</li>
+<li><span class="greenitalic">min_track_score_per_step</span>. Minimal score of a track between two neighboring frames.</li>
+<li><span class="greenitalic">max_recorded_link</span>. For each ellipse, maximal number of migration events to keep.</li>
+</ul>
+</div>
+<div class="section" id="id1">
+<h3>Post-Processing<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><span class="greenitalic">min_swap_score</span>. Minimal score for swapping cell tracks.</li>
+<li><span class="greenitalic">fixation_min_prob_before_mitosis</span>. Minimal probability of mitotic cells (Before M) for mitosis detection.</li>
+<li><span class="greenitalic">fixation_min_prob_after_mitosis</span>. Minimal probability of newly born cells (After M) for mitosis detection.</li>
+<li><span class="greenitalic">min_track_length</span>. Minimal length (in frames) of a valid track.</li>
+<li><span class="greenitalic">max_num_frames_to_skip</span>. Maximal number of frames a valid track can skip.</li>
+</ul>
+</div>
+<div class="section" id="visualization">
+<h3>Visualization<a class="headerlink" href="#visualization" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><span class="reditalic">if_print_vistrack</span>. Indicator variable of whether to generate “Vistrack Movies” where fitted ellipses are overlaid on the nuclear images and Cell Track IDs are displayed next to the ellipses they mapped to (similar to Figure 1H).</li>
+<li><span class="reditalic">vistrack_path</span>. Path to the folder storing “Vistrack Movies”.</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="parameters_signal_extraction.html" class="btn btn-neutral float-right" title="Signal Extraction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="parameters_segmentation.html" class="btn btn-neutral float-left" title="Segmentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chengzhe Tian, Chen Yang, Sabrina Spencer
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

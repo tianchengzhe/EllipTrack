@@ -1,0 +1,493 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Outputs &mdash; EllipTrack  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/hacks.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tutorial" href="tutorial.html" />
+    <link rel="prev" title="Execution" href="execution.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> EllipTrack
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parameters.html">Parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GUI.html">GUI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="execution.html">Execution</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Outputs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#outputs-of-mainfile">Outputs of Mainfile</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#segmentation">Segmentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#jitter-correction">Jitter Correction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#predicting-events">Predicting Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#generate-tracks">Generate Tracks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#signal-extraction">Signal Extraction</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#optional-outputs">Optional Outputs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">EllipTrack</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Outputs</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/outputs.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="outputs">
+<span id="outputs-page"></span><h1>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h1>
+<p>EllipTrack generates two types of outputs: outputs of <em>mainfile.m</em> (compulsory), and optional outputs (Mask, “Ellipse Movie”, “Seg Info”, and “Vistrack”).</p>
+<div class="section" id="outputs-of-mainfile">
+<span id="outputs-mainfile-page"></span><h2>Outputs of Mainfile<a class="headerlink" href="#outputs-of-mainfile" title="Permalink to this headline">¶</a></h2>
+<p>Each step in <em>mainfile.m</em> (except Step 1 <strong>Reading Parameters</strong> and Step 6 <strong>Visualize Tracking Performance</strong>) outputs a MAT file.</p>
+<div class="admonition-remark admonition">
+<p class="first admonition-title">Remark</p>
+<p class="last">With the exception of <em>jitters</em> in <a class="reference internal" href="#outputs-mainfile-jitter-page"><span class="std std-ref">Jitter Correction</span></a>,
+all variables are <em>8 x 12 x num_sites</em> cell arrays where the three indices refer to <em>RowID</em>, <em>ColumnID</em>, and <em>SiteID</em> of the movie.
+Unless specified, the contents below describe the information of one movie.</p>
+</div>
+<div class="section" id="segmentation">
+<span id="outputs-mainfile-seg-page"></span><h3>Segmentation<a class="headerlink" href="#segmentation" title="Permalink to this headline">¶</a></h3>
+<p>The output MAT file <em>segmentation.mat</em> contains two variables: <em>all_ellipse_info</em> and <em>all_num_ellipses</em>.</p>
+<ul>
+<li><p class="first"><em>all_ellipse_info</em>. Information of fitted ellipses.</p>
+<p>For a movie with <em>n</em> frames, this variable should be an <em>n x 1</em> cell array.
+Each element is a struct describing the information of the ellipses in one frame.
+Five fields are available in each struct (as shown below). All the fields are <em>m x 1</em> cell arrays (<em>m</em>: the number of ellipses in the frame) where each element describes one ellipse.</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">all_ellipse_info</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">}{</span><span class="mi">1</span><span class="p">}</span>
+
+<span class="nb">ans</span> <span class="p">=</span>
+
+  <span class="n">struct</span> <span class="n">with</span> <span class="n">fields</span><span class="p">:</span>
+
+     <span class="n">all_cartesian_para</span><span class="p">:</span> <span class="p">{</span><span class="mi">50</span>×<span class="mi">1</span> <span class="n">cell</span><span class="p">}</span>
+    <span class="n">all_parametric_para</span><span class="p">:</span> <span class="p">{</span><span class="mi">50</span>×<span class="mi">1</span> <span class="n">cell</span><span class="p">}</span>
+    <span class="n">all_boundary_points</span><span class="p">:</span> <span class="p">{</span><span class="mi">50</span>×<span class="mi">1</span> <span class="n">cell</span><span class="p">}</span>
+    <span class="n">all_internal_points</span><span class="p">:</span> <span class="p">{</span><span class="mi">50</span>×<span class="mi">1</span> <span class="n">cell</span><span class="p">}</span>
+           <span class="n">all_features</span><span class="p">:</span> <span class="p">{</span><span class="mi">50</span>×<span class="mi">1</span> <span class="n">cell</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>For each ellipse,</p>
+<blockquote>
+<div><ul>
+<li><p class="first"><em>all_cartesian_para</em>. Fitted coefficients of the general equation of ellipses.</p>
+<p>A <em>6 x 1</em> array (denoted as <span class="math notranslate nohighlight">\(a\)</span>) satisfying <span class="math notranslate nohighlight">\(a_1 x^2 + a_2 xy + a_3 y^2 + a_4 x + a_5 y + a_6 = 0\)</span>.</p>
+</li>
+<li><p class="first"><em>all_parametric_para</em>. Fitted coefficients of the parametric equation of ellipse.</p>
+<p>A <em>5 x 1</em> array (denoted as <span class="math notranslate nohighlight">\(a\)</span>) satisfying <span class="math notranslate nohighlight">\((x-a_3)^2/a_1^2 + (y-a_4)^2/a_2^2 = 1\)</span>.
+<span class="math notranslate nohighlight">\(a_5\)</span> is the angle of rotation.</p>
+</li>
+<li><p class="first"><em>all_boundary_points</em>. Points on the ellipse contour.</p>
+<p>A <em>100 x 2</em> matrix. Each row stores the coordinates of one point on the ellipse contour.</p>
+</li>
+</ul>
+</div></blockquote>
+<ul>
+<li><p class="first"><em>all_internal_points</em>: Pixels in the ellipse interior.</p>
+<blockquote>
+<div><p>An <em>m x 2</em> matrix where <em>m</em> is the number of pixels in the ellipse interior.
+Each row stores the coordinates of one pixel.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>all_features</em>. Features of ellipses.</p>
+<blockquote>
+<div><p>A <em>26 x 1</em> array. Each element stores the value of one feature.</p>
+</div></blockquote>
+</li>
+</ul>
+</li>
+<li><p class="first"><em>all_num_ellipses</em>. Number of fitted ellipse.</p>
+<p>For a movie with <em>n</em> frames, this variable should be an <em>n x 1</em> array where each element stores the number of ellipses in one frame.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="jitter-correction">
+<span id="outputs-mainfile-jitter-page"></span><h3>Jitter Correction<a class="headerlink" href="#jitter-correction" title="Permalink to this headline">¶</a></h3>
+<p>The output MAT file <em>jitter_correction.mat</em> contains two variables: <em>jitters</em> and <em>jitter_adjusted_all_ellipse_info</em>.</p>
+<ul>
+<li><p class="first"><em>jitters</em>. Jitters between neighboring frames.</p>
+<p>For a movie with <em>n</em> frames, this variable should be an <em>n x 1</em> cell array. Each element is a <em>8 x 12 x num_sites x 2</em> matrix storing the jitters between one frame and its preceeding frame.
+The four indices refer to <em>RowID</em>, <em>ColumnID</em>, <em>SiteID</em>, and <em>Direction (x or y)</em>.</p>
+<div class="hint admonition">
+<p class="first admonition-title">Example</p>
+<p class="last">A movie is captured in Site 3 of Well A02. The jitters between Frame 49 and 50 are stored in <code class="docutils literal notranslate"><span class="pre">jitters{50}(1,2,3,:)</span></code>.</p>
+</div>
+</li>
+<li><p class="first"><em>jitter_adjusted_all_ellipse_info</em>. Information of fitted ellipses adjusted by jitters.</p>
+<p>This variable contains the same information as <em>all_ellipse_info</em> (refer to <a class="reference internal" href="#outputs-mainfile-seg-page"><span class="std std-ref">Segmentation</span></a>).
+However, the fields <em>all_boundary_points</em>, <em>all_internal_points</em>, and the third and fourth elements of the field <em>all_parametric_para</em> are adjusted by jitters.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="predicting-events">
+<h3>Predicting Events<a class="headerlink" href="#predicting-events" title="Permalink to this headline">¶</a></h3>
+<p>The output MAT file <em>probabilities.mat</em> contains five variables: <em>all_morphology_posterior_prob</em>, <em>all_prob_migration</em>, <em>all_prob_inout_frame</em>, <em>all_motion_classifiers</em>, <em>all_migration_sigma</em>.</p>
+<ul>
+<li><p class="first"><em>all_morphology_posterior_prob</em>. Probabilities of the morphological events.</p>
+<p>For a movie with <em>n</em> frames, this variable should be an <em>n x 1</em> cell array.
+Each element is an <em>m x 6</em> matrix (<em>m</em>: the number of ellipses in the frame) storing the probabilities in one frame (as shown below).
+Each row of the matrix refers to one ellipse, and the probabilities are arranged in the order of <strong>No Cell</strong>, <strong>One Cell</strong>, <strong>Two Cells</strong>, <strong>Mitotic Cell</strong>, <strong>Newly Born Cell</strong>, and <strong>Apoptosis</strong> (refer to <a class="reference internal" href="parameters_track_linking.html#parameters-track-linking-terminology"><span class="std std-ref">Terminology</span></a> of <a class="reference internal" href="parameters_track_linking.html#parameters-track-linking-page"><span class="std std-ref">Track Linking</span></a>).</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">all_morphology_posterior_prob</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">}{</span><span class="mi">1</span><span class="p">}(</span><span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span> <span class="p">:)</span>
+
+<span class="nb">ans</span> <span class="p">=</span>
+
+    <span class="mf">0.0000</span>    <span class="mf">0.9881</span>    <span class="mf">0.0119</span>    <span class="mf">0.5000</span>    <span class="mf">0.0000</span>    <span class="mf">0.0001</span>
+    <span class="mf">0.0000</span>    <span class="mf">0.9999</span>    <span class="mf">0.0001</span>    <span class="mf">0.5000</span>    <span class="mf">0.0000</span>    <span class="mf">0.0001</span>
+    <span class="mf">0.0000</span>    <span class="mf">0.9999</span>    <span class="mf">0.0001</span>    <span class="mf">0.5000</span>    <span class="mf">0.0000</span>    <span class="mf">0.0001</span>
+    <span class="mf">0.0000</span>    <span class="mf">1.0000</span>    <span class="mf">0.0000</span>    <span class="mf">0.5000</span>    <span class="mf">0.0043</span>    <span class="mf">0.0001</span>
+    <span class="mf">0.0000</span>    <span class="mf">1.0000</span>    <span class="mf">0.0000</span>    <span class="mf">0.5000</span>    <span class="mf">0.0000</span>    <span class="mf">0.0001</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><em>all_prob_migration</em>. Migration probabilities.</p>
+<p>Denote <span class="math notranslate nohighlight">\(E_{m, p}\)</span> as the p-th ellipse in Frame m and <span class="math notranslate nohighlight">\(E_{n, q}\)</span> as the q-th ellipse in Frame n.
+The migration probability from <span class="math notranslate nohighlight">\(E_{m, p}\)</span> (called “source”) to <span class="math notranslate nohighlight">\(E_{n, q}\)</span> (called “target”, m&lt;n) is stored in</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">all_prob_migration</span><span class="p">{</span><span class="n">RowID</span><span class="p">,</span> <span class="n">ColumnID</span><span class="p">,</span> <span class="n">Site_ID</span><span class="p">}{</span><span class="n">n</span><span class="p">}{</span><span class="n">q</span><span class="p">,</span> <span class="n">n</span><span class="o">-</span><span class="n">m</span><span class="p">}(</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here, <code class="docutils literal notranslate"><span class="pre">{RowID,</span> <span class="pre">ColumnID,</span> <span class="pre">Site_ID}</span></code> describes the movie of interest;
+<code class="docutils literal notranslate"><span class="pre">{n}</span></code> is the Frame ID of the target ellipse;
+<code class="docutils literal notranslate"><span class="pre">{q,</span> <span class="pre">n-m}</span></code> describes the Ellipse ID of the target ellipse (q) and the gap (in frames) between the source and target ellipses (n-m);
+and <code class="docutils literal notranslate"><span class="pre">(p)</span></code> is the Ellipse ID of the source ellipse.</p>
+</li>
+<li><p class="first"><em>all_prob_inout_frame</em>. Probability of migrating in/out of the field of view.</p>
+<p>For a movie with <em>n</em> frames, this variable should be an <em>n x 1</em> cell array.
+Each element is an <em>m x 1</em> array (<em>m</em>: the number of ellipses in the frame) storing the probabilities in one frame.</p>
+</li>
+<li><p class="first"><em>all_motion_classifiers</em>. Classifiers for ellipse similarity.</p>
+<p>A Linear Discriminant Analysis (LDA) classifier for predicting whether two ellipses represent the same cell.</p>
+</li>
+<li><p class="first"><em>all_migration_sigma</em>. Standard deviation of random walk.</p>
+<p>A number storing the value of the standard deviation.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="generate-tracks">
+<span id="outputs-mainfile-track-page"></span><h3>Generate Tracks<a class="headerlink" href="#generate-tracks" title="Permalink to this headline">¶</a></h3>
+<p>The output MAT file <em>tracks.mat</em> contains one variable: <em>all_tracks</em>.</p>
+<ul>
+<li><p class="first"><em>all_tracks</em>. Information of cell tracks.</p>
+<p>For a movie with <em>n</em> cell tracks, this variable should be an <em>n x 1</em> cell array. Each element is a struct describing the information of one cell track.
+Six fields are available in each struct (as shown below).</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">all_tracks</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">}{</span><span class="mi">1</span><span class="p">}</span>
+
+<span class="nb">ans</span> <span class="p">=</span>
+
+  <span class="n">struct</span> <span class="n">with</span> <span class="n">fields</span><span class="p">:</span>
+
+            <span class="n">current_id</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+    <span class="n">gap_to_previous_id</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+        <span class="n">gap_to_next_id</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+          <span class="n">if_apoptosis</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+             <span class="n">daughters</span><span class="p">:</span> <span class="p">{</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">cell</span><span class="p">}</span>
+           <span class="n">if_multiple</span><span class="p">:</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<ul>
+<li><p class="first"><em>current_id</em>. Ellipse ID at each frame.</p>
+</li>
+<li><p class="first"><em>gap_to_previous_id</em>. Gap (in frames) between the current ellipse and the previous ellipse of the cell track.</p>
+</li>
+<li><p class="first"><em>gap_to_next_id</em>. Gap (in frames) between the current ellipse and the next ellipse of the cell track.</p>
+<p>For a movie with <em>m</em> frames, all the fields above are <em>m x 1</em> arrays.
+Each element stores the value of one frame, or NaN if the cell track is not present at the frame.</p>
+</li>
+<li><p class="first"><em>if_apoptosis</em>. Whether cells undergo apoptosis.</p>
+<p>For a movie with <em>m</em> frames, this field is an <em>m x 1</em> array.
+The elements equal to one if the cell undergoes apoptosis at the frame, and equal to zero otherwise.</p>
+</li>
+<li><p class="first"><em>daughters</em>. Daughter cell tracks.</p>
+<p>For a movie with <em>m</em> frames, this field is an <em>m x 1</em> cell array.
+The elements contain the IDs of the daughter cell tracks if the cell undergoes mitosis at the frame.
+The elements are empty otherwise.</p>
+</li>
+<li><p class="first"><em>if_multiple</em>. Indicator variable of whether the cell track maps to any under-segmented ellipses.</p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="signal-extraction">
+<span id="outputs-mainfile-signal-page"></span><h3>Signal Extraction<a class="headerlink" href="#signal-extraction" title="Permalink to this headline">¶</a></h3>
+<p>The output MAT file <em>signals.mat</em> contains one variable: <em>all_signals</em>.</p>
+<ul>
+<li><p class="first"><em>all_signals</em>. Single cell traces.</p>
+<p>For a movie with <em>n</em> cell tracks, this variable should be an <em>n x 1</em> cell array.
+Each element is a struct describing the information of one cell track.
+Multiple fields are available in each struct (as shown below).</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">all_signals</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">}{</span><span class="mi">1</span><span class="p">}</span>
+
+<span class="nb">ans</span> <span class="p">=</span>
+
+  <span class="n">struct</span> <span class="n">with</span> <span class="n">fields</span><span class="p">:</span>
+
+                 <span class="n">if_multiple</span><span class="p">:</span> <span class="mi">0</span>
+                  <span class="n">ellipse_id</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+       <span class="n">num_tracks_at_ellipse</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+                   <span class="n">daughters</span><span class="p">:</span> <span class="p">{</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">cell</span><span class="p">}</span>
+                <span class="n">nuc_center_x</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+                <span class="n">nuc_center_y</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+              <span class="n">nuc_first_axis</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+             <span class="n">nuc_second_axis</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+                    <span class="n">nuc_area</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+                   <span class="n">nuc_angle</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+                <span class="n">H2B_nuc_mean</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+          <span class="n">H2B_nuc_percentile</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+               <span class="n">FIRE_nuc_mean</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+         <span class="n">FIRE_nuc_percentile</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+               <span class="n">CDK2_nuc_mean</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+         <span class="n">CDK2_nuc_percentile</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+          <span class="n">CDK2_cytoring_mean</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+    <span class="n">CDK2_cytoring_percentile</span><span class="p">:</span> <span class="p">[</span><span class="mi">482</span>×<span class="mi">1</span> <span class="n">double</span><span class="p">]</span>
+</pre></div>
+</div>
+<ul>
+<li><p class="first"><em>if_multiple</em>, <em>ellipse_id</em>, and <em>daughters</em>.</p>
+<p>These fields contain the same information as the ones in <em>all_tracks</em> (refer to <a class="reference internal" href="#outputs-mainfile-track-page"><span class="std std-ref">Generate Tracks</span></a>).</p>
+</li>
+<li><p class="first"><em>num_tracks_at_ellipse</em>. Number of cell tracks each ellipse is mapped to. This value (denoted as m) indicates that this cell track shares with m-1 other cell tracks at the ellipse.</p>
+</li>
+<li><p class="first"><em>nuc_center_x</em>, First axis of the ellipse.</p>
+</li>
+<li><p class="first"><em>nuc_center_y</em>. Second axis of the ellipse.</p>
+</li>
+<li><p class="first"><em>nuc_area</em>. Area of the ellipse.</p>
+</li>
+<li><p class="first"><em>nuc_angle</em>. Rotation angle of the ellipse.</p>
+</li>
+<li><p class="first"><em>XXX_nuc_mean</em> and <em>XXX_nuc_percentile</em>. Mean/Percentile pixel intensities in the nucleus region.</p>
+</li>
+<li><p class="first"><em>YYY_cytoring_mean</em> and <em>YYY_cytoring_percentile</em>. Mean/Percentile pixel intensities in the cytoplasmic ring.</p>
+<p>For a movie with <em>m</em> frames, all the fields above are <em>m x 1</em> array.
+Each element stores the value of one frame, or NaN if the cell track is not present at the frame.</p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="optional-outputs">
+<h2>Optional Outputs<a class="headerlink" href="#optional-outputs" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>Mask</dt>
+<dd><p class="first">Binarized images of the nuclear marker, after possible optimization by Active Contour and Watershed.</p>
+<p>These files are generated when <span class="reditalic">if_print_mask</span> in <em>segmentation_para</em> equals to one, and are stored in the folder specified by <span class="reditalic">mask_path</span> in <em>segmentation_para</em>.
+The filenames follow the format <em>RowID_ColumnID_SiteID_Channel_FrameID.tif</em>.</p>
+<p>An example image of Mask is shown in <a class="reference internal" href="#example-mask"><span class="std std-numref">Fig. 23</span></a>.</p>
+<div class="last figure align-center" id="id1">
+<span id="example-mask"></span><a class="reference internal image-reference" href="_images/example_mask.png"><img alt="_images/example_mask.png" src="_images/example_mask.png" style="width: 300px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 23 </span><span class="caption-text">Example image of Mask.</span></p>
+</div>
+</dd>
+<dt>Ellipse Movie</dt>
+<dd><p class="first">Auto-scaled images of the nuclear marker overlaid by the ellipse contours.</p>
+<p>These files are generated when <span class="reditalic">if_print_ellipse_movie</span> in <em>segmentation_para</em> equals to one, and are stored in the folder specified by <span class="reditalic">ellipse_movie_path</span> in <em>segmentation_para</em>.
+The filenames follow the format <em>RowID_ColumnID_SiteID_Channel_FrameID.tif</em>.</p>
+<p>An example image of “Ellipse Movie” is shown in <a class="reference internal" href="#example-ellipse-movie"><span class="std std-numref">Fig. 24</span></a>.</p>
+<div class="last figure align-center" id="id2">
+<span id="example-ellipse-movie"></span><a class="reference internal image-reference" href="_images/example_ellipse_movie.png"><img alt="_images/example_ellipse_movie.png" src="_images/example_ellipse_movie.png" style="width: 300px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 24 </span><span class="caption-text">Example image of Ellipse Movie.</span></p>
+</div>
+</dd>
+<dt>Seg Info</dt>
+<dd><p class="first">A MAT file storing the information of fitted ellipses in one frame.
+This file contains the same information as <em>all_ellipse_info</em> at the frame (refer to <a class="reference internal" href="#outputs-mainfile-seg-page"><span class="std std-ref">Segmentation</span></a>).</p>
+<p class="last">Files are generated when <span class="reditalic">if_save_seg_info</span> in <em>segmentation_para</em> equals to one, and are stored in the folder specified by <span class="reditalic">seg_info_path</span> in <em>segmentation_para</em>.
+The filenames follow the format <em>RowID_ColumnID_SiteID_Channel_FrameID_segmentation.mat</em>.</p>
+</dd>
+<dt>Vistrack</dt>
+<dd><p class="first">Auto-scaled images of the nuclear marker overlaid by the ellipse contours. IDs of Cell Tracks are displayed next to the ellipses they map to.
+Cell Track IDs are usually in green, though a blue ID indicates that the cell undergoes mitosis and will divide into two daughter cells in the next frame,
+and a red ID indicates that the cell undergoes apoptosis and will disappear from image in the next frame.</p>
+<p>These files are generated when <span class="reditalic">if_print_vistrack</span> in <em>track_para</em> equals to one, and are stored in the folder specified by <span class="reditalic">vistrack_path</span> in <em>track_para</em>.
+The filenames follow the format <em>RowID_ColumnID_SiteID_Channel_FrameID.tif</em>.</p>
+<p>An example image of “Vistrack” is shown in <a class="reference internal" href="#example-vistrack"><span class="std std-numref">Fig. 25</span></a>.</p>
+<div class="last figure align-center" id="id3">
+<span id="example-vistrack"></span><a class="reference internal image-reference" href="_images/example_vistrack.png"><img alt="_images/example_vistrack.png" src="_images/example_vistrack.png" style="width: 300px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 25 </span><span class="caption-text">Example image of Vistrack.</span></p>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="tutorial.html" class="btn btn-neutral float-right" title="Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="execution.html" class="btn btn-neutral float-left" title="Execution" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chengzhe Tian, Chen Yang, Sabrina Spencer
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

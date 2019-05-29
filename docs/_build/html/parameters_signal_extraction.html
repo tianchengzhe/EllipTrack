@@ -1,0 +1,409 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Signal Extraction &mdash; EllipTrack  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/hacks.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="GUI" href="GUI.html" />
+    <link rel="prev" title="Track Linking" href="parameters_track_linking.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> EllipTrack
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="parameters.html">Parameters</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="parameters_overview.html">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parameters_global_setting.html">Global Setting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parameters_segmentation.html">Segmentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parameters_track_linking.html">Track Linking</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Signal Extraction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#signal-channels">Signal Channels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#roi">ROI</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="GUI.html">GUI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="execution.html">Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outputs.html">Outputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">EllipTrack</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="parameters.html">Parameters</a> &raquo;</li>
+        
+      <li>Signal Extraction</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/parameters_signal_extraction.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="signal-extraction">
+<span id="parameters-signal-extraction-page"></span><h1>Signal Extraction<a class="headerlink" href="#signal-extraction" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p><em>signal_extraction_para</em> consists of two types of parameters:</p>
+<ul class="simple">
+<li><strong>Signal Channels</strong>. Parameters defining the signal channels, i.e. all channels other than the nuclear channel.</li>
+<li><strong>ROI</strong>. Parameters defining the regions of interest for signal extraction.</li>
+</ul>
+</div>
+<div class="section" id="signal-channels">
+<h2>Signal Channels<a class="headerlink" href="#signal-channels" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><span class="reditalic">additional_signal_names</span>: Names of the signal channels.</li>
+<li><span class="reditalic">additional_biomarker_names</span>: Names of the measured markers in the signal channels.</li>
+</ul>
+<blockquote>
+<div><p>For a movie with <em>n</em> signal channels, both <span class="reditalic">additional_signal_names</span> and <span class="reditalic">additional_biomarker_names</span> should be an <em>n x 1</em> cell array where each row stores a channel name and a biomarker name, respectively.</p>
+<div class="hint admonition">
+<p class="first admonition-title">Example</p>
+<p>A movie has 3 channels: <em>CFP</em> for the nuclear marker, <em>mCherry</em> for the CDK2 sensor, and <em>YFP</em> for the ERK sensor.
+The values of the parameters should be</p>
+<div class="last highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">additional_signal_names</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;mCherry&#39;</span><span class="p">;</span>
+                           <span class="s">&#39;YFP&#39;</span><span class="p">};</span>
+<span class="n">additional_biomarker_names</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;CDK2&#39;</span><span class="p">;</span>
+                              <span class="s">&#39;ERK&#39;</span><span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition-remark admonition">
+<p class="first admonition-title">Remark</p>
+<p>Use empty cell array if a movie has no signal channels.</p>
+<div class="last highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">additional_signal_names</span> <span class="p">=</span> <span class="p">{};</span>
+<span class="n">additional_biomarker_names</span> <span class="p">=</span> <span class="p">{};</span>
+</pre></div>
+</div>
+</div>
+</div></blockquote>
+<ul class="simple">
+<li><span class="reditalic">additional_raw_image_paths</span>: Paths to the folders containing images of the signal channels.</li>
+</ul>
+<blockquote>
+<div><dl class="docutils">
+<dt>TIFF Format</dt>
+<dd><p class="first">For a movie with <em>n</em> signal channels, <span class="reditalic">additional_raw_image_paths</span> should be an <em>n x 1</em> cell array where each row is a string specifying the path to the folder containing the images of one signal channel.</p>
+<div class="hint last admonition">
+<p class="first admonition-title">Example</p>
+<p>A movie has 3 channels: <em>CFP</em> for the nuclear marker, <em>mCherry</em> for the CDK2 sensor, and <em>YFP</em> for the ERK sensor.
+The movie is stored in the TIFF format. The images of the <em>mCherry</em> channnel are located in <code class="docutils literal notranslate"><span class="pre">X:/tracking/raw_images/mCherry/</span></code>, and the images of the <em>YFP</em> channel are located in <code class="docutils literal notranslate"><span class="pre">X:/tracking/raw_images/YFP/</span></code>.
+The value of the parameter should be</p>
+<div class="last highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">additional_raw_image_paths</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;X:/tracking/raw_images/mCherry/&#39;</span><span class="p">;</span>
+                              <span class="s">&#39;X:/tracking/raw_images/YFP/&#39;</span><span class="p">};</span>
+</pre></div>
+</div>
+</div>
+</dd>
+<dt>ND2 Format</dt>
+<dd><p class="first">For a movie with <em>n</em> signal channels, <span class="reditalic">additional_raw_image_paths</span> should be an <em>n x 1</em> cell array where each row has the same content as <span class="reditalic">nuc_raw_image_path</span> in <em>global_setting</em>.</p>
+<div class="hint last admonition">
+<p class="first admonition-title">Example</p>
+<p>A movie has 3 channels: <em>CFP</em> for the nuclear marker, <em>mCherry</em> for the CDK2 sensor, and <em>YFP</em> for the ERK sensor.
+The movie is stored in two ND2 files in two separate folders.
+The first file is located in <code class="docutils literal notranslate"><span class="pre">X:/tracking/raw_images/folder1/</span></code>, and the second file is located in <code class="docutils literal notranslate"><span class="pre">X:/tracking_raw_images/folder2/</span></code>.
+The value of the parameter should be</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">additional_raw_image_paths</span> <span class="p">=</span> <span class="p">{{</span><span class="s">&#39;X:/tracking/raw_images/folder1/&#39;</span><span class="p">;</span>
+                               <span class="s">&#39;X:/tracking/raw_images/folder2/&#39;</span><span class="p">};</span>
+                              <span class="p">{</span><span class="s">&#39;X:/tracking/raw_images/folder1/&#39;</span><span class="p">;</span>
+                               <span class="s">&#39;X:/tracking/raw_images/folder2/&#39;</span><span class="p">}};</span>
+</pre></div>
+</div>
+<p>Or simply use the following script to set the parameter value automatically.</p>
+<div class="last highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">additional_raw_image_paths</span> <span class="p">=</span> <span class="n">cell</span><span class="p">(</span><span class="nb">length</span><span class="p">(</span><span class="n">additional_signal_names</span><span class="p">),</span> <span class="mi">1</span><span class="p">);</span>
+<span class="n">additional_raw_image_paths</span><span class="p">(:)</span> <span class="p">=</span> <span class="p">{</span><span class="n">global_setting</span><span class="p">.</span><span class="n">nuc_raw_image_path</span><span class="p">};</span>
+</pre></div>
+</div>
+</div>
+</dd>
+</dl>
+</div></blockquote>
+<ul class="simple">
+<li><span class="reditalic">additional_bias_paths</span>: Paths to the MAT files storing the illumination bias of the signal channels.</li>
+</ul>
+<blockquote>
+<div><p>For a movie with <em>n</em> signal channels, <span class="reditalic">additional_bias_paths</span> should be an <em>n x 1</em> cell array where each row stores the path to the illumination bias of one signal channel.</p>
+<div class="hint admonition">
+<p class="first admonition-title">Example</p>
+<blockquote class="last">
+<div><p>A movie has 3 channels: <em>CFP</em> for the nuclear marker, <em>mCherry</em> for the CDK2 sensor, and <em>YFP</em> for the ERK sensor.
+Illumination bias of the <em>mCherry</em> channel is stored in <code class="docutils literal notranslate"><span class="pre">X:/tracking/mat_files/mCherry.mat</span></code>, and illumination bias of the <em>YFP</em> channel is stored in <code class="docutils literal notranslate"><span class="pre">X:/tracking/mat_files/YFP.mat</span></code>.
+The value of the parameter should be</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">additional_bias_paths</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;X:/tracking/mat_files/mCherry.mat&#39;</span><span class="p">;</span>
+                         <span class="s">&#39;X:/tracking/mat_files/YFP.mat&#39;</span><span class="p">};</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div></blockquote>
+<div class="admonition-do-not-forget-to-add admonition">
+<p class="first admonition-title">Do Not Forget to Add “{}”</p>
+<p>EllipTrack requires the parameters to be organized in their correct data structures.
+A common mistake is to forget adding the necessary “{}”, especially when a movie only contains one signal channel.</p>
+<p><strong>Example 1</strong>. A movie has 3 channels: <em>CFP</em> for the nuclear marker, <em>mCherry</em> for the CDK2 sensor, and <em>YFP</em> for the ERK sensor.
+The movie is stored in the TIFF format, and all the images are located in the folder <code class="docutils literal notranslate"><span class="pre">X:/tracking/raw_images/</span></code>.
+The correct value of <span class="reditalic">additional_raw_image_paths</span> is</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">additional_raw_image_paths</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;X:/tracking/raw_images/&#39;</span><span class="p">;</span>
+                              <span class="s">&#39;X:/tracking/raw_images/&#39;</span><span class="p">};</span>
+</pre></div>
+</div>
+<p>The first row is for the <em>mCherry</em> channel and the second row is for the <em>YFP</em> channel.</p>
+<p><strong>Example 2</strong>. A movie has 3 channels: <em>CFP</em> for the nuclear marker, <em>mCherry</em> for the CDK2 sensor, and <em>YFP</em> for the ERK sensor.
+The movie is stored in one ND2 file located in <code class="docutils literal notranslate"><span class="pre">X:/tracking/raw_images/</span></code>.
+The correct value of <span class="reditalic">additional_raw_image_paths</span> is</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">additional_raw_image_paths</span> <span class="p">=</span> <span class="p">{{</span><span class="s">&#39;X:/tracking/raw_images/&#39;</span><span class="p">};</span>
+                              <span class="p">{</span><span class="s">&#39;X:/tracking/raw_images/&#39;</span><span class="p">}};</span>
+</pre></div>
+</div>
+<p>Each row should be an cell array, even when the movie is stored in one folder.</p>
+<p><strong>Example 3</strong>. A movie has 2 channels: <em>CFP</em> for the nuclear marker and <em>mCherry</em> for the CDK2 sensor.
+The movie is stored in the TIFF format.
+All the images are located in the folder <code class="docutils literal notranslate"><span class="pre">X:/tracking/raw_images/</span></code>.
+Illumination bias of the <em>mCherry</em> channel is stored in <code class="docutils literal notranslate"><span class="pre">X:/tracking/mat_files/mCherry.mat</span></code>.
+The correct values of the parameters are</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">additional_signal_names</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;mCherry&#39;</span><span class="p">};</span>
+<span class="n">additional_biomarker_names</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;CDK2&#39;</span><span class="p">};</span>
+<span class="n">additional_raw_image_paths</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;X:/tracking/raw_images/&#39;</span><span class="p">};</span>
+<span class="n">additional_bias_paths</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;X:/tracking/mat_files/mCherry.mat&#39;</span><span class="p">};</span>
+</pre></div>
+</div>
+<p>All parameters should be cell arrays, even if the movie only contains one signal channel.</p>
+<p><strong>Example 4</strong>. A movie has 2 channels: <em>CFP</em> for the nuclear marker and <em>mCherry</em> for the CDK2 sensor.
+The movie is stored in one ND2 file located in the folder <code class="docutils literal notranslate"><span class="pre">X:/tracking/raw_images/</span></code>.
+The correct value of <span class="reditalic">additional_raw_image_paths</span> is</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">additional_raw_image_paths</span> <span class="p">=</span> <span class="p">{{</span><span class="s">&#39;X:/tracking/raw_images/&#39;</span><span class="p">}};</span>
+</pre></div>
+</div>
+<p>The outer “{}” is for signal channels, and the inner “{}” is for folders.</p>
+<p><strong>Example 5</strong>. A movie has only one channel: <em>CFP</em> for the nuclear marker.
+The correct values of the parameters are</p>
+<div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">additional_signal_names</span> <span class="p">=</span> <span class="p">{};</span>
+<span class="n">additional_biomarker_names</span> <span class="p">=</span> <span class="p">{};</span>
+<span class="n">additional_raw_image_paths</span> <span class="p">=</span> <span class="p">{};</span>
+<span class="n">additional_bias_paths</span> <span class="p">=</span> <span class="p">{};</span>
+</pre></div>
+</div>
+<p class="last">All parameters should be empty cell arrays.</p>
+</div>
+<ul class="simple">
+<li><span class="reditalic">if_compute_cyto_ring</span>. Indicator variables of whether to extract the signals in the cytoplasmic ring.</li>
+</ul>
+<blockquote>
+<div><p>For a movie with <em>n</em> signal channels, <span class="reditalic">if_compute_cyto_ring</span> should be an <em>n x 1</em> array where each row stores the indicator variable for one signal channel.</p>
+<div class="hint admonition">
+<p class="first admonition-title">Example</p>
+<p>A movie has 3 channels: <em>CFP</em> for the nuclear marker, <em>mCherry</em> for the CDK2 sensor, and <em>YFP</em> for the FIRE sensor.
+The CDK2 sensor is a kinase translocation sensor, and calculation of CDK2 activities requires the signals in both the nucleus and the cytopasmic ring.
+Meanwhile, the FIRE sensor is a nuclear sensor, and calculation of FIRE activities requires only the signal in the nucleus.
+The value of the parameter should be</p>
+<div class="last highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="n">if_compute_cyto_ring</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span>
+                        <span class="mi">0</span><span class="p">];</span>
+</pre></div>
+</div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="roi">
+<h2>ROI<a class="headerlink" href="#roi" title="Permalink to this headline">¶</a></h2>
+<p>Definitions of ROIs are illustrated in <a class="reference internal" href="#para-signal-extraction"><span class="std std-numref">Fig. 6</span></a>.</p>
+<div class="figure align-center" id="id1">
+<span id="para-signal-extraction"></span><a class="reference internal image-reference" href="_images/para_signal_extraction.png"><img alt="_images/para_signal_extraction.png" src="_images/para_signal_extraction.png" style="width: 300px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 6 </span><span class="caption-text">Schematic diagram of ROI definition.</span></p>
+</div>
+<p>Since ellipse contours may not match the nuclear contour accurately, EllipTrack discards the pixels surrounding the ellipse contour (white region) from signal calculation.
+Consequently, the region of nucleus is defined by the pixels inside and at least <span class="greenitalic">nuc_outer_size</span> pixels away from the nuclear contour.
+The region of cytoplasmic ring is defined by the pixels outside and between <span class="greenitalic">cyto_ring_inner_size</span> and <span class="greenitalic">cyto_ring_outer_size</span> pixels away from the nuclear contour.</p>
+<p>For each ROI, EllipTrack first performs background subtraction by subtracting the pixel intensities with the average intensity of the image background.
+Here, the image background is defined by pixels at least <span class="greenitalic">foreground_dilation_size</span> pixels away from any nucleus.
+EllipTrack then removes the outlier intensities in each ROI by keeping only the intensities between <span class="greenitalic">lower_percentile</span> and <span class="greenitalic">higher_percentile</span> percentiles.
+Finally, EllipTrack computes the mean and <span class="greenitalic">intensity_percentile</span> percentile intensity of the region.</p>
+<ul class="simple">
+<li><span class="greenitalic">cyto_ring_inner_size</span>: Minimal distance (in pixels) between the region of cytoplasmic ring and the ellipse contour.</li>
+<li><span class="greenitalic">cyto_ring_outer_size</span>: Maximal distance (in pixels) between the region of cytoplasmic ring and the ellipse contour.</li>
+<li><span class="greenitalic">nuc_outer_size</span>: Minimal distance (in pixels) between the region of nucleus and the ellipse contour.</li>
+<li><span class="greenitalic">foreground_dilation_size</span>: Minimal distance (in pixels) between the image background and a nucleus.</li>
+<li><span class="greenitalic">intensity_percentile</span>: Measured percentile (between 0 and 100) of each region.</li>
+<li><span class="greenitalic">lower_percentile</span>: Lower percentile (between 0 and 100) of intensities to keep.</li>
+<li><span class="greenitalic">higher_percentile</span>: Higher percentile (between 0 and 100, greater than <span class="greenitalic">lower_percentile</span>) to keep.</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="GUI.html" class="btn btn-neutral float-right" title="GUI" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="parameters_track_linking.html" class="btn btn-neutral float-left" title="Track Linking" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chengzhe Tian, Chen Yang, Sabrina Spencer
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
