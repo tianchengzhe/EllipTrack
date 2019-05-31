@@ -47,4 +47,9 @@ if (track_para.if_switch_off_after_mitosis)
     end
 end
 
+% fix maximal probability
+for i=1:num_frames
+    all_morphology_posterior_prob{i} = min(all_morphology_posterior_prob{i}, 0.9999);
+end
+
 end
