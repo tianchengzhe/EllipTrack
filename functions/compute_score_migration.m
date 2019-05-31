@@ -68,7 +68,7 @@ for i=2:num_frames % skip the first frame
             curr_features = jitter_adjusted_all_ellipse_info{i}.all_features{k}';
             
             % compute the posterior probability and score of migration
-            prob_migration{i}{k,j} = min(migration_prob( motion_classifier, curr_features, prev_features, curr_pos, prev_pos, j, migration_sigma, track_para ), 0.9999);
+            prob_migration{i}{k,j} = min(migration_prob( motion_classifier, curr_features, prev_features, curr_pos, prev_pos, j, migration_sigma, track_para ), 1-1e-10);
         end
     end
 end
@@ -85,7 +85,7 @@ for i=1:num_frames
     center_pos(:,2) = min(center_pos(:,2)-1, size_image(1)-center_pos(:,2));
     
     % give parameters
-    prob_inout_frame{i} = min(max(max(normpdf(center_pos(:,1), 0, migration_sigma), normpdf(center_pos(:,2), 0, migration_sigma)), track_para.min_inout_prob), 0.9999);
+    prob_inout_frame{i} = min(max(max(normpdf(center_pos(:,1), 0, migration_sigma), normpdf(center_pos(:,2), 0, migration_sigma)), track_para.min_inout_prob), 1-1e-10);
 end
 
 end
