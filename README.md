@@ -7,3 +7,7 @@
    **Motivation**. Can't handle Inf scores (event probabilities equal to 1). Disrupt the Track Linking module, especially the Post-Processing function.
    
    **Solution**. Probabilities are capped at 1 - 1e-10.
+
+## 2019.06.18  1.00am  (Commit 14)
+
+*  Calculation of variance

@@ -34,15 +34,18 @@ end
 
 % get all variable names for nuclear and additional markers
 nuc_marker_properties = matlab.lang.makeValidName({[global_setting.nuc_biomarker_name, '_nuc_mean'], ...
-    [global_setting.nuc_biomarker_name, '_nuc_percentile']});
+    [global_setting.nuc_biomarker_name, '_nuc_percentile'], ...
+    [global_setting.nuc_biomarker_name, '_nuc_variance']});
 
 all_additional_marker_properties = cell(num_additional_markers, 1);
 for i=1:num_additional_markers
     property_name_string = {[signal_extraction_para.additional_biomarker_names{i}, '_nuc_mean'], ...
-        [signal_extraction_para.additional_biomarker_names{i}, '_nuc_percentile']}; % 
+        [signal_extraction_para.additional_biomarker_names{i}, '_nuc_percentile'], ...
+        [signal_extraction_para.additional_biomarker_names{i}, '_nuc_variance']}; % 
     if (signal_extraction_para.if_compute_cyto_ring(i)) % has cytoring properties
         property_name_string = cat(2, property_name_string, {[signal_extraction_para.additional_biomarker_names{i}, '_cytoring_mean'], ...
-            [signal_extraction_para.additional_biomarker_names{i}, '_cytoring_percentile']});
+            [signal_extraction_para.additional_biomarker_names{i}, '_cytoring_percentile'], ...
+            [signal_extraction_para.additional_biomarker_names{i}, '_cytoring_variance']});
     end
     all_additional_marker_properties{i} = matlab.lang.makeValidName(property_name_string);
 end
@@ -167,6 +170,7 @@ for i=1:num_frames
         selected_nuc_intensities = select_valid_intensities(nuc_image(all_nuclear_pixel_idx{curr_ellipse_id}), signal_extraction_para);
         signals{j}.(nuc_marker_properties{1})(i) = nanmean(selected_nuc_intensities); % mean
         signals{j}.(nuc_marker_properties{2})(i) = prctile(selected_nuc_intensities, signal_extraction_para.intensity_percentile); % percentile
+        signals{j}.(nuc_marker_properties{3})(i) = nanvar(selected_nuc_intensities); % variance
         
         % additional markers
         for k=1:num_additional_markers
@@ -174,12 +178,14 @@ for i=1:num_frames
             selected_nuc_intensities = select_valid_intensities(additional_marker_images{k}(all_nuclear_pixel_idx{curr_ellipse_id}), signal_extraction_para);
             signals{j}.(all_additional_marker_properties{k}{1})(i) = nanmean(selected_nuc_intensities); % mean
             signals{j}.(all_additional_marker_properties{k}{2})(i) = prctile(selected_nuc_intensities, signal_extraction_para.intensity_percentile); % percentile
-        
+            signals{j}.(all_additional_marker_properties{k}{3})(i) = nanvar(selected_nuc_intensities); % variance
+            
             % cyto ring
             if (signal_extraction_para.if_compute_cyto_ring(k))
                 selected_cytoring_intensities = select_valid_intensities(additional_marker_images{k}(all_cytoring_pixel_idx{curr_ellipse_id}), signal_extraction_para);
-                signals{j}.(all_additional_marker_properties{k}{3})(i) = nanmean(selected_cytoring_intensities); % mean
-                signals{j}.(all_additional_marker_properties{k}{4})(i) = prctile(selected_cytoring_intensities, signal_extraction_para.intensity_percentile); % percentile
+                signals{j}.(all_additional_marker_properties{k}{4})(i) = nanmean(selected_cytoring_intensities); % mean
+                signals{j}.(all_additional_marker_properties{k}{5})(i) = prctile(selected_cytoring_intensities, signal_extraction_para.intensity_percentile); % percentile
+                signals{j}.(all_additional_marker_properties{k}{6})(i) = nanvar(selected_cytoring_intensities); % variance
             end
         end
     end
