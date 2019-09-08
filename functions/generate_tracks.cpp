@@ -250,6 +250,42 @@ double adjust_stepscore(double score, Track_Para& track_para) {
     }
 }
 
+//ADJUST_STATE_TO_TRACK Change recorded_state_to_track information based on track swap, mitosis detection, etc
+//  Input
+//      recorded_state_to_track: state to track information
+//      ref_track: reference track to modify
+//      start_frame_id: start frame id to modify
+//      end_frame_id: end frame id to modify. [start_frame_id, end_frame_id)
+//      old_value: value to remove
+//      new_value: value to add
+//  Output
+//      recorded_state_to_track: modified state to track information
+//
+int adjust_state_to_track(std::vector<std::vector<std::vector<int> > >& recorded_state_to_track, Track& ref_track, int start_frame_id, int end_frame_id, int old_value, int new_value) {
+    if (old_value == NaN_int) { // only add new value
+        for (int i=start_frame_id; i<end_frame_id; ++i) {
+            if (ref_track.current_id[i] != NaN_int) {
+                recorded_state_to_track[i][ref_track.current_id[i]].push_back(new_value);
+            }
+        }
+    } else if (new_value == NaN_int) { // only remove old value
+        for (int i=start_frame_id; i<end_frame_id; ++i) {
+            if (ref_track.current_id[i] != NaN_int) {
+                std::vector<int>& temp = recorded_state_to_track[i][ref_track.current_id[i]];
+                temp.erase(std::remove(temp.begin(), temp.end(), old_value), temp.end());
+            }
+        }
+    } else { // replace old value by new value
+        for (int i=start_frame_id; i<end_frame_id; ++i) {
+            if (ref_track.current_id[i] != NaN_int) {
+                std::vector<int>& temp = recorded_state_to_track[i][ref_track.current_id[i]];
+                std::replace(temp.begin(), temp.end(), old_value, new_value);
+            }
+        }
+    }
+    return 0;
+}
+
 //GENERATE_TRACKS Generate tracks from the data
 //
 //  Input
@@ -311,6 +347,13 @@ int generate_tracks(std::vector<int>& all_num_detections, std::vector<std::vecto
             temp.push_back(std::vector<int>(all_stepscore_migration[i][j].size(), 0));
         }
         recorded_migration[i] = temp;
+    }
+    
+    // currently state to track record
+    std::vector<std::vector<std::vector<int> > > recorded_state_to_track(num_frames);
+    std::vector<int> temp; temp.reserve(2);
+    for (int i=0; i<num_frames; ++i) {
+        recorded_state_to_track[i] = std::vector<std::vector<int> >(all_num_detections[i], temp);
     }
     
     // all recorded tracks
@@ -444,14 +487,29 @@ int generate_tracks(std::vector<int>& all_num_detections, std::vector<std::vecto
                     }
                 }
                 
+                // Preparation for Possibility 2 and 3. Find all possible tracks for swap/mitosis
+                // a necessary condition is that there should be a possible migration link between the current detection to the previous detection of the candidate track
+                std::vector<int> all_cand_tracks;
+                for (int i_link=0; i_link<num_migration_links; ++i_link) {
+                    Migration_Link& current_migration_link = all_stepscore_migration[i][j][i_link];
+                    std::vector<int>& temp = recorded_state_to_track[i-current_migration_link.gap_to_previous][current_migration_link.previous_id];
+                    all_cand_tracks.insert(all_cand_tracks.end(), temp.begin(), temp.end());
+                }
+                std::sort(all_cand_tracks.begin(), all_cand_tracks.end());
+                all_cand_tracks.erase(std::unique(all_cand_tracks.begin(), all_cand_tracks.end()), all_cand_tracks.end());
+                int num_cand_tracks = all_cand_tracks.size();
+                
                 // Possibility 2. Swap. Link from D to D. (not swap in the state space diagram. Do it after back-tracing and track creation)
                 Swap_State best_swap_state;
+                
                 for (int i_link=0; i_link<num_migration_links; ++i_link) {
                     // read relevant info
                     Migration_Link current_migration_link = all_stepscore_migration[i][j][i_link];
                     
                     // iterate over all existing tracks, exame whether a swap can be created
-                    for (int i_track=0; i_track<num_tracks; ++i_track) {
+                    for (int i_cand_track=0; i_cand_track<num_cand_tracks; ++i_cand_track) {
+                        int i_track = all_cand_tracks[i_cand_track];
+                        
                         // Requirements
                         // (1) has a detection in the current frame, other than j
                         // (2) has a detection in the previous frame. If that detection is in the same frame as j's ancestor, it should be a detection other than j's ancestor
@@ -523,7 +581,9 @@ int generate_tracks(std::vector<int>& all_num_detections, std::vector<std::vecto
                     }
                     
                     // iterate over all tracks
-                    for (int i_track=0; i_track<num_tracks; ++i_track) {
+                    for (int i_cand_track=0; i_cand_track<num_cand_tracks; ++i_cand_track) {
+                        int i_track = all_cand_tracks[i_cand_track];
+                        
                         // requirements
                         // (1) has a detection in the previous frame, which is the migration link to look at
                         // (2) has a detection in the current frame, which is not j
@@ -613,7 +673,7 @@ int generate_tracks(std::vector<int>& all_num_detections, std::vector<std::vecto
         int current_frame_id = num_frames-1;
         double max_score = *std::max_element(state_space[current_frame_id].current_score.begin(), state_space[current_frame_id].current_score.end());
         if (max_score < track_para.min_track_score) { // can't improve the overall score any more. terminate tracking linking algorithm
-            mexPrintf("Scoring function does not meet the minimal threshold. Algorithm terminates.\n");
+            mexPrintf("Scoring function does not meet the minimal threshold. All tracks have been found. Algorithm terminates.\n");
             mexEvalString("drawnow;");
             break;
         }
@@ -763,6 +823,9 @@ int generate_tracks(std::vector<int>& all_num_detections, std::vector<std::vecto
             first_daughter_track.migration_link_id[current_frame_id] = NaN_int;
             all_tracks[current_track_id].gap_to_next_id[current_frame_id-1] = NaN_int; // Its first daughter's track is separated. So nothing should be recorded.
             
+            // update the daughter portion of recorded_state_to_track elements
+            adjust_state_to_track(recorded_state_to_track, first_daughter_track, current_frame_id, num_frames, current_track_id, num_tracks);
+            
             // save the daughter information for the mother track
             int temp[] = {num_tracks, num_tracks+1};
             all_tracks[current_track_id].daughters[current_frame_id-1] = std::vector<int>(temp, temp+2);
@@ -781,6 +844,9 @@ int generate_tracks(std::vector<int>& all_num_detections, std::vector<std::vecto
             mexEvalString("drawnow;");
             
         }
+        
+        // add the new track to recorded_state_to_track
+        adjust_state_to_track(recorded_state_to_track, new_track, 0, num_frames, NaN_int, num_tracks);
         
         // Part 2. Swap
         // Break an existing track and the new track into two segments. The second segment of the new track is appended into the first segment of the existing track. The second segment of the existing track is appended into the first segment of the new track.
@@ -805,6 +871,12 @@ int generate_tracks(std::vector<int>& all_num_detections, std::vector<std::vecto
             int old_to_new_id = swap_info[i].old_to_new_id;
             int new_to_old_id = swap_info[i].new_to_old_id;
             int new_to_new_id = swap_info[i].migration_link_id;
+            
+            // update recorded_state_to_track
+            adjust_state_to_track(recorded_state_to_track, new_track, current_frame_id, num_frames, num_tracks, NaN_int);
+            adjust_state_to_track(recorded_state_to_track, all_tracks[old_track_id], current_frame_id, num_frames, old_track_id, NaN_int);
+            adjust_state_to_track(recorded_state_to_track, new_track, current_frame_id, num_frames, NaN_int, old_track_id);
+            adjust_state_to_track(recorded_state_to_track, all_tracks[old_track_id], current_frame_id, num_frames, NaN_int, num_tracks);
             
             // swap
             Track temp = new_track;
@@ -851,11 +923,11 @@ int generate_tracks(std::vector<int>& all_num_detections, std::vector<std::vecto
         // save the newly created track
         all_tracks.push_back(new_track);
         num_tracks++;
-        mexPrintf("The new track (No. %d) has been created.\n", num_tracks);
+        mexPrintf("Track No. %d has been created.\n", num_tracks);
         mexEvalString("drawnow;");
         
         if (num_tracks >= track_para.max_num_tracks) {
-            mexPrintf("The maximal amount of tracks is reached. Terminate the track linking algorithm.\n");
+            mexPrintf("The maximal amount of tracks has been reached. Algorithm terminates.\n");
             mexEvalString("drawnow;");
             break;
         }

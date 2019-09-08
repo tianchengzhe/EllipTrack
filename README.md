@@ -11,3 +11,7 @@
 ## 2019.06.18  1.00am  (Commit 14)
 
 *  Calculation of variance
+
+## 2019.09.08  9.18am  (Commit 15)
+
+*  Accelerate track linking module
