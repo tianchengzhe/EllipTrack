@@ -1,8 +1,8 @@
-function [ all_tracks ] = post_processing ( jitter_adjusted_all_ellipse_info, all_morphology_posterior_prob, all_prob_migration, all_prob_inout_frame, all_tracks, motion_classifier, migration_sigma, track_para )
+function [ all_tracks ] = post_processing ( all_ellipse_info, accumulated_jitters, all_morphology_posterior_prob, all_prob_migration, all_prob_inout_frame, all_tracks, motion_classifier, migration_sigma, track_para )
 %POST_PROCESSING Correct tracking mistakes
 %   Input
-%       jitter_adjusted_all_ellipse_info: Jitter adjusted segmentation
-%       results
+%       all_ellipse_info: Segmentation results
+%       accumulated_jitters: Jitters compared to the first frame
 %       all_morphology_posterior_prob: Morphological probabilities
 %       all_prob_migration: Migration probabilities
 %       all_prob_inout_frame: Probabilities of moving in/out of the field
@@ -57,8 +57,10 @@ while 1
     % record positions of every ellipses (not to compare cells with large distances)
     all_ellipse_positions = cell(num_frames, 1);
     for i=1:num_frames
-        all_ellipse_positions{i} = cell2mat(jitter_adjusted_all_ellipse_info{i}.all_parametric_para')';
+        all_ellipse_positions{i} = cell2mat(all_ellipse_info{i}.all_parametric_para')';
         all_ellipse_positions{i} = all_ellipse_positions{i}(:, 3:4);
+        all_ellipse_positions{i}(:,1) = all_ellipse_positions{i}(:,1) + accumulated_jitters(i,2);
+        all_ellipse_positions{i}(:,2) = all_ellipse_positions{i}(:,2) + accumulated_jitters(i,1);
     end
 
     % define threshold distance and probabilities
@@ -663,14 +665,14 @@ for i=1:num_tracks
         
         % examine similarity score
         try
-            curr_assignment_score = log(migration_prob( motion_classifier, jitter_adjusted_all_ellipse_info{curr_frame_id}.all_features{curr_ellipse_id(1)}', jitter_adjusted_all_ellipse_info{prev_frame_id}.all_features{prev_ellipse_id(1)}', ...
-                jitter_adjusted_all_ellipse_info{curr_frame_id}.all_parametric_para{curr_ellipse_id(1)}(3:4)', jitter_adjusted_all_ellipse_info{prev_frame_id}.all_parametric_para{prev_ellipse_id(1)}(3:4)', curr_frame_id-prev_frame_id, migration_sigma, track_para)) + ...
-                log(migration_prob( motion_classifier, jitter_adjusted_all_ellipse_info{curr_frame_id}.all_features{curr_ellipse_id(2)}', jitter_adjusted_all_ellipse_info{prev_frame_id}.all_features{prev_ellipse_id(2)}', ...
-                jitter_adjusted_all_ellipse_info{curr_frame_id}.all_parametric_para{curr_ellipse_id(2)}(3:4)', jitter_adjusted_all_ellipse_info{prev_frame_id}.all_parametric_para{prev_ellipse_id(2)}(3:4)', curr_frame_id-prev_frame_id, migration_sigma, track_para));
-            alternative_assignment_score = log(migration_prob( motion_classifier, jitter_adjusted_all_ellipse_info{curr_frame_id}.all_features{curr_ellipse_id(1)}', jitter_adjusted_all_ellipse_info{prev_frame_id}.all_features{prev_ellipse_id(2)}', ...
-                jitter_adjusted_all_ellipse_info{curr_frame_id}.all_parametric_para{curr_ellipse_id(1)}(3:4)', jitter_adjusted_all_ellipse_info{prev_frame_id}.all_parametric_para{prev_ellipse_id(2)}(3:4)', curr_frame_id-prev_frame_id, migration_sigma, track_para)) + ...
-                log(migration_prob( motion_classifier, jitter_adjusted_all_ellipse_info{curr_frame_id}.all_features{curr_ellipse_id(2)}', jitter_adjusted_all_ellipse_info{prev_frame_id}.all_features{prev_ellipse_id(1)}', ...
-                jitter_adjusted_all_ellipse_info{curr_frame_id}.all_parametric_para{curr_ellipse_id(2)}(3:4)', jitter_adjusted_all_ellipse_info{prev_frame_id}.all_parametric_para{prev_ellipse_id(1)}(3:4)', curr_frame_id-prev_frame_id, migration_sigma, track_para));
+            curr_assignment_score = log(migration_prob( motion_classifier, all_ellipse_info{curr_frame_id}.all_features{curr_ellipse_id(1)}', all_ellipse_info{prev_frame_id}.all_features{prev_ellipse_id(1)}', ...
+                all_ellipse_info{curr_frame_id}.all_parametric_para{curr_ellipse_id(1)}(3:4)'+accumulated_jitters(curr_frame_id,[2,1]), all_ellipse_info{prev_frame_id}.all_parametric_para{prev_ellipse_id(1)}(3:4)'+accumulated_jitters(prev_frame_id,[2,1]), curr_frame_id-prev_frame_id, migration_sigma, track_para)) + ...
+                log(migration_prob( motion_classifier, all_ellipse_info{curr_frame_id}.all_features{curr_ellipse_id(2)}', all_ellipse_info{prev_frame_id}.all_features{prev_ellipse_id(2)}', ...
+                all_ellipse_info{curr_frame_id}.all_parametric_para{curr_ellipse_id(2)}(3:4)'+accumulated_jitters(curr_frame_id,[2,1]), all_ellipse_info{prev_frame_id}.all_parametric_para{prev_ellipse_id(2)}(3:4)'+accumulated_jitters(prev_frame_id,[2,1]), curr_frame_id-prev_frame_id, migration_sigma, track_para));
+            alternative_assignment_score = log(migration_prob( motion_classifier, all_ellipse_info{curr_frame_id}.all_features{curr_ellipse_id(1)}', all_ellipse_info{prev_frame_id}.all_features{prev_ellipse_id(2)}', ...
+                all_ellipse_info{curr_frame_id}.all_parametric_para{curr_ellipse_id(1)}(3:4)'+accumulated_jitters(curr_frame_id,[2,1]), all_ellipse_info{prev_frame_id}.all_parametric_para{prev_ellipse_id(2)}(3:4)'+accumulated_jitters(prev_frame_id,[2,1]), curr_frame_id-prev_frame_id, migration_sigma, track_para)) + ...
+                log(migration_prob( motion_classifier, all_ellipse_info{curr_frame_id}.all_features{curr_ellipse_id(2)}', all_ellipse_info{prev_frame_id}.all_features{prev_ellipse_id(1)}', ...
+                all_ellipse_info{curr_frame_id}.all_parametric_para{curr_ellipse_id(2)}(3:4)'+accumulated_jitters(curr_frame_id,[2,1]), all_ellipse_info{prev_frame_id}.all_parametric_para{prev_ellipse_id(1)}(3:4)'+accumulated_jitters(prev_frame_id,[2,1]), curr_frame_id-prev_frame_id, migration_sigma, track_para));
             if (alternative_assignment_score > curr_assignment_score) % alternative one is better, need to swap
                 track_to_swap = cat(1, track_to_swap, [curr_frame_id, i, track_to_share_with]);
             end
@@ -721,8 +723,10 @@ end
 % extract positions of all ellipses
 all_ellipse_positions = cell(num_frames, 1);
 for i=1:num_frames
-    all_ellipse_positions{i} = cell2mat(jitter_adjusted_all_ellipse_info{i}.all_parametric_para')';
+    all_ellipse_positions{i} = cell2mat(all_ellipse_info{i}.all_parametric_para')';
     all_ellipse_positions{i} = all_ellipse_positions{i}(:, 3:4);
+    all_ellipse_positions{i}(:,1) = all_ellipse_positions{i}(:,1) + accumulated_jitters(i,2);
+    all_ellipse_positions{i}(:,2) = all_ellipse_positions{i}(:,2) + accumulated_jitters(i,1);
 end
 
 % cells generated by mitosis
@@ -1015,7 +1019,7 @@ while 1
             first_frame_info = cat(1, first_frame_info, [i, all_tracks{i}.current_id(1)]);
         end
     end
-    temp = cell2mat(jitter_adjusted_all_ellipse_info{1}.all_parametric_para')';
+    temp = cell2mat(all_ellipse_info{1}.all_parametric_para')';
     [~, sort_id] = sort(temp(first_frame_info(:, 2), 3));
     old_to_new_mapping(first_frame_info(:, 1)) = old_to_new_mapping(first_frame_info(sort_id, 1));
 

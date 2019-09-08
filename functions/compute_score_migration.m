@@ -1,4 +1,4 @@
-function [ prob_migration, prob_inout_frame, motion_classifier, migration_sigma ] = compute_score_migration( size_image, all_num_ellipses, motion_training_info, motion_distances, all_ellipse_info, jitter_adjusted_all_ellipse_info, track_para )
+function [ prob_migration, prob_inout_frame, motion_classifier, migration_sigma ] = compute_score_migration( size_image, all_num_ellipses, motion_training_info, motion_distances, all_ellipse_info, accumulated_jitters, track_para )
 %COMPUTE_SCORE_MIGRATION Compute the migration probability between an
 %ellipse in one frame to another ellipse in an later frame. Also the
 %probability of moving in/out of the field of view.
@@ -9,8 +9,7 @@ function [ prob_migration, prob_inout_frame, motion_classifier, migration_sigma 
 %       motion_training_info: Morphology training features
 %       motion_distances: Distance metric used to infer migration_sigma
 %       all_ellipse_info: Segmentation results
-%       jitter_adjusted_all_ellipse_info: Segmentation results after jitter
-%       correction
+%       accumulated_jitters: Jitters compared to the first frame
 %       track_para: Parameters for tracking
 %   Output
 %       prob_migration: Probability of migration between two ellipses
@@ -58,14 +57,17 @@ for i=2:num_frames % skip the first frame
     for j=1:allowed_max_gap
         % compute position and features of all detection on the previous
         % frame
-        prev_pos = cell2mat(jitter_adjusted_all_ellipse_info{i-j}.all_parametric_para')';
-        prev_pos = prev_pos(:,3:4);
-        prev_features = cell2mat(jitter_adjusted_all_ellipse_info{i-j}.all_features')';
+        prev_pos = cell2mat(all_ellipse_info{i-j}.all_parametric_para')';
+        prev_pos = prev_pos(:,3:4); 
+        prev_pos(:,1) = prev_pos(:,1) + accumulated_jitters(i-j,2);
+        prev_pos(:,2) = prev_pos(:,2) + accumulated_jitters(i-j,1);
+        prev_features = cell2mat(all_ellipse_info{i-j}.all_features')';
         for k=1:all_num_ellipses(i)
             % compute the position and feature of the current detection on
             % the current frame
-            curr_pos = jitter_adjusted_all_ellipse_info{i}.all_parametric_para{k}(3:4)';
-            curr_features = jitter_adjusted_all_ellipse_info{i}.all_features{k}';
+            curr_pos = all_ellipse_info{i}.all_parametric_para{k}(3:4)';
+            curr_pos = curr_pos + accumulated_jitters(i, [2,1]);
+            curr_features = all_ellipse_info{i}.all_features{k}';
             
             % compute the posterior probability and score of migration
             prob_migration{i}{k,j} = min(migration_prob( motion_classifier, curr_features, prev_features, curr_pos, prev_pos, j, migration_sigma, track_para ), 1-1e-10);

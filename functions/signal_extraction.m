@@ -1,11 +1,10 @@
-function [ signals ] = signal_extraction ( size_image, all_ellipse_info, jitter_adjusted_all_ellipse_info, all_tracks, global_setting, row_id, col_id, site_id, signal_extraction_para, cmosoffset, nuc_bias )
+function [ signals ] = signal_extraction ( size_image, all_ellipse_info, accumulated_jitters, all_tracks, global_setting, row_id, col_id, site_id, signal_extraction_para, cmosoffset, nuc_bias )
 %SIGNAL_EXTRACTION Extract signals from panels of images
 %
 %   Input
 %       size_image: Dimension of the image
 %       all_ellipse_info: Segmentation results
-%       jitter_adjusted_all_ellipse_info: Jitter adjusted segmentation
-%       results
+%       accumulated_jitters: Jitters compared to the first frame
 %       all_tracks: Cell tracks
 %       global_setting: Parameters used by all tracker modules
 %       row_id: Row ID of the movie
@@ -151,7 +150,8 @@ for i=1:num_frames
         if (isnan(curr_ellipse_id)) % not present or invalid at this stage, not processing
             continue;
         end
-        curr_parametric_para = jitter_adjusted_all_ellipse_info{i}.all_parametric_para{curr_ellipse_id};
+        curr_parametric_para = all_ellipse_info{i}.all_parametric_para{curr_ellipse_id};
+        curr_parametric_para(3:4) = curr_parametric_para(3:4) + accumulated_jitters(i, [2,1])';
         
         % put ellipse info
         signals{j}.if_multiple = all_tracks{j}.if_multiple;

@@ -56,44 +56,22 @@ clear i row_id col_id site_id j;
 %% Step 3. Jitter Correction 
 disp('Step 3. Jitter Correction');
 jitters = compute_jitter( global_setting, cmosoffset, nuc_bias );
-jitter_adjusted_all_ellipse_info = all_ellipse_info;
+accumulated_jitters = zeros(size(jitters{1}, 1), size(jitters{1}, 2), length(global_setting.all_frames), 2);
 
 % correct all ellipse info entries
 for i=1:size(global_setting.valid_wells, 1)
     row_id = global_setting.valid_wells(i, 1);
     col_id = global_setting.valid_wells(i, 2);
-    site_id = global_setting.valid_wells(i, 3);
-    accumulated_jitter = zeros(2, 1);
     for j=2:length(global_setting.all_frames)
         % compute accumulated jitter compared to the first image
         curr_jitter = squeeze(jitters{j}(row_id, col_id, :));
-        accumulated_jitter = accumulated_jitter + curr_jitter;
-        
-        for k=1:size(jitter_adjusted_all_ellipse_info{row_id,col_id,site_id}{j}.all_cartesian_para, 1)
-            % 3rd and 4th entries of all_parametric_para are center of the
-            % ellipse. In drawing order, so jitter correction should be
-            % opposite
-            jitter_adjusted_all_ellipse_info{row_id,col_id,site_id}{j}.all_parametric_para{k}(3) = ...
-                jitter_adjusted_all_ellipse_info{row_id,col_id,site_id}{j}.all_parametric_para{k}(3) + accumulated_jitter(2);
-            jitter_adjusted_all_ellipse_info{row_id,col_id,site_id}{j}.all_parametric_para{k}(4) = ...
-                jitter_adjusted_all_ellipse_info{row_id,col_id,site_id}{j}.all_parametric_para{k}(4) + accumulated_jitter(1);
-            % all_boundary_points, in image coordinate
-            jitter_adjusted_all_ellipse_info{row_id,col_id,site_id}{j}.all_boundary_points{k}(:,1) = ...
-                jitter_adjusted_all_ellipse_info{row_id,col_id,site_id}{j}.all_boundary_points{k}(:,1) + accumulated_jitter(1);
-            jitter_adjusted_all_ellipse_info{row_id,col_id,site_id}{j}.all_boundary_points{k}(:,2) = ...
-                jitter_adjusted_all_ellipse_info{row_id,col_id,site_id}{j}.all_boundary_points{k}(:,2) + accumulated_jitter(2);
-            % all_internal_points, in image coordinate
-            jitter_adjusted_all_ellipse_info{row_id,col_id,site_id}{j}.all_internal_points{k}(:,1) = ...
-                jitter_adjusted_all_ellipse_info{row_id,col_id,site_id}{j}.all_internal_points{k}(:,1) + accumulated_jitter(1);
-            jitter_adjusted_all_ellipse_info{row_id,col_id,site_id}{j}.all_internal_points{k}(:,2) = ...
-                jitter_adjusted_all_ellipse_info{row_id,col_id,site_id}{j}.all_internal_points{k}(:,2) + accumulated_jitter(2);
-        end
+        accumulated_jitters(row_id, col_id, j, :) = squeeze(accumulated_jitters(row_id, col_id, j-1, :)) + curr_jitter;
     end
 end
 
-save([global_setting.output_path, 'jitter_correction.mat'], 'jitters', 'jitter_adjusted_all_ellipse_info');
+save([global_setting.output_path, 'jitter_correction.mat'], 'accumulated_jitters');
 
-clear i row_id col_id site_id accumulated_jitter j k curr_jitter;
+clear i row_id col_id j curr_jitter jitters;
 
 %% Step 4. Predicting Events
 disp('Step 4. Predicting Events');
@@ -124,11 +102,11 @@ for i=1:size(global_setting.valid_wells, 1)
     disp(['Current Progress: Row ', num2str(row_id), ', Column ', num2str(col_id), ', Site ', num2str(site_id)]);
     
     % compute morphology events
-    all_morphology_posterior_prob{row_id, col_id, site_id} = classify_events( morphology_training_info, jitter_adjusted_all_ellipse_info{row_id, col_id, site_id}, track_para );
+    all_morphology_posterior_prob{row_id, col_id, site_id} = classify_events( morphology_training_info, all_ellipse_info{row_id, col_id, site_id}, track_para );
     
     % compute migration events
     [ all_prob_migration{row_id, col_id, site_id}, all_prob_inout_frame{row_id, col_id, site_id}, all_motion_classifiers{row_id, col_id, site_id}, all_migration_sigma{row_id, col_id, site_id} ] = compute_score_migration ( size_image, ...
-        all_num_ellipses{row_id, col_id, site_id}, motion_training_info, motion_distances, all_ellipse_info{row_id, col_id, site_id}, jitter_adjusted_all_ellipse_info{row_id, col_id, site_id}, track_para );
+        all_num_ellipses{row_id, col_id, site_id}, motion_training_info, motion_distances, all_ellipse_info{row_id, col_id, site_id}, squeeze(accumulated_jitters(row_id, col_id, :, :)), track_para );
 end
 
 save([global_setting.output_path, 'probabilities.mat'], 'all_morphology_posterior_prob', 'all_prob_migration', 'all_prob_inout_frame', 'all_motion_classifiers', 'all_migration_sigma');
@@ -152,9 +130,9 @@ for i=1:size(global_setting.valid_wells, 1)
     
     % post-processing
     disp('Current Progress: Post-Processing');
-    all_tracks{row_id, col_id, site_id} = post_processing( jitter_adjusted_all_ellipse_info{row_id, col_id, site_id}, all_morphology_posterior_prob{row_id, col_id, site_id}, ...
-        all_prob_migration{row_id, col_id, site_id}, all_prob_inout_frame{row_id, col_id, site_id}, all_tracks{row_id, col_id, site_id}, ...
-        all_motion_classifiers{row_id, col_id, site_id}, all_migration_sigma{row_id, col_id, site_id}, track_para );
+    all_tracks{row_id, col_id, site_id} = post_processing( all_ellipse_info{row_id, col_id, site_id}, squeeze(accumulated_jitters(row_id, col_id, :, :)), ...
+        all_morphology_posterior_prob{row_id, col_id, site_id}, all_prob_migration{row_id, col_id, site_id}, all_prob_inout_frame{row_id, col_id, site_id}, ...
+        all_tracks{row_id, col_id, site_id}, all_motion_classifiers{row_id, col_id, site_id}, all_migration_sigma{row_id, col_id, site_id}, track_para );
 end
 
 save([global_setting.output_path, 'tracks.mat'], 'all_tracks');
@@ -183,7 +161,8 @@ for i=1:size(global_setting.valid_wells, 1)
     col_id = global_setting.valid_wells(i, 2);
     site_id = global_setting.valid_wells(i, 3);
     disp(['Current Progress: Row ', num2str(row_id), ', Column ', num2str(col_id), ', Site ', num2str(site_id)]);
-    all_signals{row_id, col_id, site_id} = signal_extraction( size_image, all_ellipse_info{row_id, col_id, site_id}, jitter_adjusted_all_ellipse_info{row_id, col_id, site_id}, all_tracks{row_id, col_id, site_id}, global_setting , row_id, col_id, site_id, signal_extraction_para, cmosoffset, nuc_bias );
+    all_signals{row_id, col_id, site_id} = signal_extraction( size_image, all_ellipse_info{row_id, col_id, site_id}, squeeze(accumulated_jitters(row_id, col_id, :, :)), ...
+        all_tracks{row_id, col_id, site_id}, global_setting , row_id, col_id, site_id, signal_extraction_para, cmosoffset, nuc_bias );
 end
 
 save([global_setting.output_path, 'signals.mat'], 'all_signals');
