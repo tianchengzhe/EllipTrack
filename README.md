@@ -15,3 +15,7 @@
 ## 2019.09.08  9.18am  (Commit 15)
 
 *  Accelerate track linking module
+
+## 2019.09.08  3.39pm  (Commit 16-17)
+
+*  Fix "jitter_adjusted_all_ellipse_info"
