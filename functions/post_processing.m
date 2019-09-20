@@ -593,7 +593,7 @@ while 1
         end
     end
     
-    disp(['Step 1. Fixing ', num2str(size(track_to_swap, 1)), ' mappings.']);
+    disp(['Part 1. Fix ', num2str(size(track_to_swap, 1)), ' mappings.']);
 end
 
 %% PART 2. ADJUST CELL ID ASSIGNMENT FOR ELLIPSES WITH MORE THAN 1 CELL
@@ -697,7 +697,7 @@ for i=1:num_track_to_swap
     track_to_swap(id_1_to_2{1}, 2) = track2_id; track_to_swap(id_1_to_2{2}, 3) = track2_id; 
     track_to_swap(id_2_to_1{1}, 2) = track1_id; track_to_swap(id_2_to_1{2}, 3) = track1_id; 
 end
-disp(['Step 2. Fix ', num2str(num_track_to_swap), ' track swapping.']);
+disp(['Part 2. Fix ', num2str(num_track_to_swap), ' track swapping.']);
 
 %% PART 3. LINK MISSING MITOSIS
 % Step 1. Prepare necessary data structure
@@ -814,7 +814,7 @@ for i=1:size(missing_mitosis, 1)
     missing_mitosis(missing_mitosis(:, 1) > curr_frame & missing_mitosis(:, 3) == track1_id, 3) = new_track_id;
 end
 
-disp(['Step 3. Find ', num2str(size(missing_mitosis, 1)), ' missing mitoses.']);
+disp(['Part 3. Find ', num2str(size(missing_mitosis, 1)), ' missing mitoses.']);
 
 %% PART 4. FIXING APOPTOSIS DUE TO PRESENCE OF MULTIPLE CELL TRACKS
 % same cell, but two cell tracks co-exist in some frames
@@ -900,7 +900,7 @@ for i=1:num_track_to_correct
     all_tracks{track2_id} = empty_track;
     track_to_correct(track_to_correct(:,1) == track2_id, 1) = track1_id;
 end
-disp(['Step 4. Fix ', num2str(num_track_to_correct), ' premature termination.']);
+disp(['Part 4. Fix ', num2str(num_track_to_correct), ' premature termination.']);
 
 %% PART 5. DETERMINE AND REMOVE INVALID TRACKS
 % define empty track
@@ -972,7 +972,7 @@ while 1
         mitosis_to_remove(mitosis_to_remove(:,1) > curr_frame & mitosis_to_remove(:,3) == track2_id, 3) = track1_id;
     end
     
-    disp(['Step 5. Remove ', num2str(length(invalid_track_list)), ' invalid tracks.']);
+    disp(['Part 5. Remove ', num2str(length(invalid_track_list)), ' invalid tracks.']);
 end
 
 % fixing gap_to_previous_id and gap_to_next_id
@@ -1019,6 +1019,11 @@ while 1
             first_frame_info = cat(1, first_frame_info, [i, all_tracks{i}.current_id(1)]);
         end
     end
+    
+    if (isempty(first_frame_info))
+        break;
+    end
+    
     temp = cell2mat(all_ellipse_info{1}.all_parametric_para')';
     [~, sort_id] = sort(temp(first_frame_info(:, 2), 3));
     old_to_new_mapping(first_frame_info(:, 1)) = old_to_new_mapping(first_frame_info(sort_id, 1));
@@ -1035,7 +1040,7 @@ while 1
     if (num_swap1 + num_swap2 == 0)
         break;
     end
-    disp(['Step 6. Switch ', num2str(num_swap1 + num_swap2), ' track IDs for easier viewing.']);
+    disp(['Part 6. Switch ', num2str(num_swap1 + num_swap2), ' track IDs for easier viewing.']);
 end
 
 %% PART 7. ADDING LABELS

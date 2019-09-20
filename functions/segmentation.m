@@ -78,7 +78,8 @@ for i=1:length(global_setting.all_frames)
             plot(all_ellipse_info{i}.all_boundary_points{j}(:,2), all_ellipse_info{i}.all_boundary_points{j}(:,1), 'color', [0.8, 0.5, 0.5], 'LineWidth', 1);
         end
         h.PaperUnits = 'Points';
-        h.PaperPosition = [0, 0, size(I)/2];
+        h.PaperPosition = [0, 0, size(I')/2];
+        h.PaperSize = size(I')/2;
         print(gcf, '-dtiff', [segmentation_para.ellipse_movie_path, filename, '.tif']);
         close(h);
     end

@@ -47,7 +47,8 @@ for i=1:length(global_setting.all_frames)
     
     % print the image
     h.PaperUnits = 'Points';
-    h.PaperPosition = [0, 0, size(I)/2];
+    h.PaperPosition = [0, 0, size(I')/2];
+    h.PaperSize = size(I')/2;
     filename = [num2str(row_id), '_', num2str(col_id), '_', num2str(site_id), '_', global_setting.nuc_signal_name, '_', num2str(frame_id)];
     print(gcf, '-dtiff', [track_para.vistrack_path, filename, '.tif']);
     close(h);
