@@ -1,441 +1,478 @@
 function [ all_parameters ] = parameters()
-%PARAMETERS Definition of all the parameters used in the program
+%PARAMETERS Parameters of EllipTrack
 %
 %   Input: empty
 %   Output:
-%       all_parameters: all the parameters, organized in a struct variable
+%       all_parameters: Parameters organized in structs
 %
 
-%% GLOBAL_SETTING
-% Parameters used by all tracker modules.
+%% MOVIE DEFINITION
+% Parameters defining the movies.
 
-% [Essential] nuc_raw_image_path: Path to the folder containing images of
-% the nuclear channel.
-% [Essential] nd2_frame_range: Range of frames each ND2 file stores.
-nuc_raw_image_path = {'Z:/projects/tracking_code/20181115/Raw/'};
-nd2_frame_range = [1, 288];
-% DO NOT CHANGE THE SCRIPTS BELOW
-if (ischar(nuc_raw_image_path))
-    nuc_raw_image_path = adjust_path(nuc_raw_image_path);
-else
-    for i=1:length(nuc_raw_image_path)
-        nuc_raw_image_path{i} = adjust_path(nuc_raw_image_path{i});
-    end
-end
-% DO NOT CHANGE THE SCRIPTS ABOVE
+% image_type: Movie format. 3 options:
+%   'seq': Movies are stored as image sequences. Each image contains one
+%   channel at one frame.
+%   'stack': Movies are stored as image stacks. Each stack contains one
+%   channel at all frames.
+%   'nd2': Movies are stored in the Nikon ND2 format. Movies can be stored
+%   in multiple segments (files). Each segment contains images of all
+%   channels.
+image_type = 'seq';
 
-% [Essential] valid_wells: Movies being tracked.
-valid_wells = allcomb(2:2, 3:3, 1:1);
+% image_path: Paths to the folders storing the images.
+%   Image Sequences/Stacks: nx1 cell array. Each row stores the path to 
+%   the folder with the images of the i-th channel.
+%   nd2: nx1 cell array. Each row stores the path to the folder with the
+%   i-th segment.
+image_path = {};
 
-% [Essential] cmosoffset_path: Path to the MAT file storing the camera dark
-% noises (CMOS Offset).
-cmosoffset_path = 'Z:/microscope_mat_files/nikon1_matfiles/cmosoffset.mat';
+% filename_format: Formats of image filenames. 
+%   Image Sequences/Stacks: Full filenames are required.
+%   nd2: First few characters of filenames are sufficient.
+%   Available format operators:
+%   %r: Row ID (numeric)
+%   %a: Row ID (letter, lower case)
+%   %b: Row ID (letter, upper case)
+%   %c: Column ID (numeric)
+%   %s: Site ID (numeric, not for ND2 format)
+%   %i: Channel ID (numeric, not for ND2 format)
+%   %n: Channel Name (string, not for ND2 format)
+%   %t: Frame ID (numeric, Image Sequence only)
+%   Prefix zeros: %0Nr (N digits)
+filename_format = '';
 
-% [Essential] nuc_bias_path: Path to the MAT file storing the illumination
-% bias (Bias) of the nuclear channel.
-nuc_bias_path = 'Z:/microscope_mat_files/nikon1_matfiles/CFP.mat';
+% channel_names: Names of the fluorescent channels.
+%   nx1 cell array. Each row stores the name of the i-th channel.
+channel_names = {};
 
-% [Essential] all_frames: Frames to track.
-all_frames = 1:288;
+% signal_names: Names of the signals to measure.
+%   nx1 cell array. Each row stores the name of the i-th signal. Must match
+%   the order of channel_names.
+signal_names = {};
 
-% [Essential] nuc_signal_name: Name of the nuclear channel.
-nuc_signal_name = 'CFP';
+% if_compute_cytoring: Whether to compute signals in the cytoplasmic ring.
+%   nx1 array. Each row is either 1 (compute) or 0 (not compute). Must
+%   match the order of channel_names.
+if_compute_cytoring = [];
 
-% [Essential] nuc_biomarker_name: Name of the measured nuclear marker.
-nuc_biomarker_name = 'H2B';
+% bias_paths: Paths to the MAT files storing the illumination biases.
+%   nx1 cell array. Each row stores the path to the bias of the i-th
+%   channel. Must match the order of channel_names.
+bias_paths = {};
 
-% [Optional] if_global_correction: Indicator variable of whether to perform
-% global jitter correction.
-if_global_correction = 0;
+% cmosoffset_path: Path to the MAT file storing the camera dark noises.
+cmosoffset_path = '';
 
-% [Essential] output_path: Path to the folder storing the outputs.
-output_path = 'Z:/projects/tracking_code/20181115/MCF10A/myversion/results/2_3_1/';
+% wells_to_track: Movie coordinates in a multi-well plate.
+%   nx3 array. Each row stores the Row, Column, and Site ID of one movie.
+%   If not performed in a multi-well plate, enter [1, 1, 1].
+wells_to_track = [];
 
-% Assemble into a struct variable
-global_setting = struct('nuc_raw_image_path', {nuc_raw_image_path}, 'nd2_frame_range', {nd2_frame_range}, 'valid_wells', {valid_wells}, ...
-    'cmosoffset_path', adjust_path(cmosoffset_path), 'nuc_bias_path', adjust_path(nuc_bias_path), 'all_frames', all_frames, ...
-    'nuc_signal_name', nuc_signal_name, 'nuc_biomarker_name', nuc_biomarker_name, ...
-    'if_global_correction', if_global_correction, 'output_path', adjust_path(output_path));
+% frames_to_track: Frame IDs.
+frames_to_track = [];
 
-%% SEGMENTATION_PARA
-% Parameters used by Segmentation
+% jitter_correction_method: Method of jitter correction. 3 options:
+%   'none': No jitter correction will be performed. Suggested if jitters
+%   are negligible.
+%   'local': Local method. Jitter correction will be performed on each
+%   movie, independent from other movies. Suggested if movies have big
+%   jitters.
+%   'global': Global method. First perform the Local method. Jitters will
+%   then be corrected by the locations of wells on the multi-well plate.
+%   Suggested for improving the accuracy of jitter inference. Require at
+%   least 6 wells.
+jitter_correction_method = 'none';
+
+% num_cores: Number of logical cores for parallel computing.
+num_cores = 1;
+
+% organize into a struct
+movie_definition = struct('image_type', image_type, ...
+    'image_path', {adjust_path(image_path)}, 'filename_format', filename_format, ...
+    'channel_names', {channel_names}, 'signal_names', {signal_names}, ...
+    'if_compute_cytoring', if_compute_cytoring, 'bias_paths', {adjust_path(bias_paths)}, ...
+    'cmosoffset_path', adjust_path(cmosoffset_path), 'wells_to_track', wells_to_track, ...
+    'frames_to_track', frames_to_track, 'jitter_correction_method', jitter_correction_method, ...
+    'num_cores', num_cores);
+
+%% INPUT/OUTPUT
+% Parameters defining the input and output files.
+
+% training_data_path: Paths to the training datasets.
+%   nx1 cell array. Each row stores the path to one training dataset.
+%   Use empty cell array ({}) if no training datasets are available.
+training_data_path = {};
+
+% output_path: Path to the folder storing the output MAT files.
+output_path = '';
+
+% mask_path: Path to the folder storing the mask.
+%   A mask is the binarized nuclear image before Ellipse Fitting.
+%   Use empty character ('') if not generating this output.
+%   Suggested for evaluating the accuracy of segmentation.
+mask_path = '';
+
+% ellipse_movie_path: Path to the folder storing the 'ellipse movies'.
+%   An 'ellipse movie' is the autoscaled nuclear image overlaid by fitted
+%   ellipses.
+%   Use empty character ('') if not generating this output.
+%   Suggested for evaluating the accuracy of segmentation.
+ellipse_movie_path = '';
+
+% seg_info_path: Path to the folder storing the 'seg info'.
+%   A 'seg info' is the ellipse information of one frame. 
+%   Use empty character ('') if not generating this output.
+%   Suggested if training datasets will be constructed from this movie.
+seg_info_path = '';
+
+% vistrack_path: Path to the folder storing the 'vistrack movie'.
+%   A 'vistrack movie' is the autoscaled nuclear image overlaid by fitted
+%   ellipses and cell track IDs.
+%   Use empty character ('') if not generating this output.
+%   Suggested for evaluating the accuracy of tracking.
+vistrack_path = '';
+
+% organize into a struct
+inout_para = struct('training_data_path', {adjust_path(training_data_path)}, ...
+    'output_path', adjust_path(output_path), ...
+    'mask_path', adjust_path(mask_path), 'ellipse_movie_path', adjust_path(ellipse_movie_path), ...
+    'seg_info_path', adjust_path(seg_info_path), 'vistrack_path', adjust_path(vistrack_path));
+
+%% SEGMENTATION
+% Parameters controlling Segmentation
 
 % Part 1. Non-Specific Parameters
-% [Optional] if_active_contour: Indicator variable of whether to run Active
-% Contour.
-if_active_contour = 1;
+% Parameters used by all Segmentation Steps.
 
-% [Optional] if_watershed: Indicator variable of whether to run Watershed.
-if_watershed = 1;
-
-% [Optional] if_seg_correction: Indicator variable of whether to run
-% Correction with Training Datasets.
-if_seg_correction = 0;
-
-% [Essential]: if_print_mask: Indicator variable of whether to generate the
-% mask before Ellipse Fitting.
-% [Essential]: mask_path: Path to the folder storing the masks.
-if_print_mask = 1;
-mask_path = 'Z:/projects/tracking_code/20181115/MCF10A/myversion/mask/';
-
-% [Essential] if_print_ellipse_movie: Indicator variable of whether to
-% generate 'Ellipse Movie' where fitted ellipses are overlaid on the
-% nuclear images.
-% [Essential] ellipse_movie_path: Path to the folder storing the 'Ellipse
-% Movies'.
-if_print_ellipse_movie = 1;
-ellipse_movie_path = 'Z:/projects/tracking_code/20181115/MCF10A/myversion/ellipse_movie/';
-
-% [Essential] if_save_seg_info: Indicator variable of whether to save the
-% features of ellipses in each frame ('seg info').
-% [Essential] seg_info_path: Path to the folder storing the 'seg info'.
-if_save_seg_info = 1;
-seg_info_path = 'Z:/projects/tracking_code/20181115/MCF10A/myversion/seg_info/';
-
-% [Optional] nuc_radius: Average radius (in pixels) of a nucleus.
+% nuc_radius: Average radius (in pixels) of a nucleus.
 nuc_radius = 12;
 
-% [Optional] max_hole_size_for_fill: Maximal area (in pixels) of a hole to
-% fill in.
-max_hole_size_for_fill = 200;
+% allowed_nuc_size: Acceptable areas (in pixels) of a nucleus.
+%   1x2 array storing the lower and upper limits.
+%   Mask components not within the range will be removed.
+allowed_nuc_size = [25, Inf];
 
-% [Optional] min_component_size_for_nucleus: Minimal area (in pixels) of a
-% component to contain a nucleus.
-min_component_size_for_nucleus = 25;
+% allowed_ellipse_size: Acceptable areas (in pixels) of an ellipse.
+%   1x2 array storing the lower and upper limits.
+%   Ellipses not within the range will be removed.
+allowed_ellipse_size = [5, Inf];
+
+% [Advanced] max_ellipse_aspect_ratio: Maximal aspect ratio (>1) of an
+% ellipse.
+%   Ellipses with greater aspect ratios will be removed.
+max_ellipse_aspect_ratio = 7.5;
+
+% [Advanced] max_hole_size_to_fill: Maximal hole area (in pixels) to fill.
+%   A hole is defined as a set of background pixels surrounded by
+%   foreground pixels in a mask.
+%   Holes with smaller areas will be converted to foreground pixels.
+%   Helpful if a nucleus contains some dark regions.
+max_hole_size_to_fill = 200;
+
+% [Advanced] blur_radius: Radius (in pixels) of the disk for image
+% smoothing.
+blur_radius = 3;
+
+% organize into a struct
+nonspecific_para = struct('nuc_radius', nuc_radius, 'allowed_nuc_size', allowed_nuc_size, ...
+    'allowed_ellipse_size', allowed_ellipse_size, 'max_ellipse_aspect_ratio', max_ellipse_aspect_ratio, ...
+    'max_hole_size_to_fill', max_hole_size_to_fill, 'blur_radius', blur_radius);
 
 % Part 2. Image Binarization
-% [Optional] blurradius: Both methods. Radius (in pixels) of disk for
-% smoothing.
-blurradius = 3; 
+% Parameters controlling Image Binarization
 
-% [Essential] if_log: Both methods. Indicator variable of whether to
-% log-transform the images.
+% if_log: Whether to log-transform the images. Binary variable:
+%   1: log-transform. Suggested if nuclei have heterogeneous brightness.
+%   0: not log-transform. Suggested if nuclei have homogeneous brightness.
 if_log = 1;
 
-% [Essential] if_blob_detection: Both methods. Indicator variable of
-% whether to run Blob Detection.
-if_blob_detection = 0;
+% background_subtraction_method: Method of Background Subtraction. 4 options:
+%   'none': No background subtraction will be performed. Suggested if the
+%   images have low backgrounds.
+%   'min', 'median', and 'mean': Images will be subtracted by the minimal,
+%   median, and mean intensity of the background. Suggested if the images
+%   have high backgrounds.
+background_subtraction_method = 'none';
 
-% [Important] blob_threshold: Blob Detection only. Threshold of Hessian.
+% binarization_method. Method of Image Binarization. 2 options: 
+%   'threshold': Thresholding. A threshold is applied to the image
+%   intensities. Suggested if nuclei have homogeneous brightness. 
+%   'blob': Blob Detection. A threshold is applied to the hessian of image
+%   intensities. Suggested if nuclei have heterogeneous brightness.
+binarization_method = 'threshold';
+
+% blob_threshold. Blob Detection only. Threshold of the hessian.
 blob_threshold = -0.1;
 
-% Assemble into a struct variable 
-image_binarization_para = struct('blurradius', blurradius, 'if_log', if_log, ...
-    'if_blob_detection', if_blob_detection, 'blob_threshold', blob_threshold);
+% organize into a struct 
+image_binarization_para = struct('background_subtraction_method', background_subtraction_method, ...
+    'if_log', if_log, 'binarization_method', binarization_method, 'blob_threshold', blob_threshold);
 
 % Part 3. Active Contour
-% [Optional] blurradius: Radius (in pixels) of disk for smoothing.
-blurradius = 2;
+% Parameters controlling Active Contour
 
-% [Essential] if_log: Indicator variable of whether to log-transform the
-% images.
+% if_run: Whether to run Active Contour. Binary variable:
+%   1: run. Suggested if Image Binarization does not detect accurate
+%   nuclear boundary.
+%   0: not run. Suggested if Image Binarization results are satisfactory.
+if_run = 1;
+
+% if_log: Whether to log-transform the images. Binary variable:
+%   1: log-transform. Suggested if nuclei have heterogeneous brightness.
+%   0: not log-transform. Suggested if nuclei have homogeneous brightness.
 if_log = 1;
 
-% [Essential] if_global: Indicator variable of whether to run the Global
-% method.
-if_global = 0;
+% active_contour_method: Method of active contour. 2 options:
+%   'local': Local method. Active contour is applied to the neighborhood of
+%   every nucleus. Suggested if nuclei have heterogeneous brightness.
+%   'global': Global method. Active contour is applied to the entire image
+%   at once. Suggested if nuclei have homogeneous brightness.
+active_contour_method = 'local';
 
-% Assemble into a struct variable
-active_contour_para = struct('blurradius', blurradius, 'if_log', if_log, 'if_global', if_global);
+% organize into a struct 
+active_contour_para = struct('if_run', if_run, 'if_log', if_log, ...
+    'active_contour_method', active_contour_method);
 
 % Part 4. Watershed
-% [Optional] max_thresh_component_size: Maximal area (in pixels) of a peak.
-% [Optional] min_thresh_component_size: Minimal area (in pixels) of a peak.
-max_thresh_component_size = 25;
-min_thresh_component_size = 0;
+% Parameters controlling Watershed
 
-% Assemble into a struct variable
-watershed_para = struct('max_thresh_component_size', max_thresh_component_size, ...
-    'min_thresh_component_size', min_thresh_component_size);
+% if_run: Whether to run Watershed. Binary variable:
+%   1: run. Suggested if nuclei overlap frequently.
+%   0: not run. Suggested if nuclei do not frequently overlap.
+if_run = 1;
+
+% organize into a struct
+watershed_para = struct('if_run', if_run);
 
 % Part 5. Ellipse Fitting
-% [Optional] k, thd1, thd2, thdn, C, T_angle, sig, Endpoint, Gap_size:
-% Parameters in Zafari et al 2015. Refer to the original publication for
-% more information.
-k = 5; 
-thd1 = 10; 
+% Parameters controlling Ellipse Fitting
+% Defined in Zafari et al 2015. Descriptions are adapted from the source
+% code.
+
+% [Advanced] k: Consider up to k-th adjacent points to the corner point.
+k = 5;
+
+% [Advanced] thd1: Distance (in pixels) between the ellipse centroid of the
+% combined contour segments and the ellipse fitted to each segment.
+thd1 = 10;
+
+% [Advanced] thd2: Distance (in pixels) between the centroids of ellipse
+% fitted to each segment.
 thd2 = 25;
-thdn = 30; 
-C = 1.5; 
+
+% [Advanced] thdn: Distance (in pixels) between contour center points.
+thdn = 30;
+
+% [Advanced] C: Minimal aspect ratio for corner detection.
+C = 1.5;
+
+% [Advanced] T_angle: Maximal angle (in degrees) of a corner.
 T_angle = 162;
-sig = 3; 
+
+% [Advanced] sig: Standard deviation (in pixels) of the Gaussian filter.
+sig = 3;
+
+% [Advanced] Endpoint: Whether to add the end points of a curve as corner.
+%   Binary variable. 1: add; 0: not add.
 Endpoint = 1;
-Gap_size = 1; 
 
-% [Optional] min_ellipse_perimeter: Minimal perimeter (in pixels) of an
-% ellipse.
-min_ellipse_perimeter = 5; 
+% [Advanced] Gap_size: Maximal length of gaps (in pixels) in the contours
+% to fill.
+Gap_size = 1;
 
-% [Optional] min_ellipse_area: Minimal area (in pixels) of an ellipse.
-min_ellipse_area = 5; 
-
-% [Optional] max_major_axis: Maximal major axis (in pixels) of an ellipse.
-max_major_axis = 100;
-
-% Assemble into a struct variable
+% organize into a struct
 ellipse_para = struct('k', k, 'thd1', thd1, 'thd2', thd2, 'thdn', thdn, 'C', C, 'T_angle', T_angle, ...
-    'sig', sig, 'Endpoint', Endpoint, 'Gap_size', Gap_size, 'min_ellipse_perimeter', min_ellipse_perimeter, ...
-    'min_ellipse_area', min_ellipse_area, 'max_major_axis', max_major_axis);
+    'sig', sig, 'Endpoint', Endpoint, 'Gap_size', Gap_size);
 
-% Part 6. Correction of Segmentation Mistakes
-% [Essential] training_data_path: Paths to the training datasets.
-training_data_path = {'Z:/projects/tracking_code/20181115/MCF10A/myversion/mat_files/2_1_1_CFP_training_data_21_100.mat';
-    'Z:/projects/tracking_code/20181115/MCF10A/myversion/mat_files/2_1_1_CFP_training_data_126_175.mat';
-    'Z:/projects/tracking_code/20181115/MCF10A/myversion/mat_files/2_1_1_CFP_training_data_201_250.mat'};
-% DO NOT CHANGE THE SCRIPTS BELOW
-for i=1:length(training_data_path)
-    training_data_path{i} = adjust_path(training_data_path{i});
-end
-% DO NOT CHANGE THE SCRIPTS ABOVE
+% Part 6. Correction with Training Data
+% Parameters controlling Correction with Training Data
 
-% [Optional] min_ellipse_area_twocells: Minimal area (in pixels) of an
-% ellipse for splitting.
-min_ellipse_area_twocells = 20;
+% if_run: Whether to run Correction with Training Data. Binary variable:
+%   1: run. Suggested if training datasets are available and well-predict
+%   the number of nuclei in each ellipse.
+%   0: not run. Suggested if training datasets are not available or not
+%   suitable.
+if_run = 0;
 
-% [Optional] max_fraction_mismatch: Maximal fraction (between 0 and 1) of
-% mismatch between two k-means runs.
-max_fraction_mismatch = 0.1;
+% [Advanced] min_corr_prob: Minimal probability (0 to 1) for correction.
+min_corr_prob = 0.9;
 
-% [Optional] min_no_cell_prob: Minimal probability (between 0 and 1) of
-% containing no nucleus for removal.
-min_no_cell_prob = 0.9;
+% organize into a struct
+seg_correction_para = struct('if_run', if_run, 'min_corr_prob', min_corr_prob);
 
-% [Optional] min_two_cells_prob: Minimal probability (between 0 and 1) of
-% containing two nuclei for splitting.
-min_two_cells_prob = 0.9;
+% assemble everything into a struct
+segmentation_para = struct('nonspecific_para', nonspecific_para, ...
+    'image_binarization_para', image_binarization_para, ...
+    'active_contour_para', active_contour_para, 'watershed_para', watershed_para, ...
+    'ellipse_para', ellipse_para, 'seg_correction_para', seg_correction_para);
 
-% Assemble into a struct variable
-seg_correction_para = struct('training_data_path', {training_data_path}, 'min_ellipse_area_twocells', min_ellipse_area_twocells, ...
-    'max_fraction_mismatch', max_fraction_mismatch, 'min_no_cell_prob', min_no_cell_prob, 'min_two_cells_prob', min_two_cells_prob);
+%% PREDICTING OF EVENTS
+% Parameters controlling Prediction of Events
 
-% Assemble everything
-segmentation_para = struct('if_active_contour', if_active_contour, ...
-    'if_watershed', if_watershed, 'if_seg_correction', if_seg_correction, ...
-    'if_print_mask', if_print_mask, 'mask_path', adjust_path(mask_path), ...
-    'if_print_ellipse_movie', if_print_ellipse_movie, 'ellipse_movie_path', adjust_path(ellipse_movie_path), ...
-    'if_save_seg_info', if_save_seg_info, 'seg_info_path', adjust_path(seg_info_path), ...
-    'nuc_radius', nuc_radius, 'max_hole_size_for_fill', max_hole_size_for_fill, ...
-    'min_component_size_for_nucleus', min_component_size_for_nucleus, ...
-    'image_binarization_para', image_binarization_para, 'active_contour_para', active_contour_para, ...
-    'watershed_para', watershed_para, 'ellipse_para', ellipse_para, ...
-    'seg_correction_para', seg_correction_para);
-
-%% TRACK_PARA
-% Parameters used for track linking
-
-% Part 1. Predict Probabilities
-% [Essential] training_data_path: Paths to the training datasets.
-training_data_path = {'Z:/projects/tracking_code/20181115/MCF10A/myversion/mat_files/2_1_1_CFP_training_data_21_100.mat';
-    'Z:/projects/tracking_code/20181115/MCF10A/myversion/mat_files/2_1_1_CFP_training_data_126_175.mat';
-    'Z:/projects/tracking_code/20181115/MCF10A/myversion/mat_files/2_1_1_CFP_training_data_201_250.mat'};
-% DO NOT CHANGE THE SCRIPTS BELOW
-for i=1:length(training_data_path)
-    training_data_path{i} = adjust_path(training_data_path{i});
-end
-% DO NOT CHANGE THE SCRIPTS ABOVE
-
-% [Optional] empty_prob: Probability of an event (between 0 and 1) if no
-% training samples are provided.
+% [Advanced] empty_prob: Probability of an event (0 to 1) if no training
+% data is provided.
 empty_prob = 0.0001;
 
-% [Important] if_switch_off_before_mitosis: Indicator variable of whether
-% to ignore the probability of being an mitotic cell (Before M) during
-% mitosis detection.
-% [Optional] if_switch_off_after_mitosis: Indicator variable of whether to
-% ignore the probability of being a newly born cell (After M) during
-% mitosis detection.
-if_switch_off_before_mitosis = 1;
-if_switch_off_after_mitosis = 0;
+% mitosis_inference_option: Method of mitosis inference. 4 options:
+%   'all' or 'both': Mother cells need to have high probabilities of being
+%   mitotic, and daughter cells need to have high probabilities of being
+%   newly born.
+%   'before': Mother cells need to have high probabilities of being
+%   mitotic. No requirement on daughter cells.
+%   'after': Daughter cells need to have high probabilities of being newly
+%   born. No requirement on mother cells.
+%   'none': No requirement on either mother or daughter cells.
+%   In principle 'all' should be used, though flexibility is provided in
+%   case probabilities of some events do not reflect reality.
+mitosis_inference_option = 'after';
 
-% [Optional] if_similarity_for_migration: Indicator variable of whether to
-% consider ellipse similarity when computing migration probabilities.
-if_similarity_for_migration = 1;
+% migration_option: Method of migration probability calculation. 2 options:
+%   'similarity': Consider both the migration distance and the probability
+%   that the two ellipses belong to the same cell.
+%   'distance': Consider only the migration distance.
+%   In principle 'similarity' should be used, though flexibility is
+%   provided in case ellipse similarity is not well-calculated.
+migration_option = 'similarity';
 
-% [Important] migration_sigma: Standard deviation (in pixels) of random
-% walk in one frame and one direction. If NaN is chosen, the value will be
-% inferred from the training datasets.
-migration_sigma = 4;
+% migration_speed: Migration speed. 
+%   Defined as the standard deviation of random walk in one direction and
+%   one frame. 4 options:
+%   'global': All cells have the same migration speed. Suggested if cells
+%   migrate independently of other cells and factors.
+%   'time': Migration speed is dependent on time. Suggested if cell
+%   migration mode changes, such as due to drug addition.
+%   'density': Migration speed is dependent on local cell density.
+%   Suggested if cell migration is limited by the available space or
+%   controlled by cell-cell communication.
+%   custom: A numeric number specifying the migration speed of all cells.
+%   Suggested if training datasets are unavailable or the other options do
+%   not produce satisfactory results.
+%   The first three options require training datasets.
+migration_speed = 'global';
 
-% [Optional] max_migration_distance_fold: Maximal distances (expressed as
-% folds of migration_sigma) an ellipse can travel in one frame and one
-% direction.
-max_migration_distance_fold = 20;
+% [Advanced] max_migration_dist_fold: Maximal distance (in folds of the
+% migration speed) a cell can migrate in a frame.
+max_migration_dist_fold = 20;
 
-% [Optional] likelihood_nonmigration: Null probability (between 0 and 1)
-% for migration.
-likelihood_nonmigration = 0.001;
+% [Advanced] migration_inference_resolution: 'time' and 'density' only.
+% Resolution of time (in frames) or cell density (in number of cells) for
+% inference.
+migration_inference_resolution = 10;
 
-% [Optional] min_inout_prob: Minimal probability (between 0 and 1) of
-% migrating in/out of the field of view.
+% [Advanced] migration_inference_min_samples: 'time' and 'density' only.
+% Minimal number of samples for inference.
+migration_inference_min_samples = 50;
+
+% [Advanced] prob_nonmigration: Null probability (0 to 1) of migration.
+prob_nonmigration = 0.001;
+
+% [Advanced] min_inout_prob: Minimal probability (0 to 1) to migrate in/out
+% of the field of view.
 min_inout_prob = 0.0001;
 
-% [Optional] max_gap: Maximal gap (in frames) of migration. Gap = number of
-% frames to skip + 1.
-max_gap = 1;
+% [Advanced] max_migration_time: Maximal number of frames in a migration
+% event. 
+%   max_migration_time-1 equals to the maximal number of frames a track can
+%   skip.
+%   Warning: Post-processing is not optimized for tracks skipping any
+%   frames. Error rate might be high.
+max_migration_time = 1;
 
-% Part 2. Construct Cell Tracks
-% [Optional] skip_penalty: Penalty score for skipping one frame.
+% organize into a struct
+prob_para = struct('empty_prob', empty_prob, 'mitosis_inference_option', mitosis_inference_option, ...
+    'migration_option', migration_option, 'migration_speed', migration_speed, ...
+    'max_migration_dist_fold', max_migration_dist_fold, 'migration_inference_resolution', migration_inference_resolution, ...
+    'migration_inference_min_samples', migration_inference_min_samples, 'prob_nonmigration', prob_nonmigration, ...
+    'min_inout_prob', min_inout_prob, 'max_migration_time', max_migration_time);
+
+%% TRACK LINKING
+% Parameters controlling Track Linking
+
+% Penalty score
+% [Advanced] skip_penalty: Penalty score for skipping one frame.
 skip_penalty = 10;
 
-% [Optional] multiple_cells_penalty: Penalty score for two cells
+% [Advanced] multiple_cells_penalty: Penalty score for two tracks
 % co-existing in one ellipse.
 multiple_cells_penalty = 5;
 
-% [Optional] min_mitosis_prob: Minimal probability (between 0 and 1) of
-% mitotic and newly born cells for mitosis detection.
-min_mitosis_prob = 0;
-
-% [Optional] max_num_tracks: Maximal number of tracks to construct.
-max_num_tracks = Inf;
-
-% [Optional] min_track_score: Minimal score of a track.
+% Minimal score
+% [Advanced] min_track_score: Minimal score of a track.
+%   Cell tracks with lower scores will not be considered.
 min_track_score = 2;
 
-% [Optional] min_track_score_per_step: Minimal score of a track between two
+% [Advanced] min_track_score_per_step: Minimal score of a track between two
 % neighboring frames.
-min_track_score_per_step = -15;
+%   Cell tracks with lower scores will not be considered.
+min_track_score_per_step = -2;
 
-% [Optional] max_recorded_link: For each ellipse, maximal number of
-% migration events to keep.
-max_recorded_link = 5;
-
-% Part 3. Post-Processing
-% [Optional] min_swap_score: Minimal score for swapping cell tracks.
+% Post-Processing
+% [Advanced] min_swap_score: Minimal score to gain if two tracks are
+% swapped.
+%   Swaps with lower score gains will not be implemented.
 min_swap_score = 2;
 
-% [Optional] fixation_min_prob_before_mitosis: Minimal probability of
-% mitotic cells (Before M) for mitosis detection.
-% [Optional] fixation_min_prob_after_mitosis: Minimal probability of newly
-% born cells (After M) for mitosis detection.
-fixation_min_prob_before_mitosis = 0.5;
-fixation_min_prob_after_mitosis = 0.5;
+% [Advanced] mitosis_detection_min_prob: Minimal probability (0 to 1) for
+% mitosis detection.
+%   Mitosis will not be detected if either mother or daughter cells have
+%   probabilities lower than this value.
+mitosis_detection_min_prob = 0.5;
 
-% [Optional] min_track_length: Minimal length (in frames) of a valid track.
+% [Advanced] critical_length: Critical length (in frames) of track absence
+% due to undersegmentation.
+%   Suggested to be 10-20% of a typical cell cycle duration.
+critical_length = 10;
+
+% min_track_length: Minimal length (in frames) of a valid track.
+%   Tracks shorter than this value will be removed.
 min_track_length = 10;
 
-% [Optional] max_num_frames_to_skip: Maximal number of frames a valid track
-% can skip.
+% max_num_frames_to_skip: Maximal number of frames a valid track can skip.
+%   Tracks skipping more than this value will be removed.
 max_num_frames_to_skip = 2;
 
-% Part 4. Visualization
-% [Essential] if_print_vistrack: Indicator variable of whether to generate
-% 'Vistrack Movies' where fitted ellipses are overlaid on the nuclear
-% images and Cell Track IDs are displayed next to the ellipses they mapped
-% to.
-% [Essential] vistrack_path: Path to the folder storing 'Vistrack Movies'.
-if_print_vistrack = 1;
-vistrack_path = 'Z:/projects/tracking_code/20181115/MCF10A/myversion/vistrack/';
+% organize into a struct
+track_para = struct('skip_penalty', skip_penalty, 'multiple_cells_penalty', multiple_cells_penalty, ...
+    'min_track_score', min_track_score, 'min_track_score_per_step', min_track_score_per_step, ...
+    'min_swap_score', min_swap_score, 'mitosis_detection_min_prob', mitosis_detection_min_prob, ...
+    'critical_length', critical_length, 'min_track_length', min_track_length, ...
+    'max_num_frames_to_skip', max_num_frames_to_skip);
 
-% Assemble into a struct variable
-track_para = struct('training_data_path', {training_data_path}, 'empty_prob', empty_prob, ...
-    'if_switch_off_before_mitosis', if_switch_off_before_mitosis, ...
-    'if_switch_off_after_mitosis', if_switch_off_after_mitosis, ...
-    'if_similarity_for_migration', if_similarity_for_migration, ...
-    'migration_sigma', migration_sigma, 'max_migration_distance_fold', max_migration_distance_fold, ...
-    'likelihood_nonmigration', likelihood_nonmigration, 'min_inout_prob', min_inout_prob, ...
-    'max_gap', max_gap, 'skip_penalty', skip_penalty, 'multiple_cells_penalty', multiple_cells_penalty, ...
-    'min_mitosis_prob', min_mitosis_prob, 'max_num_tracks', max_num_tracks, 'min_track_score', min_track_score, ...
-    'min_track_score_per_step', min_track_score_per_step, 'max_recorded_link', max_recorded_link, ...
-    'min_swap_score', min_swap_score, 'fixation_min_prob_before_mitosis', fixation_min_prob_before_mitosis, ...
-    'fixation_min_prob_after_mitosis', fixation_min_prob_after_mitosis, ...
-    'min_track_length', min_track_length, 'max_num_frames_to_skip', max_num_frames_to_skip, ...
-    'if_print_vistrack', if_print_vistrack, 'vistrack_path', adjust_path(vistrack_path));
+%% SIGNAL EXTRACTION
+% Parameters controlling Signal Extraction
 
-%% SIGNAL_EXTRACTION_PARA
-% A struct containing all the information of the additional markers. In
-% other words, this will NOT include the nuclear marker (H2B) which is used
-% to perform tracking
+% cytoring_region_dist: Distances (in pixels) between the cytoplasmic ring
+% and the ellipse contour.
+%   1x2 array storing the distances of inner and outer boundary of the
+%   cytoplasmic ring.
+cytoring_region_dist = [1, 4];
 
-% Part 1. Signal Channels
-% [Essential] additional_signal_names: Names of the signal channels.
-additional_signal_names = {'mCherry'};
+% nuc_region_dist: Distances (in pixels) between the nucleus and the
+% ellipse contour.
+nuc_region_dist = 1;
 
-% [Essential] additional_biomarker_names: Names of the measured markers in
-% the signal channels.
-additional_biomarker_names = {'CDK2'};
+% background_dist: Distances (in pixels) between the image background and
+% the ellipse contour.
+background_dist = 20;
 
-% [Essential] additional_raw_image_paths: Paths to the folder containing
-% images of the signal channels.
-additional_raw_image_paths = {{'Z:/projects/tracking_code/20181115/Raw/'}};
-% USE THE FOLLOWING SCRIPTS IF USING ND2 FILES OR ALL TIFF FILES ARE STORED IN THE SAME FOLDER
-% additional_raw_image_paths = cell(length(additional_signal_names), 1);
-% additional_raw_image_paths(:) = {global_setting.nuc_raw_image_path};
-% USE THE ABOVE SCRIPTS IF USING ND2 FILES OR ALL TIFF FILES ARE STORED IN THE SAME FOLDER
-% DO NOT CHANGE THE SCRIPTS BELOW
-for i=1:length(additional_raw_image_paths)
-    if (ischar(additional_raw_image_paths{i}))
-        additional_raw_image_paths{i} = adjust_path(additional_raw_image_paths{i});
-    else
-        for j=1:length(additional_raw_image_paths{i})
-            additional_raw_image_paths{i}{j} = adjust_path(additional_raw_image_paths{i}{j});
-        end
-    end
-end
-% DO NOT CHANGE THE SCRIPTS ABOVE
-
-% [Essential] additional_bias_paths: Paths to the MAT files storing the
-% illumination bias of the signal channels.
-additional_bias_paths = {'Z:/microscope_mat_files/nikon1_matfiles/mCherry.mat'};
-% DO NOT CHANGE THE SCRIPTS BELOW
-for i=1:length(additional_bias_paths)
-    additional_bias_paths{i} = adjust_path(additional_bias_paths{i});
-end
-% DO NOT CHANGE THE SCRIPTS ABOVE
-% [Essential] if_compute_cyto_ring: Indicator variables of whether to
-% extract the signals in the cytoplasmic ring.
-if_compute_cyto_ring = [1];
-
-% Part 2. ROI
-% [Optional] cyto_ring_inner_size: Minimal distance (in pixels) between the
-% region of cytoplasmic ring and the ellipse contour.
-% [Optional] cyto_ring_outer_size: Maximal distance (in pixels) between the
-% region of cytoplasmic ring and the ellipse contour.
-% [Optional] nuc_outer_size: Minimal distance (in pixels) between the
-% region of nucleus and the ellipse contour.
-cyto_ring_inner_size = 1;
-cyto_ring_outer_size = 4;
-nuc_outer_size = 1;
-
-% [Optional] foreground_dilation_size: Minimal distance (in pixels) between
-% the image background and a nucleus.
-foreground_dilation_size = 20;
-
-% [Optional] intensity_percentile: Measured percentile (between 0 and 100)
-% of each region.
+% intensity_percentile: Percentile of intensities (0 to 100) to measure.
+%   1xn array. Each element defines a percentile to measure.
 intensity_percentile = 75;
 
-% [Optional] lower_percentile: Lower percentile (between 0 and 100) of
-% intensities to keep.
-% [Optional] higher_percentile: Higher percentile (between 0 and 100,
-% greater than lower_percentile) to keep.
-lower_percentile = 5;
-higher_percentile = 95;
+% [Advanced] outlier_percentile: Outlier percentiles (0 to 50) of
+% intensities.
+%   Upper X% and lower X% intensities of a region will not be considered
+%   for signal calculation.
+outlier_percentile = 5;
 
-% Save all parameters into a struct
-signal_extraction_para = struct('additional_signal_names', {additional_signal_names}, ...
-    'additional_biomarker_names', {additional_biomarker_names}, ...
-    'additional_raw_image_paths', {additional_raw_image_paths}, ...
-    'additional_bias_paths', {additional_bias_paths}, ...
-    'if_compute_cyto_ring', if_compute_cyto_ring, ...
-    'cyto_ring_inner_size', cyto_ring_inner_size, 'cyto_ring_outer_size', cyto_ring_outer_size, ...
-    'nuc_outer_size', nuc_outer_size, ...
-    'foreground_dilation_size', foreground_dilation_size, 'intensity_percentile', intensity_percentile, ...
-    'lower_percentile', lower_percentile, 'higher_percentile', higher_percentile);
+% organize into a struct
+signal_extraction_para = struct('cytoring_region_dist', cytoring_region_dist, ...
+    'nuc_region_dist', nuc_region_dist, 'background_dist', background_dist, ...
+    'intensity_percentile', intensity_percentile, 'outlier_percentile', outlier_percentile);
 
 %% ASSEMBLE ALL PARAMETERS
-all_parameters = struct('global_setting', global_setting, 'segmentation_para', ...
-    segmentation_para, 'track_para', track_para, 'signal_extraction_para', signal_extraction_para);
-
-end
-
-function [ new_path ] = adjust_path ( old_path )
-%ADJUST_PATH Adjust the path of files such that the code can be used in
-%both windows and mac platforms
-
-new_path = old_path;
-if (~isempty(old_path) && old_path(end) ~= '/' && ~strcmp(old_path(max(end-3,1):end), '.mat'))
-    new_path = cat(2, new_path, '/');
-end
-new_path = strrep(new_path, '\', '/');
+all_parameters = struct('movie_definition', movie_definition, 'inout_para', inout_para, ...
+    'segmentation_para', segmentation_para, 'prob_para', prob_para, ...
+    'track_para', track_para, 'signal_extraction_para', signal_extraction_para);
 
 end

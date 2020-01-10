@@ -19,3 +19,8 @@
 ## 2019.09.08  3.39pm  (Commit 16-17)
 
 *  Fix "jitter_adjusted_all_ellipse_info"
+
+## 2020.01.10  3.23am  (Commit 18)
+
+*  Redesign for paper revision
+
