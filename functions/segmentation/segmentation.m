@@ -69,7 +69,7 @@ for i=1:length(movie_definition.frames_to_track)
     % print stuff
     filename = [num2str(row_id), '_', num2str(col_id), '_', num2str(site_id), '_', movie_definition.channel_names{1}, '_', num2str(frame_id)];
     if ~isempty(inout_para.mask_path)
-        imwrite(watershed_mask, [inout_path.mask_path, filename, '.tif']);
+        imwrite(watershed_mask, [inout_para.mask_path, filename, '.tif']);
     end
     if ~isempty(inout_para.ellipse_movie_path)
         h = figure(1); imshow(mat2gray(I)); hold on;

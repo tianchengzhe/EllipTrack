@@ -22,7 +22,7 @@ function varargout = training_data_gui(varargin)
 
 % Edit the above text to modify the response to help training_data_gui
 
-% Last Modified by GUIDE v2.5 02-Nov-2019 22:13:57
+% Last Modified by GUIDE v2.5 26-Feb-2020 16:05:12
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -1910,6 +1910,28 @@ switch (eventdata.Key)
         pushbutton_go_by_10_frames_prev_Callback(handles.pushbutton_go_by_10_frames_prev, eventdata, handles);
     case 'uparrow' % +10
         pushbutton_go_by_10_frames_next_Callback(handles.pushbutton_go_by_10_frames_next, eventdata, handles);
+end
+
+end
+
+
+% --- Executes on scroll wheel click while the figure is in focus.
+function figure1_WindowScrollWheelFcn(hObject, eventdata, handles)
+% hObject    handle to figure1 (see GCBO)
+% eventdata  structure with the following fields (see MATLAB.UI.FIGURE)
+%	VerticalScrollCount: signed integer indicating direction and number of clicks
+%	VerticalScrollAmount: number of lines scrolled for each click
+% handles    structure with handles and user data (see GUIDATA)
+
+% try to examine whether images has been loaded or not
+if (strcmp(get(handles.uipanel_nav_frames, 'Visible'), 'Off'))
+    return
+end
+
+if (eventdata.VerticalScrollCount > 0)
+    pushbutton_go_by_1_frame_next_Callback(handles.pushbutton_go_by_1_frame_next, eventdata, handles);
+elseif (eventdata.VerticalScrollCount < 0)
+    pushbutton_go_by_1_frame_prev_Callback(handles.pushbutton_go_by_1_frame_prev, eventdata, handles);
 end
 
 end
