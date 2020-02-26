@@ -2530,6 +2530,7 @@ try
         imwrite(I, [get(handles.edit_sec1_extract_path, 'String'), num2str(row_id), '_', num2str(col_id), '_', num2str(site_id), '_', channel_name, '_', num2str(i), '.tif']);
     end
     close(f);
+    waitfor(msgbox(['Extraction completed. Type the filename ', num2str(row_id), '_', num2str(col_id), '_', num2str(site_id), '_', channel_name, '_%t.tif in Training Data Generator GUI.']))
 catch
     close(f);
     waitfor(errordlg('Image not found.','Error'));
