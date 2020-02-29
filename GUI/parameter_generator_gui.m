@@ -4443,7 +4443,8 @@ switch lower(handles.migration_speed)
         % plot
         set(handles.axes_sec4_speed, 'Visible', 'on'); cla(handles.axes_sec4_speed); 
         axes(handles.axes_sec4_speed); hold(handles.axes_sec4_speed, 'on');
-        histogram([abs(dist_x./dist_t); abs(dist_y./dist_t)]); 
+        histogram([abs(dist_x./sqrt(dist_t)); abs(dist_y./sqrt(dist_t))]); 
+        xlim([0, round(1.1*max([abs(dist_x./sqrt(dist_t)); abs(dist_y./sqrt(dist_t))]))]);
         plot([global_sigma, global_sigma], get(handles.axes_sec4_speed, 'ylim'), 'k', 'linewidth', 2);
         xlabel('Migration Speed (Pixels/Frame)'); ylabel('Counts');
         legend('Training Data', ['Inferred: ', sprintf('%.2f', global_sigma)]);
@@ -4472,7 +4473,7 @@ switch lower(handles.migration_speed)
         % plot
         set(handles.axes_sec4_speed, 'Visible', 'on'); cla(handles.axes_sec4_speed); 
         axes(handles.axes_sec4_speed); hold(handles.axes_sec4_speed, 'on');
-        plot([axis_id; axis_id], [abs(dist_x./dist_t); abs(dist_y./dist_t)], '.');
+        plot([axis_id; axis_id], [abs(dist_x./sqrt(dist_t)); abs(dist_y./sqrt(dist_t))], '.');
         plot(density_val, sigma_val, 'k', 'linewidth', 2);
         xlim([min(density_val), max(density_val)]);
         xlabel('Time (Frames)'); ylabel('Migration Speed (Pixels/Frame)');
@@ -4494,8 +4495,9 @@ switch lower(handles.migration_speed)
         % plot
         set(handles.axes_sec4_speed, 'Visible', 'on'); cla(handles.axes_sec4_speed); 
         axes(handles.axes_sec4_speed); hold(handles.axes_sec4_speed, 'on');
-        plot([axis_id; axis_id], [abs(dist_x./dist_t); abs(dist_y./dist_t)], '.');
+        plot([axis_id; axis_id], [abs(dist_x./sqrt(dist_t)); abs(dist_y./sqrt(dist_t))], '.');
         plot(density_val, sigma_val, 'k', 'linewidth', 2);
+        xlim([min(density_val), max(density_val)]);
         xlabel('Density (Cells)'); ylabel('Migration Speed (Pixels/Frame)');
         legend('Training Data', 'Inferred Value');
         hold(handles.axes_sec4_speed, 'off');
