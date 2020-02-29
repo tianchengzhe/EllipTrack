@@ -4451,7 +4451,8 @@ switch lower(handles.migration_speed)
         
     case 'time'
         [ dist_x, dist_y, dist_t, axis_id ] = aggr_training_data( all_training_data, 'time', training_data_size_image, mig_fold );
-        density_val = max(1, round(time_range(1)*0.8)):round(time_range(2)*1.2);
+        gap_time = round(0.1*sum(time_range));
+        density_val = max(1, round(time_range(1)-gap_time)):round(time_range(2)+gap_time);
         [sigma_val, errmsg] = infer_migration_sigma_axis( dist_x, dist_y, dist_t, axis_id, density_val, training_data_size_image, inf_res, inf_sample );
     
         % skip if inference failed

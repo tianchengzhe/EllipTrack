@@ -1,4 +1,4 @@
-function [ all_migration_sigma ] = compute_migration_sigma( prob_para, all_training_data, all_num_ellipses, all_ellipse_info, size_image )
+function [ all_migration_sigma ] = compute_migration_sigma( prob_para, all_training_data, all_num_ellipses, all_ellipse_info, size_image, frames_to_track )
 %COMPUTE_MIGRATION_SIGMA Compute the standard deviation of migration for
 %each ellipse.
 %
@@ -8,6 +8,7 @@ function [ all_migration_sigma ] = compute_migration_sigma( prob_para, all_train
 %       all_training_data: Training data
 %       all_ellipse_info: Segmentation results
 %       size_image: Dimension of images
+%       frames_to_track: Frames to track
 %   Output
 %       all_migration_sigma: Standard deviation of random walk in one
 %       direction and one frame
@@ -36,7 +37,7 @@ else
             
         case 'time' % sort by time
             [ dist_x, dist_y, dist_t, axis_id ] = aggr_training_data( all_training_data, 'time', training_data_size_image, prob_para.max_migration_dist_fold );
-            sigma_val = infer_migration_sigma_axis( dist_x, dist_y, dist_t, axis_id, 1:num_frames, training_data_size_image, prob_para.migration_inference_resolution, prob_para.migration_inference_min_samples );
+            sigma_val = infer_migration_sigma_axis( dist_x, dist_y, dist_t, axis_id, frames_to_track, training_data_size_image, prob_para.migration_inference_resolution, prob_para.migration_inference_min_samples );
             for i=1:num_frames
                 all_migration_sigma{i} = sigma_val(i) * ones(all_num_ellipses(i), 1);
             end

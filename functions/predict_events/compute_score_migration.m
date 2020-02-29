@@ -1,4 +1,4 @@
-function [ prob_migration, prob_inout_frame, motion_classifier, all_migration_sigma ] = compute_score_migration( size_image, all_num_ellipses, all_training_data, all_ellipse_info, accumulated_jitters, prob_para )
+function [ prob_migration, prob_inout_frame, motion_classifier, all_migration_sigma ] = compute_score_migration( size_image, all_num_ellipses, all_training_data, all_ellipse_info, accumulated_jitters, prob_para, frames_to_track )
 %COMPUTE_SCORE_MIGRATION Compute the migration probability between an
 %ellipse in one frame to another ellipse in an later frame. Also the
 %probability of moving in/out of the field of view.
@@ -10,6 +10,7 @@ function [ prob_migration, prob_inout_frame, motion_classifier, all_migration_si
 %       all_ellipse_info: Segmentation results
 %       accumulated_jitters: Jitters compared to the first frame
 %       prob_para: Parameters for prediction
+%       frames_to_track: Frames to track
 %   Output
 %       prob_migration: Probability of migration between two ellipses
 %       prob_inout_frame: Probability of moving in/out of the field of view
@@ -18,7 +19,7 @@ function [ prob_migration, prob_inout_frame, motion_classifier, all_migration_si
 %       direction and one frame
 
 %% PART 1. INFER MIGRAITON SIGMA
-all_migration_sigma = compute_migration_sigma( prob_para, all_training_data, all_num_ellipses, all_ellipse_info, size_image );
+all_migration_sigma = compute_migration_sigma( prob_para, all_training_data, all_num_ellipses, all_ellipse_info, size_image, frames_to_track );
 
 %% PART 2. MIGRATION SCORE
 % extract motion training info

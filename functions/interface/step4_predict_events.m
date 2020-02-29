@@ -48,7 +48,7 @@ if (movie_definition.num_cores == 1)
 
         % compute migration events
         [ all_prob_migration{row_id, col_id, site_id}, all_prob_inout_frame{row_id, col_id, site_id}, all_motion_classifiers{row_id, col_id, site_id}, all_migration_sigma{row_id, col_id, site_id} ] = compute_score_migration ( ...
-            movie_definition.size_image, all_num_ellipses{row_id, col_id, site_id}, all_training_data, all_ellipse_info{row_id, col_id, site_id}, squeeze(accumulated_jitters(row_id, col_id, :, :)), prob_para );
+            movie_definition.size_image, all_num_ellipses{row_id, col_id, site_id}, all_training_data, all_ellipse_info{row_id, col_id, site_id}, squeeze(accumulated_jitters(row_id, col_id, :, :)), prob_para, movie_definition.frames_to_track );
     end
 else % version 2: parallel computing, need to redefine variables to optimize slicing
     all_row_id = movie_definition.wells_to_track(:, 1);
