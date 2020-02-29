@@ -4451,14 +4451,21 @@ switch lower(handles.migration_speed)
         
     case 'time'
         [ dist_x, dist_y, dist_t, axis_id ] = aggr_training_data( all_training_data, 'time', training_data_size_image, mig_fold );
-        gap_time = round(0.1*sum(time_range));
-        density_val = max(1, round(time_range(1)-gap_time)):round(time_range(2)+gap_time);
+        density_val_start_id = str2double(get(handles.edit_sec1_frame_from, 'String'));
+        density_val_end_id = str2double(get(handles.edit_sec1_frame_to, 'String'));
+        if isnan(density_val_start_id) || isnan(density_val_end_id)
+            waitfor(warndlg('Frames to track were not defined. Inference results might be inaccurate.', 'Warning'));
+            gap_time = round(0.1*sum(time_range));
+            density_val = max(1, round(time_range(1)-gap_time)):round(time_range(2)+gap_time);
+        else
+            density_val = density_val_start_id:density_val_end_id;
+        end
         [sigma_val, errmsg] = infer_migration_sigma_axis( dist_x, dist_y, dist_t, axis_id, density_val, training_data_size_image, inf_res, inf_sample );
     
         % skip if inference failed
         if (~isempty(errmsg))
             close(f);
-            waitfor(errordlg('Inference failed. Please adjust parameter values.','Error'));
+            waitfor(errordlg('Inference failed. Please adjust parameter values. Have you provided any training datasets for the frames to track?','Error'));
             return;
         end
         
@@ -4467,6 +4474,7 @@ switch lower(handles.migration_speed)
         axes(handles.axes_sec4_speed); hold(handles.axes_sec4_speed, 'on');
         plot([axis_id; axis_id], [abs(dist_x./dist_t); abs(dist_y./dist_t)], '.');
         plot(density_val, sigma_val, 'k', 'linewidth', 2);
+        xlim([min(density_val), max(density_val)]);
         xlabel('Time (Frames)'); ylabel('Migration Speed (Pixels/Frame)');
         legend('Training Data', 'Inferred Value');
         hold(handles.axes_sec4_speed, 'off');
