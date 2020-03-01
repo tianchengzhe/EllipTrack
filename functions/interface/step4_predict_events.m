@@ -55,6 +55,7 @@ else % version 2: parallel computing, need to redefine variables to optimize sli
     all_col_id = movie_definition.wells_to_track(:, 2);
     all_site_id = movie_definition.wells_to_track(:, 3);
     size_image = movie_definition.size_image;
+    frames_to_track = movie_definition.frames_to_track;
     temp_all_ellipse_info = convert_matrix_seq(movie_definition, all_ellipse_info, 'm2a'); 
     temp_all_num_ellipses = convert_matrix_seq(movie_definition, all_num_ellipses, 'm2a'); 
     temp_accu_jitters = convert_accu_jitters(movie_definition, accumulated_jitters);
@@ -76,7 +77,7 @@ else % version 2: parallel computing, need to redefine variables to optimize sli
     
         % compute migration events
         [ temp_all_prob_migration{i}, temp_all_prob_inout_frame{i}, temp_all_motion_classifiers{i}, temp_all_migration_sigma{i} ] = compute_score_migration ( ...
-            size_image, temp_all_num_ellipses{i}, all_training_data, temp_all_ellipse_info{i}, temp_accu_jitters{i}, prob_para );
+            size_image, temp_all_num_ellipses{i}, all_training_data, temp_all_ellipse_info{i}, temp_accu_jitters{i}, prob_para, frames_to_track );
     end
     
     % convert to final structure
