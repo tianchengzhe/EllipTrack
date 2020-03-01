@@ -29,6 +29,26 @@ end
 % define structure to save all ellipse info
 all_ellipse_info = cell(length(movie_definition.frames_to_track), 1);
 
+% adjust paths
+if ~isempty(inout_para.mask_path)
+    inout_para.mask_path = [inout_para.mask_path, num2str(row_id), '_', num2str(col_id), '_', num2str(site_id), '/'];
+    if ~exist(input_para.mask_path, 'dir')
+        mkdir(inout_para.mask_path);
+    end
+end
+if ~isempty(inout_para.ellipse_movie_path)
+    inout_para.ellipse_movie_path = [inout_para.ellipse_movie_path, num2str(row_id), '_', num2str(col_id), '_', num2str(site_id), '/'];
+    if ~exist(input_para.ellipse_movie_path, 'dir')
+        mkdir(inout_para.ellipse_movie_path);
+    end
+end
+if ~isempty(inout_para.seg_info_path)
+    inout_para.seg_info_path = [inout_para.seg_info_path, num2str(row_id), '_', num2str(col_id), '_', num2str(site_id), '/'];
+    if ~exist(input_para.seg_info_path, 'dir')
+        mkdir(inout_para.seg_info_path);
+    end
+end
+
 % iterate over all images
 for i=1:length(movie_definition.frames_to_track)
     disp([ 'Current Progress: ', num2str(i), '/', num2str(length(movie_definition.frames_to_track)) ]);

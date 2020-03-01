@@ -13,6 +13,14 @@ function visualize_tracking( movie_definition, inout_para, all_ellipse_info, all
 %       nuc_bias: Illumination bias of the nuclear channel
 %   Output: Empty
 
+% adjust path
+if ~isempty(inout_para.vistrack_path)
+    inout_para.vistrack_path = [inout_para.vistrack_path, num2str(row_id), '_', num2str(col_id), '_', num2str(site_id), '/'];
+    if ~exist(input_para.vistrack_path, 'dir')
+        mkdir(inout_para.vistrack_path);
+    end
+end
+
 num_tracks = length(all_tracks);
 % iterate over all images
 for i=1:length(movie_definition.frames_to_track)
