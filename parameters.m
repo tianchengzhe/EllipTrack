@@ -374,8 +374,8 @@ min_inout_prob = 0.0001;
 % event. 
 %   max_migration_time-1 equals to the maximal number of frames a track can
 %   skip.
-%   Warning: Post-processing is not optimized for tracks skipping any
-%   frames. Error rate might be high.
+%   Warning: Local track correction is not optimized for tracks skipping
+%   any frames. Error rate might be high.
 max_migration_time = 1;
 
 % organize into a struct
@@ -406,7 +406,7 @@ min_track_score = 2;
 %   Cell tracks with lower scores will not be considered.
 min_track_score_per_step = -2;
 
-% Post-Processing
+% Local Track Correction (Post-Processing)
 % [Advanced] min_swap_score: Minimal score to gain if two tracks are
 % swapped.
 %   Swaps with lower score gains will not be implemented.
