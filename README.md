@@ -8,7 +8,7 @@ EllipTrack is a new global-local hybrid cell tracker optimized for tracking mode
 
 * Software: MATLAB (Mathworks), R2017a or later.
 
-  Required toolboxes: System Identification Toolbox, Image Processing Toolbox, Statistics and Machine Learning Toolbox, Parallel Computing Toolbox, and MATLAB Distributed Computing Server.
+  Required toolboxes: System Identification Toolbox, Image Processing Toolbox, Computer Vision Toolbox, Statistics and Machine Learning Toolbox, Parallel Computing Toolbox, and MATLAB Distributed Computing Server.
 
   A C++ compiler in MATLAB with C++11 support. Install a free minGW compiler [here](<https://www.mathworks.com/matlabcentral/answers/313290-how-do-i-install-mingw-for-use-in-matlab>).
 
