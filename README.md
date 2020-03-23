@@ -1,26 +1,30 @@
-# Update Log (Denver Time)
+# EllipTrack
 
-## 2019.05.31  4.40am  (Commit 9-13)
+EllipTrack is a new global-local hybrid cell tracker optimized for tracking modern large-scale movies. The key innovation of EllipTrack is the introduction of a local track correction module, which systematically corrects the tracking mistakes of the global track linking algorithm from Magnusson and colleagues. Benchmark reveals that EllipTrack outperforms the existing state-of-the-art cell trackers and can identify nearly error-free cell lineages from multiple large-scale movies.
 
-*  Fix Maximal probability.
+## System Requirement
 
-   **Motivation**. Can't handle Inf scores (event probabilities equal to 1). Disrupt the Track Linking module, especially the Post-Processing function.
-   
-   **Solution**. Probabilities are capped at 1 - 1e-10.
+* Hardware: A modern computer, at least 8GB RAM.
 
-## 2019.06.18  1.00am  (Commit 14)
+* Software: MATLAB (Mathworks), R2017a or later.
 
-*  Calculation of variance
+  Required toolboxes: System Identification Toolbox, Image Processing Toolbox, Statistics and Machine Learning Toolbox, Parallel Computing Toolbox, and MATLAB Distributed Computing Server.
 
-## 2019.09.08  9.18am  (Commit 15)
+  A C++ compiler in MATLAB with C++11 support. Install a free minGW compiler [here](<https://www.mathworks.com/matlabcentral/answers/313290-how-do-i-install-mingw-for-use-in-matlab>).
 
-*  Accelerate track linking module
+## Installation
 
-## 2019.09.08  3.39pm  (Commit 16-17)
+* Download EllipTrack: Click "Clone or download" on the top of this page, select "Download ZIP", and extract files.
 
-*  Fix "jitter_adjusted_all_ellipse_info"
+* Compile *generate_tracks.cpp*: Navigate MATLAB to the *functions/track_linking* folder, and execute
 
-## 2020.01.10  3.23am  (Commit 18)
+  ```matlab
+  mex -largeArrayDims generate_tracks.cpp
+  ```
 
-*  Redesign for paper revision
+* Install BioformatsImage: Follow the instruction [here](https://biof-git.colorado.edu/biofrontiers-imaging/bioformats-image-toolbox/wikis/home).
+
+## Documentation
+
+Documentation is available [here](<http://elliptrack.readthedocs.org/>).
 
