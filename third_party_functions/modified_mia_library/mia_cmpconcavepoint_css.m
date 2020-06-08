@@ -61,7 +61,7 @@ function [curve,idxconcavepoints]= mia_cmpconcavepoint_css(I,C,T_angle,sig,Endpo
     BW = bwperim(I2); 
     % extracts corners in image  by css
     [curve,curve_start,curve_end,curve_mode,curve_num]=mia_extract_curve(BW,Gap_size, min_ellipse_perimeter);  % Extract curves
-    [~,~,idx]=mia_get_corner(curve,curve_start,curve_end,curve_mode,curve_num,BW,5,Endpoint,C,T_angle); % Detect corners
+    [~,~,idx]=mia_get_corner(curve,curve_start,curve_end,curve_mode,curve_num,BW,sig,Endpoint,C,T_angle); % Detect corners
     % remove the detected convex corners
     idxconcavepoints = mia_removeconvexcorner(idx,curve,I2,k);
    
