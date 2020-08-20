@@ -28,3 +28,6 @@ EllipTrack is a new global-local hybrid cell tracker optimized for tracking mode
 
 Documentation is available [here](<http://elliptrack.readthedocs.org/>).
 
+## Update Log
+
+*  2020.08.20 Training Data GUI: Fix errors regarding reading stack images.
