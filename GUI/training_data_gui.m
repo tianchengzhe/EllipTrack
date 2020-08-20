@@ -677,13 +677,14 @@ try
     [filename_format, image_info_order] = convert_filename_format(struct('filename_format', handles.prefix, 'image_type', 'gui'));
     for i=1:num_imported_frame_id
         image_info = {1, 1, 1, 0, handles.imported_frame_id(i), 'mCherry', 'a', 'A'};
-        try
-            I = imread([handles.file_path, sprintf(filename_format, image_info{image_info_order})]);
-        catch
+        image_path = [handles.file_path, sprintf(filename_format, image_info{image_info_order})];
+        if (length(imfinfo(image_path)) == 1)
+            I = imread(image_path);
+        else
             try
-                I = imread([handles.file_path, sprintf(filename_format, image_info{image_info_order})], 'Index', handles.imported_frame_id(i));
+                I = imread(image_path, 'Index', handles.imported_frame_id(i));
             catch
-                I = imread([handles.file_path, sprintf(filename_format, image_info{image_info_order})], 'Frames', handles.imported_frame_id(i));
+                I = imread(image_path, 'Frames', handles.imported_frame_id(i));
             end
         end
         handles.figure1.UserData(i).image = max((double(I)-cmosoffset)./bias, 1);
