@@ -22,7 +22,7 @@ EllipTrack is a new global-local hybrid cell tracker optimized for tracking mode
   mex -largeArrayDims generate_tracks.cpp
   ```
 
-* Install BioformatsImage [Nikon ND2 format only]: Follow the instruction [here](https://biof-git.colorado.edu/biofrontiers-imaging/bioformats-image-toolbox/wikis/home). *Note: This website is temporary restricted to the university IPs. Please install BioformatsImage.mltbx in this [folder](https://github.com/tianchengzhe/EllipTrack/tree/master/third_party_functions).*
+* Install BioformatsImage [Nikon ND2 format only]: Follow the instruction [here](https://biof-git.colorado.edu/biofrontiers-imaging/bioformats-image-toolbox/wikis/home). *Note: This website is temporarily restricted to the university IPs. Please install BioformatsImage.mltbx in this [folder](https://github.com/tianchengzhe/EllipTrack/tree/master/third_party_functions).*
 
 ## Documentation
 
